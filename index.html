@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dexter's Recruitment Pack — Test</title>
+<style>
+:root{--bg:#f4f1ea;--ink:#171717;--card:#fff;--muted:#686868;--line:#ded8cd;--accent:#222}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:#111;color:#fff;padding:22px 18px}.head{max-width:1050px;margin:auto;display:flex;gap:18px;align-items:center}
+.logo{width:96px;height:72px;object-fit:contain;background:#fff;border-radius:10px;padding:4px}.head h1{margin:0;font-size:28px}.head p{margin:5px 0 0;color:#ddd}
+.wrap{max-width:1050px;margin:22px auto;padding:0 16px 60px}.notice{background:#fff5d8;border:1px solid #e7ca74;padding:14px 16px;border-radius:12px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:280px 1fr;gap:18px}.nav,.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.nav{padding:12px;height:max-content;position:sticky;top:12px}.nav button{width:100%;text-align:left;border:0;background:transparent;padding:11px;border-radius:8px;font-weight:700;cursor:pointer}.nav button:hover,.nav button.active{background:#eee8dc}
+.card{padding:22px}.section{display:none}.section.active{display:block}.section h2{margin-top:0}.tag{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:5px 9px;font-size:12px;margin-right:6px}
+label{font-weight:700;display:block;margin:14px 0 5px}input,select,textarea{width:100%;padding:10px;border:1px solid #bbb;border-radius:8px;font:inherit}textarea{min-height:90px}
+.check{display:flex;gap:9px;align-items:flex-start;margin:10px 0}.check input{width:auto;margin-top:3px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sign{border:1px dashed #aaa;padding:18px;border-radius:10px;margin-top:14px}
+.footer{margin-top:18px;color:var(--muted);font-size:13px}.print{margin-top:18px;padding:11px 16px;border:0;border-radius:9px;background:#111;color:#fff;font-weight:700}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.nav{position:static}.cols{grid-template-columns:1fr}.head h1{font-size:22px}}
+@media print{.nav,.notice,.print{display:none!important}.grid{display:block}.section{display:block!important}.card{border:0;padding:0}.section{page-break-after:always}}
+</style>
+</head>
+<body>
+<header><div class="head">
+<img class="logo" alt="Dexter's logo" src="data:image/png;base64,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">
+<div><h1>Staff Recruitment Pack</h1><p>Scotland • UK employment compliance • Right to Work</p></div>
+</div></header>
+<div class="wrap">
+<div class="notice"><b>TEST / APPROVAL VERSION.</b> This is an isolated GitHub prototype and does not change the live Dexter’s apps. Legal wording will be kept under review against current UK/Scottish guidance before production use.</div>
+<div class="grid">
+<div class="nav" id="nav">
+<button class="active" data-id="overview">1. Recruitment file</button>
+<button data-id="application">2. Job application</button>
+<button data-id="equality">3. Fair recruitment</button>
+<button data-id="interview">4. Interview record</button>
+<button data-id="rtw">5. Right to Work</button>
+<button data-id="overseas">6. Overseas / non-British</button>
+<button data-id="checks">7. Pre-employment checks</button>
+<button data-id="offer">8. Conditional offer</button>
+<button data-id="starter">9. New starter checklist</button>
+<button data-id="privacy">10. Recruitment privacy</button>
+</div>
+<div class="card">
+<section id="overview" class="section active">
+<span class="tag">DEXTER'S</span><span class="tag">RECRUITMENT</span>
+<h2>Candidate Recruitment File</h2>
+<p>This pack is designed to create one auditable recruitment record from application through to employment.</p>
+<div class="cols"><div><label>Candidate name</label><input></div><div><label>Role applied for</label><input></div></div>
+<div class="cols"><div><label>Application date</label><input type="date"></div><div><label>Recruiting manager</label><input></div></div>
+<label>Recruitment outcome</label><select><option>In progress</option><option>Conditional offer</option><option>Appointed</option><option>Not appointed</option><option>Withdrawn</option></select>
+<h3>Required file checks</h3>
+<div class="check"><input type="checkbox"><span>Application completed and assessed against the role criteria.</span></div>
+<div class="check"><input type="checkbox"><span>Interview / selection record completed.</span></div>
+<div class="check"><input type="checkbox"><span>Right to Work check completed before employment starts.</span></div>
+<div class="check"><input type="checkbox"><span>References / other lawful pre-employment checks completed where required.</span></div>
+<div class="check"><input type="checkbox"><span>Conditional offer and employment documentation issued.</span></div>
+</section>
+<section id="application" class="section">
+<h2>Job Application Form</h2>
+<div class="cols"><div><label>Full name</label><input></div><div><label>Preferred name</label><input></div></div>
+<div class="cols"><div><label>Telephone</label><input></div><div><label>Email</label><input type="email"></div></div>
+<label>Address</label><textarea></textarea>
+<div class="cols"><div><label>Role</label><input></div><div><label>Available start date</label><input type="date"></div></div>
+<label>Availability / days and times you can work</label><textarea></textarea>
+<label>Relevant employment history</label><textarea></textarea>
+<label>Relevant skills, training and experience</label><textarea></textarea>
+<label>Reasonable adjustments for the recruitment process</label><textarea placeholder="Optional — tell us what adjustment would help you take part in the recruitment process."></textarea>
+<p class="footer">The selection decision should be based on role-related criteria, not nationality or another protected characteristic.</p>
+</section>
+<section id="equality" class="section">
+<h2>Fair & Equal Recruitment Checklist</h2>
+<p>Use the same essential criteria and selection method for candidates competing for the same role.</p>
+<div class="check"><input type="checkbox"><span>Job description and person specification are role-related and non-discriminatory.</span></div>
+<div class="check"><input type="checkbox"><span>Reasonable adjustments have been offered where required.</span></div>
+<div class="check"><input type="checkbox"><span>No applicant is rejected simply because they are non-British; the relevant question is whether they have the right to do the work offered.</span></div>
+<div class="check"><input type="checkbox"><span>Interview questions relate to competence, availability and genuine job requirements.</span></div>
+<div class="check"><input type="checkbox"><span>Selection reasons are documented.</span></div>
+</section>
+<section id="interview" class="section">
+<h2>Interview & Selection Record</h2>
+<label>Candidate</label><input>
+<label>Interviewers</label><input>
+<label>Role knowledge / experience</label><textarea></textarea>
+<label>Customer service</label><textarea></textarea>
+<label>Food-service / hygiene awareness</label><textarea></textarea>
+<label>Reliability, teamwork and communication</label><textarea></textarea>
+<label>Availability against role requirements</label><textarea></textarea>
+<label>Overall evidence-based decision</label><textarea></textarea>
+<select><option>Proceed</option><option>Reserve</option><option>Do not proceed</option></select>
+</section>
+<section id="rtw" class="section">
+<h2>Right to Work Check Record</h2>
+<div class="notice"><b>Complete before employment starts.</b> The same right-to-work requirement applies regardless of a candidate’s race or nationality.</div>
+<label>Check route used</label><select><option>Home Office online share-code check</option><option>Manual document check</option><option>Employer Checking Service</option><option>Identity Service Provider where legally permitted</option></select>
+<div class="cols"><div><label>Date checked</label><input type="date"></div><div><label>Checked by</label><input></div></div>
+<label>Evidence / reference retained</label><textarea></textarea>
+<label>Work restrictions or permitted work</label><textarea></textarea>
+<div class="cols"><div><label>Time-limited permission?</label><select><option>No</option><option>Yes</option></select></div><div><label>Follow-up date (if required)</label><input type="date"></div></div>
+<div class="check"><input type="checkbox"><span>I verified the person presenting the evidence is the person being recruited and recorded the check in accordance with current Home Office requirements.</span></div>
+</section>
+<section id="overseas" class="section">
+<h2>Overseas / Non-British Applicant Record</h2>
+<p>This section is for lawful immigration/right-to-work administration. It must not be used to make assumptions about an applicant because of nationality.</p>
+<label>Applicant’s stated nationality (only where required for the lawful check)</label><input>
+<label>Evidence route</label><select><option>Share code</option><option>Eligible manual documents</option><option>Employer Checking Service</option><option>Other lawful route</option></select>
+<label>Share code / check reference</label><input>
+<label>Visa / immigration work conditions relevant to this job</label><textarea></textarea>
+<div class="check"><input type="checkbox"><span>Hours, job type and any restrictions were checked against the actual Dexter’s role offered.</span></div>
+<div class="check"><input type="checkbox"><span>Where status is time-limited, a lawful follow-up check has been scheduled.</span></div>
+<div class="check"><input type="checkbox"><span>No passport was retained beyond what is necessary; only appropriate evidence/records are stored securely.</span></div>
+</section>
+<section id="checks" class="section">
+<h2>Pre-employment Checks</h2>
+<div class="check"><input type="checkbox"><span>Identity and contact details verified as appropriate.</span></div>
+<div class="check"><input type="checkbox"><span>Right to Work completed.</span></div>
+<div class="check"><input type="checkbox"><span>References requested where required by Dexter’s policy.</span></div>
+<div class="check"><input type="checkbox"><span>Role-specific qualifications checked where relevant.</span></div>
+<div class="check"><input type="checkbox"><span>Disclosure Scotland / PVG check only where the role is legally eligible or requires it.</span></div>
+<label>Notes / outstanding checks</label><textarea></textarea>
+</section>
+<section id="offer" class="section">
+<h2>Conditional Offer Record</h2>
+<label>Job title</label><input>
+<div class="cols"><div><label>Pay</label><input></div><div><label>Pay frequency</label><input></div></div>
+<div class="cols"><div><label>Hours</label><input></div><div><label>Proposed start date</label><input type="date"></div></div>
+<label>Place of work</label><input>
+<label>Conditions to satisfy before unconditional appointment</label><textarea placeholder="For example: satisfactory Right to Work check; agreed references; lawful role-specific check."></textarea>
+<div class="check"><input type="checkbox"><span>Candidate told the offer is conditional until specified checks are satisfied.</span></div>
+</section>
+<section id="starter" class="section">
+<h2>New Starter Compliance Checklist</h2>
+<div class="check"><input type="checkbox"><span>Principal written statement / required day-one employment particulars prepared.</span></div>
+<div class="check"><input type="checkbox"><span>Pay, hours, holiday, place of work, probation, benefits and required training information confirmed.</span></div>
+<div class="check"><input type="checkbox"><span>Sick pay/procedure, other paid leave and notice information made available.</span></div>
+<div class="check"><input type="checkbox"><span>Wider written statement information scheduled/provided within the required period.</span></div>
+<div class="check"><input type="checkbox"><span>HMRC starter information / P45 process completed as applicable.</span></div>
+<div class="check"><input type="checkbox"><span>Pension duties assessed.</span></div>
+<label>Manager notes</label><textarea></textarea>
+<div class="sign"><b>Manager sign-off</b><br><br>Name: ____________________ &nbsp; Signature: ____________________ &nbsp; Date: ____________</div>
+</section>
+<section id="privacy" class="section">
+<h2>Recruitment Privacy Notice — Test Structure</h2>
+<p>Dexter’s should tell applicants what personal information is collected, why it is used, the lawful basis, who receives it, how long it is kept, and the applicant’s data-protection rights.</p>
+<h3>Information commonly processed</h3>
+<p>Identity/contact details, application information, employment history, interview notes, references, right-to-work evidence and any lawful role-specific checks.</p>
+<h3>Special category / sensitive information</h3>
+<p>Only collect where necessary and lawful. Equality monitoring, if used, should be separated from selection decisions wherever practicable.</p>
+<h3>Retention</h3>
+<p>The final pack will include Dexter’s approved recruitment-retention schedule rather than keeping unsuccessful candidate records indefinitely.</p>
+<div class="check"><input type="checkbox"><span>Applicant has been given access to the recruitment privacy notice.</span></div>
+</section>
+<button class="print" onclick="window.print()">Print full test pack</button>
+<p class="footer">Dexter’s Recruitment Pack — TEST VERSION • Prepared for Scotland/UK operations • September 2026</p>
+</div></div></div>
+<script>
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active'); document.getElementById(b.dataset.id).classList.add('active');
+});
+</script>
+</body></html>
