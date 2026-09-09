@@ -1,155 +1,105 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dexter's Recruitment Back Office TEST</title><style>
-:root{--bg:#f4f2ed;--ink:#171717;--card:#fff;--muted:#6f6a63;--line:#ddd7cd;--gold:#d9b14c;--ok:#e8f5ec;--warn:#fff5d8}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.45}header{background:#101010;color:#fff;border-bottom:4px solid var(--gold)}.head{max-width:1180px;margin:auto;padding:20px 18px;display:flex;gap:16px;align-items:center}.logo{width:90px;height:66px;object-fit:contain;background:#fff;border-radius:9px;padding:4px}.wrap{max-width:1180px;margin:20px auto;padding:0 14px 60px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px}.stat b{display:block;color:var(--muted);font-size:12px;text-transform:uppercase}.stat strong{font-size:22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.btn{display:inline-block;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:#111;color:#fff}.secondary{background:#e9e4da;color:#111}.good{background:var(--ok);border:1px solid #b9d5c2;border-radius:10px;padding:12px}.warn{background:var(--warn);border:1px solid #e4c465;border-radius:10px;padding:12px}.danger{background:#fff0f0;border:1px solid #e6b1b1;border-radius:10px;padding:12px}.dangerbtn{background:#8b1e1e;color:#fff}.step{padding:11px;border-left:4px solid #111;background:#faf9f6;margin:8px 0}.tag{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:4px 8px;font-size:12px}label{display:block;font-weight:700;margin:11px 0 5px}input,select,textarea{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit;background:#fff}textarea{min-height:90px}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left}@media(max-width:800px){.grid,.cols,.cards{grid-template-columns:1fr}}
-</style></head><body>
-<header><div class="head"><img class="logo" src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png" alt="Dexter's logo"><div><h1>Dexter's Back Office</h1><div>Recruitment • TEST MODULE</div></div></div></header>
+:root{--bg:#f4f2ed;--ink:#171717;--card:#fff;--muted:#6f6a63;--line:#ddd7cd;--gold:#d9b14c;--ok:#e8f5ec;--warn:#fff5d8;--bad:#fff0f0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.45}header{background:#101010;color:#fff;border-bottom:4px solid var(--gold)}.head{max-width:1180px;margin:auto;padding:20px 18px;display:flex;gap:16px;align-items:center}.logo{width:90px;height:66px;object-fit:contain;background:#fff;border-radius:9px;padding:4px}.wrap{max-width:1180px;margin:20px auto;padding:0 14px 60px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px}.stat b{display:block;color:var(--muted);font-size:12px;text-transform:uppercase}.stat strong{font-size:20px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.btn{display:inline-block;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:#111;color:#fff}.secondary{background:#e9e4da;color:#111}.dangerbtn{background:#8b1e1e;color:#fff}.good{background:var(--ok);border:1px solid #b9d5c2;border-radius:10px;padding:12px}.warn{background:var(--warn);border:1px solid #e4c465;border-radius:10px;padding:12px}.danger{background:var(--bad);border:1px solid #e6b1b1;border-radius:10px;padding:12px}.tag{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:4px 8px;font-size:12px}label{display:block;font-weight:700;margin:11px 0 5px}input,select,textarea{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit;background:#fff}textarea{min-height:80px}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}details{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:#fff}summary{cursor:pointer;font-weight:800;padding:12px}.body{padding:0 12px 12px}@media(max-width:800px){.grid,.cols,.cards{grid-template-columns:1fr}}
+</style><script src="recruitment-store.js"></script></head><body>
+<header><div class="head"><img class="logo" src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png"><div><h1>Dexter's Back Office</h1><div>Recruitment • FULL CONNECTED TEST</div></div></div></header>
 <div class="wrap">
-<div class="warn"><b>PUBLIC TEST ONLY.</b> Use dummy data only. This is not connected to the live Back Office.</div>
-<div class="nav"><a class="btn secondary" href="apply.html">Public Apply Page</a><a class="btn secondary" href="candidate-portal.html">Candidate Portal</a><a class="btn secondary" href="index.html">Recruitment Pack</a></div>
-<div class="cards"><div class="stat"><b>Applications</b><strong>1</strong></div><div class="stat"><b>Interview</b><strong>1</strong></div><div class="stat"><b>Awaiting signatures</b><strong id="awaiting">0</strong></div><div class="stat"><b>Unsuccessful</b><strong id="unsuccessful">0</strong></div></div>
-<div class="panel"><h2>Recruitment Profiles</h2><table><thead><tr><th>Candidate</th><th>Role</th><th>Hours</th><th>Stage</th></tr></thead><tbody><tr><td><b id="cName"></b><br><small id="cRef"></small></td><td id="cRole"></td><td id="cHours"></td><td><span class="tag" id="cStage"></span></td></tr></tbody></table></div>
-<div class="panel"><h2>Selected Recruitment Profile</h2>
-<div class="grid"><div><label>Name</label><input id="name" readonly></div><div><label>Email</label><input id="email" readonly></div><div><label>Role</label><input id="role" readonly></div></div>
-<div class="grid"><div><label>Contracted hours</label><input id="hours" readonly></div><div><label>Start date</label><input id="start" readonly></div><div><label>Pay</label><input id="pay" readonly></div></div>
-<h3>Application screening outcome</h3>
-<div class="danger">
-  <b>Reject application / unsuccessful at screening</b>
-  <p>Use this only after assessing the candidate against the documented criteria for this vacancy.</p>
-  <label>Reason candidate did not meet the essential criteria</label>
-  <select id="rejectReason">
-    <option value="">Select reason</option>
-    <option>Availability does not meet the essential shift requirement</option>
-    <option>Did not demonstrate the essential customer-service standard</option>
-    <option>Did not demonstrate the essential communication standard</option>
-    <option>Did not demonstrate the required food-safety / allergen awareness</option>
-    <option>Did not demonstrate the essential experience or transferable skills for this vacancy</option>
-    <option>Application did not provide enough evidence against the essential criteria</option>
-    <option>Another candidate more closely met the published essential and desirable criteria</option>
-    <option>Other documented job-related reason</option>
-  </select>
-  <label>Internal decision rationale</label>
-  <textarea id="rejectRationale" placeholder="Record the specific job-related evidence supporting the decision. Do not use protected characteristics or irrelevant personal information."></textarea>
-  <label>Professional unsuccessful-application email</label>
-  <textarea id="rejectMessage" style="min-height:250px" readonly></textarea>
-  <div class="nav">
-    <button class="btn secondary" type="button" onclick="generateRejectMessage()">Generate message</button>
-    <button class="btn secondary" type="button" onclick="copyRejectMessage()">Copy message</button>
-    <button class="btn dangerbtn" type="button" onclick="rejectApplication()">Mark unsuccessful & send test email</button>
-  </div>
-</div>
+<div class="warn"><b>TEST ONLY.</b> Dummy data and simulated email/login only. No real personal data. Interview audio is never stored; only the transcript/answers can be saved.</div>
+<div class="nav"><a class="btn secondary" href="apply.html">Public application</a><a class="btn secondary" href="candidate-portal.html?token=TEST-ALEX-001">Candidate portal</a><a class="btn secondary" href="index.html">Full recruitment pack</a><button class="btn secondary" onclick="resetTest()">Reset test</button></div>
 
-<h3>Signature pack status</h3>
-<div id="signaturePackStatus" class="good">Open the candidate portal to review/sign the required documents.</div>
-<h3>Workflow</h3><div class="step">Application submitted from public web link.</div><div class="step">Screening, assessment and interview completed.</div><div class="step">Conditional offer generated and emailed.</div><div class="step">Candidate logs back in and signs required documents.</div><div class="step">Manager confirms Right to Work, reference and pre-employment checks.</div><div class="step">Record converts from Recruitment to Staff and onboarding starts.</div>
-<div class="nav"><button class="btn primary" onclick="sendOffer()">Send conditional offer + portal email</button><button class="btn secondary" onclick="checks()">Confirm checks</button><button class="btn primary" onclick="moveStaff()">Move to Staff</button></div>
-<div id="status" class="good">Test applicant loaded.</div></div>
+<div class="cards"><div class="stat"><b>Candidate</b><strong id="statCandidate"></strong></div><div class="stat"><b>Stage</b><strong id="statStage"></strong></div><div class="stat"><b>Signed docs</b><strong id="statSigned"></strong></div><div class="stat"><b>Outstanding</b><strong id="statOutstanding"></strong></div></div>
 
-<div class="panel" id="staffProfilePanel">
-<h2>Staff Profile Handover</h2>
-<div id="staffProfileStatus" class="warn"><b>Not yet moved to Staff.</b> The candidate must complete all signatures and required checks first.</div>
-<div id="staffProfileDetails" style="display:none">
-  <div class="grid"><div><label>Staff name</label><input id="staffName" readonly></div><div><label>Role</label><input id="staffRole" readonly></div><div><label>Contracted hours</label><input id="staffHours" readonly></div></div>
-  <h3>Employment documents automatically added to Staff Profile</h3>
-  <table><thead><tr><th>Document</th><th>Signature</th><th>Timestamp</th><th>Status</th></tr></thead><tbody id="staffDocsBody"></tbody></table>
-  <div class="good"><b>Onboarding handover:</b> Production will now issue the Staff App onboarding forms, induction and mandatory training from the staff profile.</div>
+<details open><summary>Vacancy management</summary><div class="body"><div class="grid">
+<div><label>Vacancy ID</label><input id="vacId"></div><div><label>Vacancy title</label><input id="vacTitle"></div><div><label>Status</label><select id="vacStatus"><option>Draft</option><option>Open</option><option>Closed</option></select></div>
+<div><label>Open date</label><input id="vacOpen" type="date"></div><div><label>Close date</label><input id="vacClose" type="date"></div><div><label>Positions</label><input id="vacPositions" type="number" min="1"></div>
+</div><button class="btn primary" onclick="saveVacancy()">Save vacancy</button></div></details>
+
+<details open><summary>Recruitment profile</summary><div class="body"><div class="grid"><div><label>Name</label><input id="name" readonly></div><div><label>Email</label><input id="email" readonly></div><div><label>Role</label><input id="role" readonly></div><div><label>Hours</label><input id="hours" readonly></div><div><label>Start</label><input id="start" readonly></div><div><label>Recruitment ref</label><input id="ref" readonly></div></div><div id="profileStatus" class="good"></div></div></details>
+
+<details open><summary>Screening outcome / rejection</summary><div class="body">
+<div class="cols"><div><label>Essential criteria met?</label><select id="essentialMet"><option value="">Pending</option><option value="yes">Yes</option><option value="no">No</option></select></div><div><label>Manager screening score / 17</label><input id="screenScore" type="number" min="0" max="17"></div></div>
+<label>If unsuccessful, reason</label><select id="rejectReason"><option value="">Select reason</option><option>Availability does not meet the essential shift requirement</option><option>Did not demonstrate the essential customer-service standard</option><option>Did not demonstrate the essential communication standard</option><option>Did not demonstrate required food-safety / allergen awareness</option><option>Did not demonstrate essential experience or transferable skills</option><option>Application did not provide enough evidence against the essential criteria</option><option>Another candidate more closely met the published essential/desirable criteria</option><option>Other documented job-related reason</option></select>
+<label>Internal rationale</label><textarea id="rejectRationale"></textarea>
+<div class="nav"><button class="btn secondary" onclick="saveScreening()">Save screening</button><button class="btn dangerbtn" onclick="rejectCandidate()">Reject & queue professional email</button><button class="btn secondary" onclick="withdrawCandidate()">Mark withdrawn</button></div><div id="screenStatus" class="good"></div>
+</div></details>
+
+<details open><summary>Interview management</summary><div class="body">
+<div class="grid"><div><label>Interview status</label><select id="interviewStatus"><option>Not scheduled</option><option>Scheduled</option><option>Completed</option><option>No-show</option><option>Rescheduled</option></select></div><div><label>Date/time</label><input id="interviewAt" type="datetime-local"></div><div><label>Method</label><input id="interviewMethod"></div></div>
+<div class="nav"><button class="btn primary" onclick="saveInterview()">Save interview</button><button class="btn secondary" onclick="queueInterviewEmail()">Queue interview email</button><button class="btn secondary" onclick="markNoShow()">Mark no-show</button></div>
+<div class="warn"><b>Microphone rule:</b> the detailed interview page uses live speech-to-text only. Audio is not saved or attached to the file.</div>
+<table><thead><tr><th>Question</th><th>Transcript answer</th><th>Suggested</th><th>Manager score</th><th>Override reason</th></tr></thead><tbody id="interviewRows"></tbody></table>
+</div></details>
+
+<details><summary>References</summary><div class="body">
+<table><thead><tr><th>#</th><th>Referee</th><th>Status</th><th>Outcome</th><th>Action</th></tr></thead><tbody id="referenceRows"></tbody></table>
+</div></details>
+
+<details><summary>Right to Work / under-18 / apprentice</summary><div class="body">
+<div class="grid"><div><label>Method</label><select id="rtwMethod"><option value="">Select</option><option>Home Office online share-code check</option><option>Manual document check</option><option>Eligible digital identity verification</option><option>Other lawful route</option></select></div><div><label>Check date</label><input id="rtwDate" type="date"></div><div><label>Checker</label><input id="rtwChecker"></div>
+<div><label>Result</label><select id="rtwResult"><option value="">Pending</option><option>Pass</option><option>Time-limited permission</option><option>Not satisfactory</option></select></div><div><label>Follow-up date</label><input id="rtwFollow" type="date"></div><div><label>Evidence note</label><input id="rtwEvidence"></div></div>
+<div class="cols"><label><input id="under18" type="checkbox"> Candidate is under 18 — young worker checks required</label><label><input id="apprentice" type="checkbox"> Apprentice — apprentice-year/rate checks required</label></div>
+<button class="btn primary" onclick="saveRTW()">Save Right to Work check</button></div></details>
+
+<details open><summary>Conditional offer & candidate portal</summary><div class="body">
+<div class="grid"><div><label>Offer deadline</label><input id="offerDeadline" type="date"></div><div><label>Portal token</label><input id="portalToken" readonly></div><div><label>Offer status</label><input id="offerStatus" readonly></div></div>
+<div class="nav"><button class="btn primary" onclick="sendOffer()">Generate offer snapshot + queue portal email</button><a class="btn secondary" href="candidate-portal.html?token=TEST-ALEX-001">Open portal</a></div>
+<div id="offerInfo" class="good"></div></div></details>
+
+<details open><summary>Checks, appointment & Staff handover</summary><div class="body">
+<div id="checksSummary" class="warn"></div>
+<div class="nav"><button class="btn secondary" onclick="completeChecks()">Confirm pre-employment checks</button><button class="btn primary" onclick="moveToStaff()">Appoint & move Recruitment → Staff</button></div>
+<div id="staffStatus" class="good"></div>
+<table><thead><tr><th>Staff document</th><th>Signed by</th><th>Timestamp</th><th>Version</th></tr></thead><tbody id="staffDocs"></tbody></table>
+</div></details>
+
+<details><summary>Test email queue</summary><div class="body"><table><thead><tr><th>Time</th><th>Type</th><th>To</th><th>Status</th></tr></thead><tbody id="emailRows"></tbody></table></div></details>
+<details><summary>Audit trail</summary><div class="body"><table><thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Detail</th></tr></thead><tbody id="auditRows"></tbody></table></div></details>
 </div>
-</div></div>
 <script>
-const base={name:'Alex Morgan',email:'alex.morgan@example.test',role:"Dexter's Café All-Rounder / Barista",hours:'20 hours/week',ref:'DEX-REC-TEST-001',stage:'Application received',start:'21 September 2026',pay:'£10.85/hour',offerSent:false,signed:false,checks:false,staff:false};
-function getR(){try{return {...base,...JSON.parse(localStorage.getItem('dexRecruit')||'{}')}}catch(e){return base}}
-function save(r){localStorage.setItem('dexRecruit',JSON.stringify(r));render()}
+const qLabels=['Help/customer','Busy/pressure','Mistake/ownership','Food safety','Supervisor disagreement'];
+function fmt(x){return x?new Date(x).toLocaleString('en-GB'):''}
 function render(){
- const r=getR();
- cName.textContent=r.name;cRef.textContent=r.ref;cRole.textContent=r.role;cHours.textContent=r.hours;cStage.textContent=r.stage;
- name.value=r.name;email.value=r.email;role.value=r.role;hours.value=r.hours;start.value=r.start;pay.value=r.pay;
- awaiting.textContent=r.offerSent&&!r.signed&&!r.rejected?1:0;
- unsuccessful.textContent=r.rejected?1:0;
- if(r.rejectReason)rejectReason.value=r.rejectReason;
- if(r.rejectRationale)rejectRationale.value=r.rejectRationale;
- generateRejectMessage();
- const sigs=Object.keys(r.signedDocs||{}).length;
- const sigBox=document.getElementById('signaturePackStatus');
- if(sigBox)sigBox.innerHTML='<b>Signed documents:</b> '+sigs+' of 5'+(r.signed?' — complete':' — awaiting candidate');
-
- const sp=document.getElementById('staffProfileStatus'), det=document.getElementById('staffProfileDetails'), body=document.getElementById('staffDocsBody');
- if(r.staff){
-   sp.className='good';sp.innerHTML='<b>✓ Staff Profile active.</b> Recruitment file converted to staff record.';
-   det.style.display='block';
-   staffName.value=r.name;staffRole.value=r.role;staffHours.value=r.hours;
-   const docs=r.staffDocuments||[];
-   body.innerHTML=docs.map(d=>'<tr><td>'+d.label+'</td><td>'+d.signature+'</td><td>'+new Date(d.timestamp).toLocaleString('en-GB')+'</td><td>Attached to Staff Profile</td></tr>').join('');
- }else{
-   sp.className='warn';sp.innerHTML='<b>Not yet moved to Staff.</b> The candidate must complete all signatures and required checks first.';
-   det.style.display='none';
- }
+ const r=DexRecruit.load(), docs=r.documents||{};
+ statCandidate.textContent=r.candidate.name;statStage.textContent=r.application.status||r.appointment.status;
+ const signed=Object.values(docs).filter(d=>d.signed).length;statSigned.textContent=signed;
+ const outstanding=[];if(!r.offer.sentAt)outstanding.push('offer');if(!r.checks.complete)outstanding.push('checks');if(r.appointment.status!=='Staff')outstanding.push('staff');statOutstanding.textContent=outstanding.length;
+ vacId.value=r.vacancy.id;vacTitle.value=r.vacancy.title;vacStatus.value=r.vacancy.status;vacOpen.value=r.vacancy.openDate;vacClose.value=r.vacancy.closeDate;vacPositions.value=r.vacancy.positions;
+ name.value=r.candidate.name;email.value=r.candidate.email;role.value=r.candidate.role;hours.value=r.candidate.hours;start.value=r.candidate.start;ref.value=r.candidate.ref;
+ profileStatus.innerHTML='<b>Current status:</b> '+(r.application.status||'')+' • Appointment: '+r.appointment.status;
+ essentialMet.value=r.screening.essentialMet===true?'yes':r.screening.essentialMet===false?'no':'';screenScore.value=r.screening.managerScore??'';rejectReason.value=r.screening.reason||'';rejectRationale.value=r.screening.rationale||'';
+ screenStatus.innerHTML='<b>Screening:</b> '+r.screening.status;
+ interviewStatus.value=r.interview.status;interviewAt.value=r.interview.scheduledAt||'';interviewMethod.value=r.interview.method||'';
+ interviewRows.innerHTML=qLabels.map((q,i)=>{const a=r.interview.answers[i]||'',s=r.interview.suggestedScores[i]??'',m=r.interview.managerScores[i]??'',o=r.interview.overrideReasons[i]||'';return '<tr><td>'+q+'</td><td>'+a+'</td><td>'+s+'</td><td><input data-ms="'+i+'" value="'+m+'" type="number" min="0" max="5"></td><td><input data-or="'+i+'" value="'+o+'"></td></tr>'}).join('');
+ referenceRows.innerHTML=r.references.items.map((x,i)=>'<tr><td>'+x.number+'</td><td><input data-referee="'+i+'" value="'+x.referee+'"></td><td><select data-refstatus="'+i+'"><option '+(x.status==='Not requested'?'selected':'')+'>Not requested</option><option '+(x.status==='Requested'?'selected':'')+'>Requested</option><option '+(x.status==='Received'?'selected':'')+'>Received</option></select></td><td><input data-refout="'+i+'" value="'+x.outcome+'"></td><td><button class="btn secondary" onclick="saveReference('+i+')">Save / request</button></td></tr>').join('');
+ rtwMethod.value=r.rtw.method;rtwDate.value=r.rtw.checkDate;rtwChecker.value=r.rtw.checker;rtwResult.value=r.rtw.result;rtwFollow.value=r.rtw.followUpDate;rtwEvidence.value=r.rtw.evidenceNote;under18.checked=!!r.rtw.under18;apprentice.checked=!!r.rtw.apprentice;
+ offerDeadline.value=r.offer.deadline;portalToken.value=r.candidatePortal.inviteToken;offerStatus.value=r.offer.status;offerInfo.innerHTML='<b>Offer:</b> '+r.offer.status+(r.offer.sentAt?' • '+fmt(r.offer.sentAt):'');
+ const required=['offer','job','rota','privacy','starter','contract'];const signedReq=required.filter(k=>docs[k]?.signed).length;
+ checksSummary.innerHTML='<b>Required signatures:</b> '+signedReq+' / 6 • <b>References:</b> '+r.references.status+' • <b>RTW:</b> '+r.rtw.status+' • <b>Checks:</b> '+(r.checks.complete?'Complete':'Pending');
+ staffStatus.innerHTML=r.appointment.status==='Staff'?'<b>✓ Staff Profile active.</b> Signed recruitment/employment documents transferred automatically.':'<b>Recruitment record active.</b> Staff handover happens only after all signatures and checks.';
+ const staffList=r.staffDocuments||[];staffDocs.innerHTML=staffList.map(d=>'<tr><td>'+d.title+'</td><td>'+d.signature+'</td><td>'+fmt(d.signedAt)+'</td><td>'+d.version+'</td></tr>').join('');
+ emailRows.innerHTML=(r.emails||[]).map(e=>'<tr><td>'+fmt(e.createdAt)+'</td><td>'+e.type+'</td><td>'+e.to+'</td><td>'+e.status+'</td></tr>').join('');
+ auditRows.innerHTML=(r.audit||[]).slice(0,50).map(a=>'<tr><td>'+fmt(a.at)+'</td><td>'+a.actor+'</td><td>'+a.action+'</td><td>'+a.detail+'</td></tr>').join('');
+ document.querySelectorAll('[data-ms]').forEach(el=>el.onchange=()=>saveInterviewScores());document.querySelectorAll('[data-or]').forEach(el=>el.onchange=()=>saveInterviewScores());
 }
-function sendOffer(){const r=getR();if(r.rejected){status.innerHTML='<b>Cannot send offer.</b> This recruitment profile is closed as unsuccessful.';return}r.offerSent=true;r.stage='Offer sent — awaiting signatures';save(r);status.innerHTML='<b>TEST EMAIL:</b> Candidate invited to log back in, review the conditional offer, job description, rota and forms, then sign online.'}
-function checks(){const r=getR();if(r.rejected){status.innerHTML='<b>Profile closed.</b> No further checks should be progressed for this unsuccessful application.';return}r.checks=true;r.stage=r.signed?'Ready to appoint':'Checks complete — awaiting signatures';save(r);status.innerHTML='<b>Checks complete.</b> Right to Work, reference and required pre-employment checks marked complete for this test.'}
-function moveStaff(){
- const r=getR();
- if(r.rejected){status.innerHTML='<b>Cannot move to Staff.</b> This application was unsuccessful.';return}
- if(!r.offerSent||!r.signed||!r.checks){status.innerHTML='<b>Cannot move yet.</b> Offer, all document signatures and required checks must all be complete.';return}
- const docs=r.signedDocs||{};
- const required=[
-   ['offer','Conditional Offer Letter'],
-   ['job','Job Description & Person Specification'],
-   ['rota','4-Week Rota Pattern'],
-   ['privacy','Recruitment Privacy Notice'],
-   ['starter','New Starter / Onboarding Declaration']
- ];
- r.staffDocuments=required.map(([key,label])=>({
-   key,label,
-   signature:docs[key]?.signature||r.name,
-   timestamp:docs[key]?.timestamp||new Date().toISOString(),
-   documentVersion:docs[key]?.version||'TEST-v1',
-   source:'Recruitment'
- }));
- r.staff=true;
- r.recruitmentClosed=true;
- r.stage='Appointed — moved to Staff';
- save(r);
- status.innerHTML='<b>✓ STAFF PROFILE CREATED.</b> All signed recruitment documents have been attached automatically to the Staff Profile. The recruitment file is now closed and the staff onboarding/training handover can begin.';
-}
-
-function generateRejectMessage(){
- const r=getR();
- const reason=(document.getElementById('rejectReason')?.value||r.rejectReason||'the essential criteria for the role');
- const first=(r.name||'Applicant').split(' ')[0];
- const msg=
- 'Subject: Your application to Dexter\'s\n\n'+
- 'Dear '+first+',\n\n'+
- 'Thank you for taking the time to apply for the position of '+r.role+' with Dexter\'s.\n\n'+
- 'After reviewing your application against the criteria for this vacancy, we are sorry to let you know that we will not be progressing your application on this occasion. The reason recorded at this stage is: '+reason+'.\n\n'+
- 'We appreciate the time and effort you put into your application and thank you for your interest in working with Dexter\'s. We wish you every success with your job search.\n\n'+
- 'Kind regards,\nDexter\'s Recruitment Team';
- const box=document.getElementById('rejectMessage'); if(box)box.value=msg;
-}
-async function copyRejectMessage(){
- generateRejectMessage();
- const t=document.getElementById('rejectMessage').value;
- try{await navigator.clipboard.writeText(t);status.innerHTML='<b>Unsuccessful application message copied.</b>'}
- catch(e){document.getElementById('rejectMessage').select();document.execCommand('copy');status.innerHTML='<b>Unsuccessful application message copied.</b>'}
-}
-function rejectApplication(){
- const reason=document.getElementById('rejectReason').value;
- const rationale=document.getElementById('rejectRationale').value.trim();
- if(!reason){status.innerHTML='<b>Select the job-related reason before rejecting the application.</b>';return}
- if(!rationale){status.innerHTML='<b>Add the internal decision rationale before closing the recruitment profile.</b>';return}
- const r=getR();
- r.rejected=true;
- r.rejectReason=reason;
- r.rejectRationale=rationale;
- r.rejectedAt=new Date().toISOString();
- r.stage='Unsuccessful — application closed';
- r.offerSent=false;
- r.signed=false;
- r.checks=false;
- r.staff=false;
- save(r);
- generateRejectMessage();
- status.innerHTML='<b>✓ APPLICATION CLOSED AS UNSUCCESSFUL.</b> Test email generated for '+r.email+'. The recruitment profile remains in Recruitment as a closed unsuccessful record and will not progress to interview/offer/staff.';
-}
-document.getElementById('rejectReason')?.addEventListener('change',generateRejectMessage);
-
+function saveVacancy(){const r=DexRecruit.load();Object.assign(r.vacancy,{id:vacId.value,title:vacTitle.value,status:vacStatus.value,openDate:vacOpen.value,closeDate:vacClose.value,positions:Number(vacPositions.value||1)});DexRecruit.save(r);DexRecruit.audit('Vacancy updated',r.vacancy.id);render()}
+function saveScreening(){const r=DexRecruit.load();r.screening.essentialMet=essentialMet.value==='yes'?true:essentialMet.value==='no'?false:null;r.screening.managerScore=screenScore.value===''?null:Number(screenScore.value);r.screening.reason=rejectReason.value;r.screening.rationale=rejectRationale.value;r.screening.status=r.screening.essentialMet===true?'Passed':r.screening.essentialMet===false?'Failed':'Pending';DexRecruit.save(r);DexRecruit.audit('Screening saved',r.screening.status);render()}
+function rejectCandidate(){const r=DexRecruit.load();if(!rejectReason.value||!rejectRationale.value.trim()){screenStatus.innerHTML='<b>Select a job-related reason and record the internal rationale.</b>';return}r.screening.essentialMet=false;r.screening.status='Failed';r.screening.reason=rejectReason.value;r.screening.rationale=rejectRationale.value;r.application.status='Unsuccessful — closed';r.appointment.status='Recruitment closed';DexRecruit.save(r);DexRecruit.audit('Candidate rejected',r.screening.reason);DexRecruit.queueEmail('Unsuccessful application',r.candidate.email,"Your application to Dexter's",'Thank you for applying. After reviewing your application against the vacancy criteria, we will not be progressing your application on this occasion. Reason recorded: '+r.screening.reason+'. We appreciate your interest in Dexter\'s and wish you every success.');render()}
+function withdrawCandidate(){const r=DexRecruit.load();r.application.status='Withdrawn';DexRecruit.save(r);DexRecruit.audit('Candidate withdrawn','Application marked withdrawn');render()}
+function saveInterview(){const r=DexRecruit.load();r.interview.status=interviewStatus.value;r.interview.scheduledAt=interviewAt.value;r.interview.method=interviewMethod.value;DexRecruit.save(r);DexRecruit.audit('Interview updated',r.interview.status);render()}
+function queueInterviewEmail(){const r=DexRecruit.load();DexRecruit.queueEmail('Interview invitation',r.candidate.email,"Dexter's interview invitation",'You are invited to interview for '+r.candidate.role+' on '+(r.interview.scheduledAt||'[date/time]')+'. Please let us know if you need a reasonable adjustment.');render()}
+function markNoShow(){const r=DexRecruit.load();r.interview.status='No-show';DexRecruit.save(r);DexRecruit.audit('Interview no-show','Candidate marked no-show');render()}
+function saveInterviewScores(){const r=DexRecruit.load();document.querySelectorAll('[data-ms]').forEach(el=>r.interview.managerScores[el.dataset.ms]=el.value===''?'':Number(el.value));document.querySelectorAll('[data-or]').forEach(el=>r.interview.overrideReasons[el.dataset.or]=el.value);DexRecruit.save(r);DexRecruit.audit('Interview scores reviewed','Manager-confirmed interview scores saved')}
+function saveReference(i){const r=DexRecruit.load(),x=r.references.items[i];x.referee=document.querySelector('[data-referee="'+i+'"]').value;x.status=document.querySelector('[data-refstatus="'+i+'"]').value;x.outcome=document.querySelector('[data-refout="'+i+'"]').value;if(x.status==='Requested'&&!x.requestedAt){x.requestedAt=new Date().toISOString();DexRecruit.queueEmail('Reference request',r.candidate.email,'Reference request recorded','TEST reference request queued.')}if(x.status==='Received'&&!x.receivedAt)x.receivedAt=new Date().toISOString();r.references.status=r.references.items.some(a=>a.status==='Received')?'In progress':'Pending';if(r.references.items.filter(a=>a.status==='Received').length>=1)r.references.status='Satisfactory / manager review';DexRecruit.save(r);DexRecruit.audit('Reference updated','Reference '+x.number+' '+x.status);render()}
+function saveRTW(){const r=DexRecruit.load();Object.assign(r.rtw,{method:rtwMethod.value,checkDate:rtwDate.value,checker:rtwChecker.value,result:rtwResult.value,followUpDate:rtwFollow.value,evidenceNote:rtwEvidence.value,under18:under18.checked,apprentice:apprentice.checked});r.rtw.status=rtwResult.value==='Pass'||rtwResult.value==='Time-limited permission'?'Complete':'Pending';DexRecruit.save(r);DexRecruit.audit('Right to Work updated',r.rtw.result||'Pending');render()}
+function offerHtml(r){return '<h2>Conditional Offer of Employment</h2><p>Dear '+r.candidate.name+',</p><p>Dexter\'s is pleased to make you a conditional offer for <b>'+r.candidate.role+'</b>.</p><p><b>Start:</b> '+r.candidate.start+'<br><b>Hours:</b> '+r.candidate.hours+'<br><b>Pay:</b> '+r.candidate.pay+'<br><b>Probation:</b> 6 months</p><p>This offer remains conditional on satisfactory Right-to-Work and other required pre-employment checks.</p>'}
+function jobHtml(r){return '<h2>Job Description & Person Specification</h2><p><b>'+r.candidate.role+'</b></p><p>Customer service, order/payment handling, drink/food preparation, cleaning, stock, food safety, allergen controls, teamwork and reasonable management instructions.</p><p>Essential: reliability, communication, customer service, safe working, agreed availability and completion of required training.</p>'}
+function rotaHtml(r){return '<h2>4-Week Rota Pattern</h2><p><b>'+r.candidate.hours+'</b></p><p>Dexter\'s uses AM/back shifts. The candidate will receive the agreed 4-week repeating pattern attached to the employment record.</p>'}
+function privacyHtml(r){return '<h2>Recruitment Privacy Notice</h2><p>Dexter\'s uses recruitment information to administer the application, assess suitability, complete lawful checks, issue employment documents and create the staff record if appointed. Successful-candidate information required for employment transfers to Staff; recruitment-only information follows the retention schedule.</p>'}
+function starterHtml(r){return '<h2>New Starter Declaration</h2><p>I confirm my personal details are accurate and understand I must complete required onboarding, forms and training.</p><p>'+r.candidate.name+' • '+r.candidate.role+' • '+r.candidate.start+'</p>'}
+function contractHtml(r){return '<h2>Employment Contract / Written Particulars — TEST</h2><p><b>Employer:</b> Dexter\'s<br><b>Employee:</b> '+r.candidate.name+'<br><b>Role:</b> '+r.candidate.role+'<br><b>Start date:</b> '+r.candidate.start+'<br><b>Hours:</b> '+r.candidate.hours+'<br><b>Pay:</b> '+r.candidate.pay+'<br><b>Probation:</b> 6 months<br><b>Place of work:</b> Dexter\'s</p><p>Holiday, sickness, notice, pension, training, disciplinary/grievance and other terms will be populated from the approved Dexter\'s employment terms in production.</p>'}
+function sendOffer(){const r=DexRecruit.load();if(r.application.status.includes('Unsuccessful')||r.application.status==='Withdrawn'){offerInfo.innerHTML='<b>Cannot send offer.</b> Candidate is not active.';return}DexRecruit.snapshot('offer','Conditional Offer Letter',offerHtml(r));DexRecruit.snapshot('job','Job Description & Person Specification',jobHtml(r));DexRecruit.snapshot('rota','4-Week Rota Pattern',rotaHtml(r));DexRecruit.snapshot('privacy','Recruitment Privacy Notice',privacyHtml(r));DexRecruit.snapshot('starter','New Starter Declaration',starterHtml(r));const x=DexRecruit.load();x.offer.status='Sent — awaiting signatures';x.offer.sentAt=new Date().toISOString();x.offer.deadline=offerDeadline.value;x.offer.snapshotVersion=x.documents.offer.version;x.candidatePortal.inviteSentAt=new Date().toISOString();x.application.status='Conditional offer sent';DexRecruit.save(x);DexRecruit.audit('Conditional offer sent','Candidate portal invitation created');DexRecruit.queueEmail('Conditional offer / signing invitation',x.candidate.email,"Your conditional offer from Dexter's",'Please log in to the Dexter\'s candidate portal using your secure invitation to review and sign your offer and documents.');render()}
+function completeChecks(){const r=DexRecruit.load();if(r.rtw.status!=='Complete'){checksSummary.innerHTML='<b>Cannot complete checks:</b> Right to Work must be completed first.';return}r.checks.complete=true;r.checks.completedAt=new Date().toISOString();DexRecruit.save(r);DexRecruit.audit('Pre-employment checks complete','Manager confirmed required checks');DexRecruit.snapshot('contract','Employment Contract / Written Particulars',contractHtml(DexRecruit.load()));DexRecruit.queueEmail('Employment contract ready',r.candidate.email,"Your Dexter's employment documents are ready",'Your pre-employment checks are complete. Please return to the candidate portal to review and sign your employment contract / written particulars.');render()}
+function moveToStaff(){const r=DexRecruit.load();const req=['offer','job','rota','privacy','starter','contract'];if(!r.checks.complete||!req.every(k=>r.documents[k]?.signed)){staffStatus.innerHTML='<b>Cannot appoint yet.</b> Checks and all 6 required signed documents must be complete.';return}r.appointment.status='Staff';r.appointment.staffCreatedAt=new Date().toISOString();r.application.status='Appointed — recruitment closed';r.staffDocuments=req.map(k=>({...r.documents[k]}));DexRecruit.save(r);DexRecruit.audit('Recruitment converted to Staff','Signed documents transferred to Staff Profile');DexRecruit.queueEmail('Appointment confirmed',r.candidate.email,"Welcome to Dexter's",'Your appointment is confirmed. Your staff profile has been created and onboarding/training can now begin.');render()}
+function resetTest(){DexRecruit.reset();render()}
 render();
 </script></body></html>
