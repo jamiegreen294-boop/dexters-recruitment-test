@@ -36,7 +36,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <div class="status"><b>Process</b><span>Capture → Screen → Assess → Interview</span></div>
 <div class="status"><b>Decision</b><span>Human-led</span></div>
 <div class="status"><b>Right to Work</b><span>All candidates</span></div>
-<div class="status"><b>Version</b><span>Sep 2026 Test</span></div>
+<div class="status"><b>Version</b><span>Ref Test v3</span></div>
 </div>
 
 <div class="notice"><b>TEST / APPROVAL VERSION.</b> This public test contains no real staff data. It is designed to show the level of detail and professional workflow before connection to Dexter’s private Back Office.</div>
@@ -336,7 +336,7 @@ Sunday AM 10:00–15:00 • No Sunday back shift
 <div class="actions">
   <button class="btn primary" type="button" onclick="loadCompletedTestReference()">Load completed test reference</button>
 </div>
-<div class="box good" id="testReferenceStatus"><b>Reference test:</b> Use the button above to fill a complete fake previous-employer response.</div>
+<div class="box good" id="testReferenceStatus"><b>✓ COMPLETE DEMO REFERENCE SHOWN BELOW.</b> This public approval version is deliberately pre-filled so every returned-reference field can be checked visually.</div>
 <div style="display:flex;gap:16px;align-items:center;border-bottom:3px solid #111;padding-bottom:12px;margin-bottom:18px">
   <img src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png" alt="Dexter's logo" style="width:95px;height:70px;object-fit:contain;background:#fff;border-radius:8px;padding:4px;border:1px solid #ddd">
   <div><div style="font-size:26px;font-weight:900">Dexter's Recruitment Team</div><div class="subtle">Employment Reference Request • Confidential recruitment document</div></div>
@@ -356,10 +356,10 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 </div>
 
 <h3>Section 2 — Referee details</h3>
-<div class="cols"><div><label>Referee full name</label><input id="refereeName"></div><div><label>Job title / position</label><input id="refereePosition"></div></div>
-<div class="cols"><div><label>Organisation</label><input id="refereeOrg"></div><div><label>Relationship to candidate</label><input id="refereeRelationship"></div></div>
-<div class="cols"><div><label>Email address</label><input id="refereeEmail" type="email"></div><div><label>Telephone number</label><input id="refereePhone"></div></div>
-<div class="check"><input id="refPermission" type="checkbox"><span>Candidate has been notified / permission recorded in accordance with Dexter's recruitment process.</span></div>
+<div class="cols"><div><label>Referee full name</label><input id="refereeName" value="Taylor Smith"></div><div><label>Job title / position</label><input id="refereePosition" value="Café Manager"></div></div>
+<div class="cols"><div><label>Organisation</label><input id="refereeOrg" value="Example Café Glasgow"></div><div><label>Relationship to candidate</label><input id="refereeRelationship" value="Direct line manager"></div></div>
+<div class="cols"><div><label>Email address</label><input id="refereeEmail" type="email" value="taylor.smith@example.test"></div><div><label>Telephone number</label><input id="refereePhone" value="0141 555 0101"></div></div>
+<div class="check"><input id="refPermission" type="checkbox" checked><span>Candidate has been notified / permission recorded in accordance with Dexter's recruitment process.</span></div>
 
 <h3>Returned reference — attach & analyse</h3>
 <div class="autofill">
@@ -370,28 +370,28 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <button class="btn primary" type="button" onclick="analyseReferenceFile()">Read attached reference</button>
 <button class="btn secondary" type="button" onclick="clearReferenceImport()">Clear imported response</button>
 </div>
-<div class="box" id="referenceImportStatus"><b>Status:</b> No returned reference attached.</div>
-<div class="box good"><b>Automatic manager summary</b><p id="referenceResponseSummary">No reference response analysed yet.</p></div>
+<div class="box" id="referenceImportStatus"><b>Status:</b> DEMO — completed previous-employer reference response loaded for approval testing.</div>
+<div class="box good"><b>Automatic manager summary</b><p id="referenceResponseSummary">Completed employer reference received from Taylor Smith, Café Manager at Example Café Glasgow. Employment as Café Assistant is confirmed from 3 March 2025 to 31 August 2026. Duties included customer service, till/payment handling, drink preparation, simple food preparation, stock replenishment and cleaning. The referee describes Alex as reliable, punctual and professional, reports good working relationships, considers Alex suitable for a café all-rounder role and confirms they would re-employ them. No additional factual concerns were reported.</p></div>
 </div>
 
 <h3>Section 3 — Employment confirmation</h3>
-<label>1. Please confirm the candidate's job title.</label><input id="confirmedJobTitle">
-<label>2. Please confirm the candidate's dates of employment.</label><input id="confirmedDates">
-<label>3. Please briefly describe the candidate's main duties and responsibilities.</label><textarea id="confirmedDuties"></textarea>
-<label>4. Please comment on the candidate's timekeeping, attendance and reliability, where appropriate.</label><textarea id="reliabilityComments" placeholder="Please do not include disability-related absence, maternity/paternity/adoption leave, reasonable-adjustment details or other protected information."></textarea>
-<label>5. Please comment on the candidate's conduct and working relationships, where appropriate.</label><textarea id="conductComments"></textarea>
-<label>6. Please comment on the candidate's suitability for the role applied for, if you are able to do so.</label><textarea id="suitabilityComments"></textarea>
+<label>1. Please confirm the candidate's job title.</label><input id="confirmedJobTitle" value="Café Assistant">
+<label>2. Please confirm the candidate's dates of employment.</label><input id="confirmedDates" value="3 March 2025 to 31 August 2026">
+<label>3. Please briefly describe the candidate's main duties and responsibilities.</label><textarea id="confirmedDuties">Alex was employed as a Café Assistant. Their main duties included greeting and serving customers, taking orders, operating the till, handling card and cash payments, preparing hot and cold drinks, assisting with simple food preparation, replenishing stock, cleaning service and preparation areas, following food hygiene procedures and supporting colleagues during busy periods.</textarea>
+<label>4. Please comment on the candidate's timekeeping, attendance and reliability, where appropriate.</label><textarea id="reliabilityComments" placeholder="Please do not include disability-related absence, maternity/paternity/adoption leave, reasonable-adjustment details or other protected information.">Alex was reliable and punctual throughout their employment. They attended scheduled shifts consistently, arrived ready for work and gave appropriate notice when a change to availability was required. No factual concerns regarding reliability or punctuality were recorded.</textarea>
+<label>5. Please comment on the candidate's conduct and working relationships, where appropriate.</label><textarea id="conductComments">Alex maintained a professional and respectful manner with customers, colleagues and managers. They worked well as part of the team, responded appropriately to instructions and contributed positively during busy service periods. No conduct concerns were recorded during their employment.</textarea>
+<label>6. Please comment on the candidate's suitability for the role applied for, if you are able to do so.</label><textarea id="suitabilityComments">Based on Alex’s performance while employed with us, I believe they are suitable for a café all-rounder role involving customer service, drink preparation, till work, general food preparation and cleaning duties. They demonstrated a good standard of customer care, teamwork and willingness to learn.</textarea>
 <label>7. Would you re-employ / re-engage this individual if the opportunity arose?</label>
-<select id="reemployComments"><option value="">Please select</option><option>Yes</option><option>No</option><option>Prefer not to say</option></select>
-<label>8. Is there any other factual information relevant to this application that you wish to provide?</label><textarea id="otherRefInfo"></textarea>
+<select id="reemployComments"><option value="">Please select</option><option selected>Yes</option><option>No</option><option>Prefer not to say</option></select>
+<label>8. Is there any other factual information relevant to this application that you wish to provide?</label><textarea id="otherRefInfo">Alex left our employment to seek broader experience and additional hours. There are no additional factual concerns that I consider relevant to this reference.</textarea>
 
 <div class="box danger"><b>Reference guidance:</b> Please avoid information about protected characteristics, health conditions, reasonable adjustments, pregnancy or family leave, trade-union activity, religion, sexual orientation or any other information not genuinely relevant to the role.</div>
 
 <h3>Section 4 — Referee declaration</h3>
 <div class="sign">
 <p>I confirm that the information I have provided is true and accurate to the best of my knowledge and is given in good faith.</p>
-<div class="cols"><div><label>Name</label><input id="declarationName"></div><div><label>Position</label><input id="declarationPosition"></div></div>
-<div class="cols"><div><label>Date</label><input id="declarationDate" type="date"></div><div><label>Signature</label><input id="declarationSignature" placeholder="Signature / typed name where accepted"></div></div>
+<div class="cols"><div><label>Name</label><input id="declarationName" value="Taylor Smith"></div><div><label>Position</label><input id="declarationPosition" value="Café Manager"></div></div>
+<div class="cols"><div><label>Date</label><input id="declarationDate" type="date" value="2026-09-10"></div><div><label>Signature</label><input id="declarationSignature" value="Taylor Smith" placeholder="Signature / typed name where accepted"></div></div>
 </div>
 
 <h3>Pre-written reference request email</h3>
@@ -405,7 +405,7 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <button class="btn secondary" type="button" onclick="downloadReferenceEmail()">Create email with form attached (.eml)</button>
 </div>
 
-<div class="check"><input id="referenceReviewed" type="checkbox"><span>I have reviewed the imported reference response against the original attached document and confirm the saved details are accurate.</span></div>
+<div class="check"><input id="referenceReviewed" type="checkbox" checked><span>I have reviewed the imported reference response against the original attached document and confirm the saved details are accurate.</span></div>
 <div style="margin-top:22px;padding-top:12px;border-top:1px solid #ccc;font-size:12px;color:#666;text-align:center">
 <b>Dexter's Recruitment Team</b> • Employment Reference Form • Confidential
 </div>
