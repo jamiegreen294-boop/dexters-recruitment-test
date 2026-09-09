@@ -287,11 +287,11 @@ Sunday AM 10:00–15:00 • No Sunday back shift
 </div>
 <div class="cols3"><div><label>Interview date</label><input type="datetime-local"></div><div><label>Interviewers</label><input></div><div><label>Location / method</label><input></div></div>
 <h3>Values & behaviours</h3>
-<label id="qLabel0">1. Tell us about a time you helped a customer or colleague when you did not have to.</label><textarea id="intHelp"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label id="qLabel1">2. Tell us about a time you worked in a busy or stressful situation.</label><textarea id="intPressure"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label id="qLabel2">3. Give an example of a mistake you made and how you dealt with it.</label><textarea id="intMistake"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label id="qLabel3">4. What does excellent hygiene and food safety mean in a takeaway/café environment?</label><textarea id="intFoodSafety"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label id="qLabel4">5. What would you do if you disagreed with an instruction from a supervisor?</label><textarea id="intSupervisor"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label id="qLabel0">1. Tell us about a time you helped a customer or colleague when you did not have to.</label><textarea id="intHelp"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><div id="scoreNote0" class="autofill"><b>Suggested score:</b> Waiting for answer.</div>
+<label id="qLabel1">2. Tell us about a time you worked in a busy or stressful situation.</label><textarea id="intPressure"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><div id="scoreNote1" class="autofill"><b>Suggested score:</b> Waiting for answer.</div>
+<label id="qLabel2">3. Give an example of a mistake you made and how you dealt with it.</label><textarea id="intMistake"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><div id="scoreNote2" class="autofill"><b>Suggested score:</b> Waiting for answer.</div>
+<label id="qLabel3">4. What does excellent hygiene and food safety mean in a takeaway/café environment?</label><textarea id="intFoodSafety"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><div id="scoreNote3" class="autofill"><b>Suggested score:</b> Waiting for answer.</div>
+<label id="qLabel4">5. What would you do if you disagreed with an instruction from a supervisor?</label><textarea id="intSupervisor"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><div id="scoreNote4" class="autofill"><b>Suggested score:</b> Waiting for answer.</div>
 <h3>Practical fit</h3>
 <label>Confirmed availability against vacancy</label><textarea></textarea>
 <label>Candidate questions</label><textarea></textarea>
@@ -1503,17 +1503,46 @@ function downloadReferenceForm(){
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Dexters-Reference-Form-'+(val('refCandidate')||'Candidate').replace(/[^a-z0-9]+/gi,'-')+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
 function keywordScore(text, groups){
- const t=(text||'').toLowerCase();
+ const t=(text||'').toLowerCase().trim();
+ if(!t)return 0;
  let hits=0;
  groups.forEach(g=>{ if(g.some(k=>t.includes(k))) hits++; });
- const lengthBonus=t.trim().split(/\s+/).filter(Boolean).length>=20?1:0;
- return Math.max(1,Math.min(5,hits+lengthBonus));
+ const words=t.split(/\s+/).filter(Boolean);
+ const lengthBonus=words.length>=20?1:0;
+ return Math.min(5,Math.max(1,hits+lengthBonus));
 }
 function setSelectIndex(selector,index,score){
  const els=[...document.querySelectorAll(selector)];
  const el=els[index];
  if(!el)return;
  el.value=String(score);
+}
+
+
+const interviewRubrics=[
+  [['help','support','customer'],['listen','communicat'],['result','outcome','resolved'],['team','colleague']],
+  [['calm','pressure','busy'],['priorit','organis','organize'],['communicat','team'],['result','finish','completed']],
+  [['mistake','wrong','error'],['admit','own','responsib'],['fix','correct','resolve'],['learn','prevent','improve']],
+  [['hygiene','clean','wash'],['temperature','cook','chill'],['allergen','cross'],['procedure','record','check']],
+  [['listen','understand'],['ask','clarify','question'],['respect','professional'],['manager','escalat','safety']]
+];
+function scoreInterviewAnswer(index){
+ const id=interviewAnswerIds[index];
+ const answer=val(id);
+ const score=keywordScore(answer,interviewRubrics[index]);
+ const selects=[...document.querySelectorAll('.interviewScore')];
+ const sel=selects[index];
+ if(sel)sel.value=score?String(score):'';
+ const note=document.getElementById('scoreNote'+index);
+ if(note){
+   if(!answer.trim())note.innerHTML='<b>Suggested score:</b> Not scored — no answer recorded.';
+   else note.innerHTML='<b>Suggested score from answer:</b> '+score+'/5 — manager review required.';
+ }
+ calculateScores();
+ return score;
+}
+function scoreAllInterviewAnswers(){
+ interviewAnswerIds.forEach((id,i)=>scoreInterviewAnswer(i));
 }
 
 let interviewRecognition=null;
@@ -1537,6 +1566,7 @@ function highlightInterviewQuestion(){
  if(lab)lab.scrollIntoView({block:'center',behavior:'smooth'});
 }
 function nextInterviewQuestion(){
+ scoreInterviewAnswer(currentInterviewQuestion);
  if(currentInterviewQuestion<interviewAnswerIds.length-1)currentInterviewQuestion++;
  highlightInterviewQuestion();
  setRecordingStatus('Recording question '+(currentInterviewQuestion+1)+' of 5.',interviewIsRecording);
@@ -1546,7 +1576,10 @@ function appendInterviewText(text){
  const transcript=document.getElementById('interviewTranscript');
  if(transcript)transcript.value+=(transcript.value?'\n':'')+text;
  const target=document.getElementById(interviewAnswerIds[currentInterviewQuestion]);
- if(target)target.value+=(target.value?' ':'')+text;
+ if(target){
+   target.value+=(target.value?' ':'')+text;
+   scoreInterviewAnswer(currentInterviewQuestion);
+ }
 }
 function startInterviewRecording(){
  if(!document.getElementById('interviewRecordingConsent')?.checked){
@@ -1596,7 +1629,8 @@ function stopInterviewRecording(){
  if(interviewRecognition){
    try{interviewRecognition.stop()}catch(e){}
  }
- setRecordingStatus('Recording stopped. Review and correct the answers before scoring.');
+ setRecordingStatus('Recording stopped. Suggested interview scores generated from the recorded answers. Review each answer and score before making a decision.');
+ scoreAllInterviewAnswers();
  analyseWrittenAnswers();
 }
 
@@ -1629,14 +1663,7 @@ function analyseWrittenAnswers(){
  setSelectIndex('.assessmentScore',2,teamworkScore);
 
  const interviewIds=['intHelp','intPressure','intMistake','intFoodSafety','intSupervisor'];
- const rubrics=[
-   [['help','support','customer'],['listen','communicat'],['result','outcome','resolved'],['team','colleague']],
-   [['calm','pressure','busy'],['priorit','organis'],['communicat','team'],['result','finish','completed']],
-   [['mistake','wrong','error'],['admit','own','responsib'],['fix','correct','resolve'],['learn','prevent','improve']],
-   [['hygiene','clean','wash'],['temperature','cook','chill'],['allergen','cross'],['procedure','record','check']],
-   [['listen','understand'],['ask','clarify','question'],['respect','professional'],['manager','escalat','safety']]
- ];
- const interviewScores=interviewIds.map((id,i)=>keywordScore(val(id),rubrics[i]));
+ const interviewScores=interviewIds.map((id,i)=>keywordScore(val(id),interviewRubrics[i]));
  interviewScores.forEach((s,i)=>setSelectIndex('.interviewScore',i,s));
 
  const allTexts=[customer,allergen,teamwork,...interviewIds.map(val)];
