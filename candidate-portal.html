@@ -1,140 +1,43 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dexter's Candidate Portal TEST</title><style>
 :root{--bg:#f4f2ed;--ink:#171717;--card:#fff;--muted:#6f6a63;--line:#ddd7cd;--gold:#d9b14c;--ok:#e8f5ec;--warn:#fff5d8}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.45}header{background:#101010;color:#fff;border-bottom:4px solid var(--gold)}.head{max-width:1180px;margin:auto;padding:20px 18px;display:flex;gap:16px;align-items:center}.logo{width:90px;height:66px;object-fit:contain;background:#fff;border-radius:9px;padding:4px}.wrap{max-width:1180px;margin:20px auto;padding:0 14px 60px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px}.stat b{display:block;color:var(--muted);font-size:12px;text-transform:uppercase}.stat strong{font-size:22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.btn{display:inline-block;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:#111;color:#fff}.secondary{background:#e9e4da;color:#111}.good{background:var(--ok);border:1px solid #b9d5c2;border-radius:10px;padding:12px}.warn{background:var(--warn);border:1px solid #e4c465;border-radius:10px;padding:12px}.step{padding:11px;border-left:4px solid #111;background:#faf9f6;margin:8px 0}.tag{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:4px 8px;font-size:12px}label{display:block;font-weight:700;margin:11px 0 5px}input,select,textarea{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit;background:#fff}textarea{min-height:90px}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left}
-details.doc{background:#fff;border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden}
-details.doc summary{cursor:pointer;font-weight:900;padding:14px 16px;background:#f6f3ed;list-style:none}
-details.doc summary::-webkit-details-marker{display:none}
-details.doc summary:after{content:'＋';float:right;font-size:20px}
-details.doc[open] summary:after{content:'−'}
-.docbody{padding:16px}.docbody h4{margin:18px 0 6px}.docbody p{margin:7px 0}.docbody ul{margin-top:6px}
-.signatureBox{border-top:1px solid var(--line);margin-top:18px;background:#faf9f6;border-radius:8px;padding:14px}
-.signed{background:var(--ok);border:1px solid #b9d5c2;border-radius:8px;padding:10px;margin-top:10px}
-.unsigned{background:#fff5d8;border:1px solid #e4c465;border-radius:8px;padding:10px;margin-top:10px}@media(max-width:800px){.grid,.cols,.cards{grid-template-columns:1fr}}
-</style></head><body>
-<header><div class="head"><img class="logo" src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png" alt="Dexter's logo"><div><h1>Dexter's Candidate Portal</h1><div>Offer & document signing • TEST</div></div></div></header>
-<div class="wrap"><div class="warn"><b>DEMO ONLY.</b> This simulates the secure candidate login that would be emailed after an offer is sent.</div>
-<div class="panel"><h2 id="hello">Candidate Portal</h2><div id="portalStatus" class="good"></div>
-<h3>Your conditional offer</h3><div class="grid"><div><label>Role</label><input id="role" readonly></div><div><label>Hours</label><input id="hours" readonly></div><div><label>Pay</label><input id="pay" readonly></div></div>
-<div class="grid"><div><label>Start date</label><input id="start" readonly></div><div><label>4-week rota</label><input value="20-hour average rota attached" readonly></div><div><label>Probation</label><input value="6 months" readonly></div></div>
-<h3>Documents requiring signature</h3>
-<p>Open each section to read the full document. Each document must be signed separately. The system records the typed signature and exact date/time.</p>
-
-<details class="doc" open>
-<summary>Conditional Offer Letter <span id="offerState" class="tag">Unsigned</span></summary>
-<div class="docbody">
-<h4>Conditional Offer of Employment</h4>
-<p><b>Private & Confidential</b></p>
-<p>Dear <span class="docName"></span>,</p>
-<p>We are pleased to make you a conditional offer of employment with Dexter's for the position of <b class="docRole"></b>.</p>
-<table>
-<tr><td><b>Start date</b></td><td class="docStart"></td></tr>
-<tr><td><b>Contracted hours</b></td><td class="docHours"></td></tr>
-<tr><td><b>Rate of pay</b></td><td class="docPay"></td></tr>
-<tr><td><b>Place of work</b></td><td>Dexter's</td></tr>
-<tr><td><b>Probation</b></td><td>6 months</td></tr>
-</table>
-<p>This offer is conditional upon Dexter's being satisfied with the required pre-employment checks, including Right to Work, satisfactory references where required and any other lawful role-specific checks.</p>
-<p>Your normal 4-week working pattern is shown in the rota section below. Formal written employment particulars will be issued as part of onboarding.</p>
-<div class="signatureBox"><label>Sign Conditional Offer Letter</label><input id="sig_offer" placeholder="Type your full legal name"><button class="btn primary" type="button" onclick="signDoc('offer')">Sign this document</button><div id="stamp_offer" class="unsigned">Not signed</div></div>
-</div></details>
-
-<details class="doc">
-<summary>Job Description & Person Specification <span id="jobState" class="tag">Unsigned</span></summary>
-<div class="docbody">
-<h4 class="docRole"></h4>
-<p><b>Purpose:</b> Provide friendly, efficient customer service while working flexibly across Dexter's café operation, supporting service, drinks, food preparation, cleaning and team duties as required for the role.</p>
-<h4>Main duties</h4>
-<ul><li>Serve customers professionally and accurately.</li><li>Take and process orders and payments.</li><li>Prepare drinks and food items in line with Dexter's procedures.</li><li>Follow allergen, food-safety, hygiene and cleaning procedures.</li><li>Replenish stock and maintain clean, safe work areas.</li><li>Work cooperatively with colleagues during busy periods.</li><li>Follow reasonable management instructions and report concerns promptly.</li></ul>
-<h4>Essential person specification</h4>
-<ul><li>Reliable and punctual.</li><li>Clear communication and customer-service skills.</li><li>Able to work safely and follow procedures.</li><li>Able to work the agreed AM/back/weekend rota for the vacancy.</li><li>Willing to complete required Dexter's training.</li></ul>
-<div class="signatureBox"><label>Sign Job Description & Person Specification</label><input id="sig_job" placeholder="Type your full legal name"><button class="btn primary" type="button" onclick="signDoc('job')">Sign this document</button><div id="stamp_job" class="unsigned">Not signed</div></div>
-</div></details>
-
-<details class="doc">
-<summary>4-Week Rota Pattern <span id="rotaState" class="tag">Unsigned</span></summary>
-<div class="docbody">
-<h4>Normal 4-week working pattern</h4>
-<p><b>Contracted average:</b> <span class="docHours"></span></p>
-<p>Dexter's standard shifts are Mon–Fri AM 08:00–14:00, Mon–Fri Back 17:00–21:00, Saturday AM 09:00–14:00, Saturday Back 17:00–20:00 and Sunday AM 10:00–15:00.</p>
-<table><tr><th>Week</th><th>Example normal pattern</th></tr><tr><td>1</td><td>Mon AM, Tue AM, Wed Back, Thu Back</td></tr><tr><td>2</td><td>Tue AM, Thu AM, Sat AM, Sat Back</td></tr><tr><td>3</td><td>Mon Back, Wed Back, Fri Back, Sat Back, Sun AM</td></tr><tr><td>4</td><td>Mon AM, Wed AM, Thu Back, Fri Back</td></tr></table>
-<p>The rota may be varied in accordance with the contract and Dexter's scheduling process. Agreed changes and shift swaps should be recorded through the normal rota process.</p>
-<div class="signatureBox"><label>Sign 4-Week Rota Pattern</label><input id="sig_rota" placeholder="Type your full legal name"><button class="btn primary" type="button" onclick="signDoc('rota')">Sign this document</button><div id="stamp_rota" class="unsigned">Not signed</div></div>
-</div></details>
-
-<details class="doc">
-<summary>Recruitment Privacy Notice <span id="privacyState" class="tag">Unsigned</span></summary>
-<div class="docbody">
-<h4>Recruitment Privacy Notice — acknowledgement</h4>
-<p>Dexter's uses recruitment information to administer your application, assess suitability, complete lawful pre-employment checks, issue employment documents and create your staff record if appointed. Access is limited to authorised people with a genuine business need.</p>
-<p>Successful-candidate information required for employment will transfer into the staff record. Recruitment-only information will be retained and deleted under Dexter's approved retention arrangements. Sensitive information is restricted and handled separately where required.</p>
-<p>This acknowledgement records that the notice has been provided; it is not used as general consent for all employment data processing.</p>
-<div class="signatureBox"><label>Sign Privacy Notice Acknowledgement</label><input id="sig_privacy" placeholder="Type your full legal name"><button class="btn primary" type="button" onclick="signDoc('privacy')">Sign this document</button><div id="stamp_privacy" class="unsigned">Not signed</div></div>
-</div></details>
-
-<details class="doc">
-<summary>New Starter / Onboarding Declaration <span id="starterState" class="tag">Unsigned</span></summary>
-<div class="docbody">
-<h4>New Starter Declaration</h4>
-<p>I confirm that the personal information I have provided is accurate to the best of my knowledge. I understand that I must tell Dexter's if relevant details change and that required onboarding documents and training must be completed.</p>
-<table><tr><td><b>Name</b></td><td class="docName"></td></tr><tr><td><b>Role</b></td><td class="docRole"></td></tr><tr><td><b>Start date</b></td><td class="docStart"></td></tr><tr><td><b>Contracted hours</b></td><td class="docHours"></td></tr></table>
-<div class="signatureBox"><label>Sign New Starter Declaration</label><input id="sig_starter" placeholder="Type your full legal name"><button class="btn primary" type="button" onclick="signDoc('starter')">Sign this document</button><div id="stamp_starter" class="unsigned">Not signed</div></div>
-</div></details>
-
-<div class="good" id="signingSummary"><b>Signing status:</b> 0 of 5 documents signed.</div>
-<div class="nav"><a class="btn secondary" href="recruitment-backoffice.html">Back Office test</a></div>
-<div id="status" class="good">Awaiting signed documents.</div></div></div>
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.45}header{background:#101010;color:#fff;border-bottom:4px solid var(--gold)}.head{max-width:1000px;margin:auto;padding:20px 18px;display:flex;gap:16px;align-items:center}.logo{width:90px;height:66px;object-fit:contain;background:#fff;border-radius:9px;padding:4px}.wrap{max-width:1000px;margin:20px auto;padding:0 14px 60px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.btn{display:inline-block;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:#111;color:#fff}.secondary{background:#e9e4da;color:#111}.good{background:var(--ok);border:1px solid #b9d5c2;border-radius:10px;padding:12px}.warn{background:var(--warn);border:1px solid #e4c465;border-radius:10px;padding:12px}label{display:block;font-weight:700;margin:10px 0 5px}input{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit}.doc{border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden;background:#fff}.doc summary{cursor:pointer;font-weight:900;padding:14px;background:#f6f3ed}.docbody{padding:16px}.signature{border-top:1px solid var(--line);margin-top:18px;padding-top:14px}.signed{background:var(--ok);border:1px solid #b9d5c2;border-radius:8px;padding:10px;margin-top:8px}.locked{opacity:.65}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+</style><script src="recruitment-store.js"></script></head><body>
+<header><div class="head"><img class="logo" src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png"><div><h1>Dexter's Candidate Portal</h1><div>FULL CONNECTED TEST</div></div></div></header>
+<div class="wrap"><div class="warn"><b>TEST ONLY.</b> This simulates secure candidate access. Do not enter real data.</div>
+<div class="panel"><h2 id="hello">Candidate portal</h2><div id="loginStatus" class="good"></div>
+<div id="portal" style="display:none">
+<div class="grid"><div><label>Role</label><input id="role" readonly></div><div><label>Hours</label><input id="hours" readonly></div><div><label>Start</label><input id="start" readonly></div></div>
+<p>Open each section to read the exact document snapshot that was issued to you. Each document is signed separately and timestamped.</p>
+<div id="docs"></div>
+<div id="summary" class="good"></div>
+</div></div>
+</div>
 <script>
-const base={name:'Alex Morgan',email:'alex.morgan@example.test',role:"Dexter's Café All-Rounder / Barista",hours:'20 hours/week',ref:'DEX-REC-TEST-001',stage:'Application received',start:'21 September 2026',pay:'£10.85/hour',offerSent:false,signed:false,checks:false,staff:false,signedDocs:{},staffDocuments:[]};
-function getR(){try{return {...base,...JSON.parse(localStorage.getItem('dexRecruit')||'{}')}}catch(e){return base}}
-function fmtStamp(iso){try{return new Date(iso).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'medium'})}catch(e){return iso}}
-function getDocs(r){return r.signedDocs||{}}
-function signedCount(r){return ['offer','job','rota','privacy','starter'].filter(k=>getDocs(r)[k]).length}
+const required=['offer','job','rota','privacy','starter','contract'];
+function token(){return new URLSearchParams(location.search).get('token')||''}
+function fmt(x){return x?new Date(x).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'medium'}):''}
 function render(){
- const r=getR();
- hello.textContent='Welcome, '+r.name;role.value=r.role;hours.value=r.hours;pay.value=r.pay;start.value=r.start;
- portalStatus.innerHTML=r.offerSent?'<b>Offer available.</b> Open each section, read the full document and sign it below.':'<b>No offer issued yet.</b> In the test Back Office, press “Send conditional offer + portal email” first.';
- document.querySelectorAll('.docName').forEach(e=>e.textContent=r.name);
- document.querySelectorAll('.docRole').forEach(e=>e.textContent=r.role);
- document.querySelectorAll('.docHours').forEach(e=>e.textContent=r.hours);
- document.querySelectorAll('.docPay').forEach(e=>e.textContent=r.pay);
- document.querySelectorAll('.docStart').forEach(e=>e.textContent=r.start);
- const docs=getDocs(r);
- ['offer','job','rota','privacy','starter'].forEach(k=>{
-   const st=document.getElementById('stamp_'+k), state=document.getElementById(k+'State'), input=document.getElementById('sig_'+k);
-   if(docs[k]){
-     if(st){st.className='signed';st.innerHTML='<b>✓ Signed by '+docs[k].signature+'</b><br>'+fmtStamp(docs[k].timestamp);}
-     if(state){state.textContent='Signed';state.style.background='#2f6b3b';}
-     if(input){input.value=docs[k].signature;input.disabled=true;}
-   }else{
-     if(st){st.className='unsigned';st.textContent='Not signed';}
-     if(state){state.textContent='Unsigned';state.style.background='#111';}
-   }
- });
- const count=signedCount(r);
- signingSummary.innerHTML='<b>Signing status:</b> '+count+' of 5 documents signed.';
- if(count===5){
-   status.innerHTML='<b>✓ ALL REQUIRED DOCUMENTS SIGNED.</b> The Recruitment Back Office now shows the signature pack as complete. When manager checks are complete and the candidate is appointed, these signed documents will transfer automatically into the Staff Profile.';
- }else if(r.offerSent){
-   status.innerHTML='<b>Documents awaiting signature.</b> '+(5-count)+' remaining.';
- }
+ const r=DexRecruit.load();
+ if(token()!==r.candidatePortal.inviteToken){loginStatus.innerHTML='<b>Access denied.</b> This test portal requires the candidate-specific invitation token.';portal.style.display='none';return}
+ r.candidatePortal.lastLoginAt=new Date().toISOString();DexRecruit.save(r);
+ hello.textContent='Welcome, '+r.candidate.name;role.value=r.candidate.role;hours.value=r.candidate.hours;start.value=r.candidate.start;portal.style.display='block';
+ loginStatus.innerHTML='<b>Candidate test login accepted.</b> Recruitment reference '+r.candidate.ref+'.';
+ docs.innerHTML=required.map(k=>docBlock(k,r)).join('');
+ const signed=required.filter(k=>r.documents[k]?.signed).length;
+ summary.innerHTML='<b>Signing progress:</b> '+signed+' / 6 documents signed.'+(r.checks.complete?' Pre-employment checks are complete.':' Employment contract becomes available after manager checks are complete.');
 }
-function signDoc(key){
- const r=getR();
- if(!r.offerSent){status.innerHTML='<b>No offer available to sign yet.</b>';return}
- const input=document.getElementById('sig_'+key);
- const signature=(input?.value||'').trim();
- if(signature.toLowerCase()!==r.name.toLowerCase()){
-   status.innerHTML='<b>Signature not accepted.</b> Type the candidate\'s full legal name exactly as shown on the recruitment profile.';
-   return;
- }
- const docs=getDocs(r);
- if(docs[key])return;
- docs[key]={signature:signature,timestamp:new Date().toISOString(),document:key,version:'TEST-v1'};
- r.signedDocs=docs;
- r.signed=signedCount({...r,signedDocs:docs})===5;
- r.stage=r.signed?(r.checks?'Ready to appoint':'Documents signed — checks pending'):'Offer sent — signatures in progress';
- localStorage.setItem('dexRecruit',JSON.stringify(r));
- render();
+function docBlock(k,r){
+ const d=r.documents[k];
+ const locked=k==='contract'&&!r.checks.complete;
+ if(!d)return '<div class="doc locked"><div class="docbody"><b>'+title(k)+'</b><p>'+(k==='contract'?'Not available until the manager completes the required pre-employment checks.':'Not yet issued by Dexter\'s Recruitment Team.')+'</p></div></div>';
+ const stamp=d.signed?'<div class="signed"><b>✓ Signed by '+d.signature+'</b><br>'+fmt(d.signedAt)+' • Version '+d.version+'</div>':'';
+ return '<details class="doc" '+(k==='offer'?'open':'')+'><summary>'+d.title+(d.signed?' — Signed':' — Awaiting signature')+'</summary><div class="docbody">'+d.html+'<div class="signature"><label>Type your full legal name to sign this document</label><input id="sig_'+k+'" '+(d.signed?'disabled value="'+d.signature+'"':'')+'><button class="btn primary" '+(d.signed||locked?'disabled':'')+' onclick="signDoc(\''+k+'\')">Sign this document</button>'+stamp+'</div></div></details>'
+}
+function title(k){return({offer:'Conditional Offer Letter',job:'Job Description & Person Specification',rota:'4-Week Rota Pattern',privacy:'Recruitment Privacy Notice',starter:'New Starter Declaration',contract:'Employment Contract / Written Particulars'})[k]}
+function signDoc(k){
+ const r=DexRecruit.load(),input=document.getElementById('sig_'+k),sig=(input?.value||'').trim();
+ if(sig.toLowerCase()!==r.candidate.name.toLowerCase()){summary.innerHTML='<b>Signature not accepted.</b> Type your full legal name exactly as shown on your recruitment profile.';return}
+ try{DexRecruit.sign(k,sig);const x=DexRecruit.load();if(required.slice(0,5).every(a=>x.documents[a]?.signed)&&!x.checks.complete)x.application.status='Offer documents signed — checks pending';if(required.every(a=>x.documents[a]?.signed)&&x.checks.complete)x.application.status='All documents signed — ready to appoint';DexRecruit.save(x);render()}catch(e){summary.innerHTML='<b>'+e.message+'</b>'}
 }
 render();
 </script></body></html>
