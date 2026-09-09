@@ -437,6 +437,30 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <option>Dexter's Café Supervisor</option>
 <option>Dexter's Assistant Manager</option>
 <option>Dexter's Café Manager</option></select></div><div><label>Start date</label><input id="offerStartDate" type="date"></div><div><label>Place of work</label><input value="Dexter's"></div></div>
+<h3>Contracted hours & rota pattern</h3>
+<div class="cols3">
+  <div>
+    <label>Contracted hours</label>
+    <select id="offerHoursTemplate">
+      <option value="">Select contracted hours</option>
+      <option value="16">16 hours/week — Part-time</option>
+      <option value="20">20 hours/week — Part-time</option>
+      <option value="24">24 hours/week — Part-time</option>
+      <option value="36">36 hours/week — Full-time</option>
+      <option value="40">40 hours/week — Full-time</option>
+    </select>
+  </div>
+  <div>
+    <label>Contract type</label>
+    <input id="offerContractType" readonly placeholder="Auto-filled">
+  </div>
+  <div>
+    <label>4-week average</label>
+    <input id="offerHoursAverage" readonly placeholder="Auto-filled">
+  </div>
+</div>
+<div class="box good"><b>How it works:</b> Choose the contracted hours above and Dexter's will automatically build the 4-week AM/back-shift pattern and fill the rota section.</div>
+
 <h3>Pay setup</h3>
 <div class="cols3">
   <div><label>Date of birth</label><input id="payDob" type="date"></div>
@@ -476,7 +500,7 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
       <option>Full-time</option>
     </select>
   </div>
-  <div><label>Standard hours pattern</label>
+  <div><label>Contracted hours — choose here to auto-fill rota</label>
     <select id="rotaTemplate">
       <option value="">Select hours</option>
       <option value="16">Part-time — 16 hours/week average</option>
@@ -669,6 +693,26 @@ const shiftInfo = {
 };
 
 function shiftDetail(pair){ return shiftInfo[pair[0]+'-'+pair[1]]; }
+function syncHoursTemplate(sourceValue){
+ const v=String(sourceValue||'');
+ const rota=document.getElementById('rotaTemplate');
+ const offerSel=document.getElementById('offerHoursTemplate');
+ if(rota && rota.value!==v) rota.value=v;
+ if(offerSel && offerSel.value!==v) offerSel.value=v;
+
+ const type=Number(v)>=36?'Full-time':(v?'Part-time':'');
+ const oc=document.getElementById('offerContractType');
+ if(oc)oc.value=type;
+ const rc=document.getElementById('rotaContractType');
+ if(rc && type)rc.value=type;
+
+ renderRotaPattern();
+
+ const avg=document.getElementById('rotaAverage');
+ const oa=document.getElementById('offerHoursAverage');
+ if(oa)oa.value=avg?avg.value:'';
+}
+
 function renderRotaPattern(){
  const hours=val('rotaTemplate');
  const pattern=dextersRotaPatterns[hours];
@@ -696,6 +740,8 @@ function renderRotaPattern(){
  const average=total4/4;
  if(avg)avg.value=average.toFixed(1)+' hours/week';
  if(offerHours)offerHours.value=average.toFixed(1)+' hours/week average';
+ const oa=document.getElementById('offerHoursAverage'); if(oa)oa.value=average.toFixed(1)+' hours/week';
+ const oct=document.getElementById('offerContractType'); if(oct)oct.value=Number(hours)>=36?'Full-time':'Part-time';
  if(out)out.innerHTML='<table class="rotaTable"><thead><tr><th>Week</th><th>Scheduled shifts</th><th>Total</th></tr></thead><tbody>'+rows+'</tbody></table><div class="box"><b>4-week total:</b> '+total4+' hours &nbsp; • &nbsp; <b>Average:</b> '+average.toFixed(1)+' hours/week</div>';
  if(txt)txt.value=textLines.join('\n\n')+'\n\n4-WEEK TOTAL: '+total4+' hours\nAVERAGE: '+average.toFixed(1)+' hours/week';
  const offer=document.getElementById('offerShiftPattern');
@@ -971,7 +1017,9 @@ function syncShiftSelections(){
 document.addEventListener('change',e=>{
  if(e.target.matches('.screenScore,.assessmentScore,.interviewScore')) calculateScores();
  if(e.target.matches('.shiftChoice,.vacancyShift')) syncShiftSelections();
- if(e.target.matches('#rotaTemplate,#rotaContractType')) renderRotaPattern();
+ if(e.target.matches('#rotaTemplate')) syncHoursTemplate(e.target.value);
+ if(e.target.matches('#offerHoursTemplate')) syncHoursTemplate(e.target.value);
+ if(e.target.matches('#rotaContractType')) renderRotaPattern();
  if(e.target.matches('#offerShiftPattern')) e.target.dataset.userEdited='1';
  if(e.target.matches('#payDob,#starterDob,#offerStartDate,#isApprentice')) {
    if(e.target.id==='starterDob'){ const p=document.getElementById('payDob'); if(p && !p.value)p.value=e.target.value; }
