@@ -73,7 +73,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <span class="tag">DEXTER'S</span><span class="tag">CANDIDATE FILE</span>
 <h2>Candidate Recruitment Dashboard</h2>
 <p class="subtle">One record from vacancy approval to completed onboarding.</p>
-<div class="cols"><div><label>Candidate full legal name</label><input id="candidateName"></div><div><label>Preferred name</label><input></div></div>
+<div class="cols"><div><label>Candidate full legal name</label><input id="candidateName"></div><div><label>Preferred name</label><input id="candidatePreferredName"></div></div>
 <div class="cols3"><div><label>Role</label><select id="candidateRole"><option value="">Select role</option>
 <option>Dexter's Café All-Rounder / Barista</option>
 <option>Dexter's Café Assistant / Barista</option>
@@ -83,7 +83,23 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <option>Dexter's Café Supervisor</option>
 <option>Dexter's Assistant Manager</option>
 <option>Dexter's Café Manager</option></select></div><div><label>Location</label><input value="Dexter's"></div><div><label>Recruitment reference</label><input placeholder="DEX-REC-0001"></div></div>
-<div class="cols3"><div><label>Application received</label><input type="date"></div><div><label>Recruiting manager</label><input id="recruitingManager"></div><div><label>Current stage</label><select><option>Application</option><option>Screening</option><option>Assessment</option><option>Interview</option><option>Checks</option><option>Conditional offer</option><option>Appointed</option><option>Closed</option></select></div></div>
+<h3>Employment setup</h3>
+<div class="cols3">
+  <div><label>Contracted hours</label>
+    <select id="dashboardHoursTemplate">
+      <option value="">Select contracted hours</option>
+      <option value="16">16 hours/week — Part-time</option>
+      <option value="20">20 hours/week — Part-time</option>
+      <option value="24">24 hours/week — Part-time</option>
+      <option value="36">36 hours/week — Full-time</option>
+      <option value="40">40 hours/week — Full-time</option>
+    </select>
+  </div>
+  <div><label>Contract type</label><input id="dashboardContractType" readonly placeholder="Auto-filled"></div>
+  <div><label>4-week average</label><input id="dashboardHoursAverage" readonly placeholder="Auto-filled"></div>
+</div>
+<div class="box good"><b>Select the contracted hours here.</b> Dexter's will create the 4-week rota automatically and carry the hours into the offer and starter record.</div>
+<div class="cols3"><div><label>Application received</label><input id="applicationReceived" type="date"></div><div><label>Recruiting manager</label><input id="recruitingManager"></div><div><label>Current stage</label><select><option>Application</option><option>Screening</option><option>Assessment</option><option>Interview</option><option>Checks</option><option>Conditional offer</option><option>Appointed</option><option>Closed</option></select></div></div>
 <h3>Stage controls</h3>
 <div class="check"><input type="checkbox"><span>Vacancy approved and role criteria documented before advertising.</span></div>
 <div class="check"><input type="checkbox"><span>Application assessed against essential criteria.</span></div>
@@ -137,9 +153,9 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <section id="application" class="section">
 <h2>Full Job Application Form</h2>
 <h3>Personal & contact details</h3>
-<div class="cols"><div><label>Full legal name</label><input></div><div><label>Preferred name</label><input></div></div>
+<div class="cols"><div><label>Full legal name</label><input id="applicationCandidateName"></div><div><label>Preferred name</label><input id="applicationPreferredName"></div></div>
 <div class="cols"><div><label>Current address</label><textarea></textarea></div><div><label>Previous address if recently moved</label><textarea></textarea></div></div>
-<div class="cols3"><div><label>Mobile</label><input></div><div><label>Email</label><input type="email"></div><div><label>Best contact method</label><select><option>Email</option><option>Phone</option><option>SMS</option></select></div></div>
+<div class="cols3"><div><label>Mobile</label><input id="applicationMobile"></div><div><label>Email</label><input id="applicationEmail" type="email"></div><div><label>Best contact method</label><select><option>Email</option><option>Phone</option><option>SMS</option></select></div></div>
 <h3>Role & availability</h3>
 <div class="cols3"><div><label>Role applied for</label><select id="applicationRole"><option value="">Select role</option>
 <option>Dexter's Café All-Rounder / Barista</option>
@@ -149,7 +165,21 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <option>Dexter's Food Preparation Assistant</option>
 <option>Dexter's Café Supervisor</option>
 <option>Dexter's Assistant Manager</option>
-<option>Dexter's Café Manager</option></select></div><div><label>Available start date</label><input type="date"></div><div><label>Notice period</label><input></div></div>
+<option>Dexter's Café Manager</option></select></div><div><label>Available start date</label><input id="applicationStartDate" type="date"></div><div><label>Notice period</label><input id="applicationNotice"></div></div>
+<h3>Hours sought</h3>
+<div class="cols">
+ <div><label>Preferred contracted hours</label>
+   <select id="applicationHoursTemplate">
+     <option value="">Select contracted hours</option>
+     <option value="16">16 hours/week — Part-time</option>
+     <option value="20">20 hours/week — Part-time</option>
+     <option value="24">24 hours/week — Part-time</option>
+     <option value="36">36 hours/week — Full-time</option>
+     <option value="40">40 hours/week — Full-time</option>
+   </select>
+ </div>
+ <div><label>Contract type</label><input id="applicationContractType" readonly placeholder="Auto-filled"></div>
+</div>
 <h3>Dexter's shift availability</h3>
 <div class="box good"><b>Dexter's trading shifts:</b><br>
 Mon–Fri AM 08:00–14:00 • Mon–Fri Back 17:00–21:00<br>
@@ -531,10 +561,10 @@ Choose a standard hours pattern to generate the 4-week repeating rota.
 
 <section id="starter" class="section">
 <h2>New Starter Details</h2>
-<div class="cols"><div><label>Full legal name</label><input></div><div><label>Preferred name</label><input></div></div>
+<div class="cols"><div><label>Full legal name</label><input id="starterCandidateName"></div><div><label>Preferred name</label><input id="starterPreferredName"></div></div>
 <div class="cols3"><div><label>Date of birth</label><input id="starterDob" type="date"></div><div><label>National Insurance number</label><input></div><div><label>Payroll ID</label><input></div></div>
-<label>Home address</label><textarea></textarea>
-<div class="cols"><div><label>Personal email</label><input></div><div><label>Telephone</label><input></div></div>
+<label>Home address</label><textarea id="starterAddress"></textarea>
+<div class="cols"><div><label>Personal email</label><input id="starterEmail"></div><div><label>Telephone</label><input id="starterPhone"></div></div>
 <h3>Emergency contact</h3>
 <div class="cols3"><div><label>Name</label><input></div><div><label>Relationship</label><input></div><div><label>Telephone</label><input></div></div>
 <h3>Payroll / HMRC</h3>
@@ -606,7 +636,9 @@ document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
  document.getElementById(b.dataset.id).classList.add('active');
  if(b.dataset.id==='references'){syncReferenceForm();buildReferenceRequest();}
  if(b.dataset.id==='decision'){calculateScores();
-syncShiftSelections();}
+syncShiftSelections();
+const initialHours=document.getElementById('dashboardHoursTemplate')?.value||document.getElementById('offerHoursTemplate')?.value||'';
+if(initialHours)syncHoursTemplate(initialHours);}
  window.scrollTo({top:0,behavior:'smooth'});
 });
 
@@ -695,22 +727,45 @@ const shiftInfo = {
 function shiftDetail(pair){ return shiftInfo[pair[0]+'-'+pair[1]]; }
 function syncHoursTemplate(sourceValue){
  const v=String(sourceValue||'');
- const rota=document.getElementById('rotaTemplate');
- const offerSel=document.getElementById('offerHoursTemplate');
- if(rota && rota.value!==v) rota.value=v;
- if(offerSel && offerSel.value!==v) offerSel.value=v;
-
- const type=Number(v)>=36?'Full-time':(v?'Part-time':'');
- const oc=document.getElementById('offerContractType');
- if(oc)oc.value=type;
- const rc=document.getElementById('rotaContractType');
- if(rc && type)rc.value=type;
-
+ ['dashboardHoursTemplate','applicationHoursTemplate','offerHoursTemplate','rotaTemplate'].forEach(id=>{
+   const e=document.getElementById(id); if(e && e.value!==v)e.value=v;
+ });
+ const type=v?(Number(v)>=36?'Full-time':'Part-time'):'';
+ ['dashboardContractType','applicationContractType','offerContractType'].forEach(id=>{
+   const e=document.getElementById(id); if(e)e.value=type;
+ });
+ const rc=document.getElementById('rotaContractType'); if(rc)rc.value=type;
  renderRotaPattern();
+ const avg=document.getElementById('rotaAverage')?.value||'';
+ ['dashboardHoursAverage','offerHoursAverage'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=avg;});
+}
 
- const avg=document.getElementById('rotaAverage');
- const oa=document.getElementById('offerHoursAverage');
- if(oa)oa.value=avg?avg.value:'';
+function syncCandidateDetails(sourceId){
+ const nameIds=['candidateName','applicationCandidateName','starterCandidateName'];
+ const prefIds=['candidatePreferredName','applicationPreferredName','starterPreferredName'];
+ if(nameIds.includes(sourceId)){
+   const v=document.getElementById(sourceId)?.value||'';
+   nameIds.forEach(id=>{const e=document.getElementById(id);if(e && id!==sourceId)e.value=v;});
+ }
+ if(prefIds.includes(sourceId)){
+   const v=document.getElementById(sourceId)?.value||'';
+   prefIds.forEach(id=>{const e=document.getElementById(id);if(e && id!==sourceId)e.value=v;});
+ }
+ syncReferenceForm();
+}
+
+function syncStartDate(sourceId){
+ const ids=['applicationStartDate','offerStartDate'];
+ const v=document.getElementById(sourceId)?.value||'';
+ ids.forEach(id=>{const e=document.getElementById(id);if(e && id!==sourceId)e.value=v;});
+ calculatePay();
+}
+
+function syncContactDetails(){
+ const email=document.getElementById('applicationEmail')?.value||'';
+ const phone=document.getElementById('applicationMobile')?.value||'';
+ const se=document.getElementById('starterEmail'); if(se && !se.dataset.userEdited)se.value=email;
+ const sp=document.getElementById('starterPhone'); if(sp && !sp.dataset.userEdited)sp.value=phone;
 }
 
 function renderRotaPattern(){
@@ -740,7 +795,7 @@ function renderRotaPattern(){
  const average=total4/4;
  if(avg)avg.value=average.toFixed(1)+' hours/week';
  if(offerHours)offerHours.value=average.toFixed(1)+' hours/week average';
- const oa=document.getElementById('offerHoursAverage'); if(oa)oa.value=average.toFixed(1)+' hours/week';
+ ['dashboardHoursAverage','offerHoursAverage'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=average.toFixed(1)+' hours/week';});
  const oct=document.getElementById('offerContractType'); if(oct)oct.value=Number(hours)>=36?'Full-time':'Part-time';
  if(out)out.innerHTML='<table class="rotaTable"><thead><tr><th>Week</th><th>Scheduled shifts</th><th>Total</th></tr></thead><tbody>'+rows+'</tbody></table><div class="box"><b>4-week total:</b> '+total4+' hours &nbsp; • &nbsp; <b>Average:</b> '+average.toFixed(1)+' hours/week</div>';
  if(txt)txt.value=textLines.join('\n\n')+'\n\n4-WEEK TOTAL: '+total4+' hours\nAVERAGE: '+average.toFixed(1)+' hours/week';
@@ -1014,13 +1069,20 @@ function syncShiftSelections(){
    o.value=chosen.join('\n');
  }
 }
+document.addEventListener('input',e=>{
+ if(e.target.matches('#candidateName,#applicationCandidateName,#starterCandidateName,#candidatePreferredName,#applicationPreferredName,#starterPreferredName')) syncCandidateDetails(e.target.id);
+ if(e.target.matches('#applicationEmail,#applicationMobile')) syncContactDetails();
+});
 document.addEventListener('change',e=>{
  if(e.target.matches('.screenScore,.assessmentScore,.interviewScore')) calculateScores();
  if(e.target.matches('.shiftChoice,.vacancyShift')) syncShiftSelections();
- if(e.target.matches('#rotaTemplate')) syncHoursTemplate(e.target.value);
- if(e.target.matches('#offerHoursTemplate')) syncHoursTemplate(e.target.value);
+ if(e.target.matches('#dashboardHoursTemplate,#applicationHoursTemplate,#offerHoursTemplate,#rotaTemplate')) syncHoursTemplate(e.target.value);
  if(e.target.matches('#rotaContractType')) renderRotaPattern();
  if(e.target.matches('#offerShiftPattern')) e.target.dataset.userEdited='1';
+ if(e.target.matches('#candidateName,#applicationCandidateName,#starterCandidateName,#candidatePreferredName,#applicationPreferredName,#starterPreferredName')) syncCandidateDetails(e.target.id);
+ if(e.target.matches('#applicationStartDate,#offerStartDate')) syncStartDate(e.target.id);
+ if(e.target.matches('#applicationEmail,#applicationMobile')) syncContactDetails();
+ if(e.target.matches('#starterEmail,#starterPhone')) e.target.dataset.userEdited='1';
  if(e.target.matches('#payDob,#starterDob,#offerStartDate,#isApprentice')) {
    if(e.target.id==='starterDob'){ const p=document.getElementById('payDob'); if(p && !p.value)p.value=e.target.value; }
    if(e.target.id==='payDob'){ const s=document.getElementById('starterDob'); if(s && !s.value)s.value=e.target.value; }
