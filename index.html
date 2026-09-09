@@ -417,8 +417,25 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <option>Dexter's Food Preparation Assistant</option>
 <option>Dexter's Café Supervisor</option>
 <option>Dexter's Assistant Manager</option>
-<option>Dexter's Café Manager</option></select></div><div><label>Start date</label><input type="date"></div><div><label>Place of work</label><input value="Dexter's"></div></div>
-<div class="cols3"><div><label>Pay rate</label><input></div><div><label>Pay frequency</label><input></div><div><label>Contracted / expected hours</label><input></div></div>
+<option>Dexter's Café Manager</option></select></div><div><label>Start date</label><input id="offerStartDate" type="date"></div><div><label>Place of work</label><input value="Dexter's"></div></div>
+<h3>Pay setup</h3>
+<div class="cols3">
+  <div><label>Date of birth</label><input id="payDob" type="date"></div>
+  <div><label>Age on proposed start date</label><input id="payAge" readonly></div>
+  <div><label>Pay category</label><input id="payCategory" readonly></div>
+</div>
+<div class="cols3">
+  <div><label>Dexter's role starting rate (21+)</label><input id="roleStartingRate" readonly></div>
+  <div><label>Legal minimum for age</label><input id="legalMinimumRate" readonly></div>
+  <div><label>Recommended hourly pay</label><input id="recommendedPayRate" readonly></div>
+</div>
+<div class="cols3">
+  <div><label>Pay rate to offer</label><input id="offerPayRate" type="number" step="0.01" min="0"></div>
+  <div><label>Pay frequency</label><input id="payFrequency" value="Hourly"></div>
+  <div><label>Contracted / expected hours</label><input id="offerHours"></div>
+</div>
+<div class="box good" id="payStatus"><b>Pay check:</b> Enter the proposed start date and date of birth to calculate the correct rate.</div>
+<div class="check"><input id="isApprentice" type="checkbox"><span>Worker is a qualifying apprentice. Apprentice minimum wage rules may apply and must be checked separately.</span></div>
 <label>Working pattern / flexibility agreed</label><textarea></textarea>
 <label>Probation arrangements</label><textarea></textarea>
 <label>Conditions of offer</label><textarea placeholder="Right to Work, satisfactory references where required, role-specific lawful checks..."></textarea>
@@ -430,7 +447,7 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <section id="starter" class="section">
 <h2>New Starter Details</h2>
 <div class="cols"><div><label>Full legal name</label><input></div><div><label>Preferred name</label><input></div></div>
-<div class="cols3"><div><label>Date of birth</label><input type="date"></div><div><label>National Insurance number</label><input></div><div><label>Payroll ID</label><input></div></div>
+<div class="cols3"><div><label>Date of birth</label><input id="starterDob" type="date"></div><div><label>National Insurance number</label><input></div><div><label>Payroll ID</label><input></div></div>
 <label>Home address</label><textarea></textarea>
 <div class="cols"><div><label>Personal email</label><input></div><div><label>Telephone</label><input></div></div>
 <h3>Emergency contact</h3>
@@ -536,6 +553,102 @@ function calculateScores(){
  if(recommendation) recommendation.textContent=rec;
  if(summary){
    summary.textContent='Combined score: '+total+' / '+totalMax+' ('+pct+'%). '+detail+' Final appointment remains a manager decision and must also consider essential role requirements, lawful checks and documented evidence.';
+ }
+}
+
+
+const dextersStartingRates = {
+ "Dexter's Café All-Rounder / Barista": 12.75,
+ "Dexter's Café Assistant / Barista": 12.75,
+ "Dexter's Front of House / Barista": 12.75,
+ "Dexter's Kitchen Assistant / Kitchen Porter": 12.71,
+ "Dexter's Food Preparation Assistant": 12.75,
+ "Dexter's Café Supervisor": 13.50,
+ "Dexter's Assistant Manager": 14.50,
+ "Dexter's Café Manager": 16.00
+};
+const nmw2026 = {adult:12.71, young:10.85, under18:8.00, apprentice:8.00};
+
+function ageOnDate(dobStr,dateStr){
+ if(!dobStr || !dateStr) return null;
+ const dob=new Date(dobStr+'T00:00:00');
+ const d=new Date(dateStr+'T00:00:00');
+ let age=d.getFullYear()-dob.getFullYear();
+ const m=d.getMonth()-dob.getMonth();
+ if(m<0 || (m===0 && d.getDate()<dob.getDate())) age--;
+ return age;
+}
+function money(n){return '£'+Number(n).toFixed(2)+' / hour';}
+function calculatePay(){
+ const dob=val('payDob') || val('starterDob');
+ const start=val('offerStartDate');
+ const role=val('offerRole') || val('candidateRole');
+ const apprentice=document.getElementById('isApprentice')?.checked;
+ const status=document.getElementById('payStatus');
+ const age=ageOnDate(dob,start);
+ const roleRate=dextersStartingRates[role] || nmw2026.adult;
+
+ const setv=(id,v)=>{const e=document.getElementById(id); if(e)e.value=v;};
+ setv('roleStartingRate',money(roleRate));
+
+ if(age===null || age<0){
+   setv('payAge','');
+   setv('payCategory','');
+   setv('legalMinimumRate','');
+   setv('recommendedPayRate','');
+   if(status)status.innerHTML='<b>Pay check:</b> Enter the proposed start date and date of birth to calculate the correct rate.';
+   return;
+ }
+
+ let category='', legal=0, recommended=0;
+ if(apprentice){
+   category='Qualifying apprentice — manual rule check required';
+   legal=nmw2026.apprentice;
+   recommended=Math.max(legal, age>=21 ? roleRate : legal);
+ } else if(age>=21){
+   category='Age 21+';
+   legal=nmw2026.adult;
+   recommended=Math.max(roleRate,legal);
+ } else if(age>=18){
+   category='Age 18–20';
+   legal=nmw2026.young;
+   recommended=legal;
+ } else {
+   category='Under 18';
+   legal=nmw2026.under18;
+   recommended=legal;
+ }
+
+ setv('payAge',String(age));
+ setv('payCategory',category);
+ setv('legalMinimumRate',money(legal));
+ setv('recommendedPayRate',money(recommended));
+
+ const offer=document.getElementById('offerPayRate');
+ if(offer && !offer.dataset.userEdited) offer.value=recommended.toFixed(2);
+
+ if(status){
+   let msg='<b>Pay check:</b> '+category+'. Recommended Dexter\'s rate: '+money(recommended)+'.';
+   if(age<16) msg+=' <b>Warning:</b> school-age employment rules must be checked before employment.';
+   if(apprentice) msg+=' Apprentice entitlement depends on age and apprenticeship year; verify before finalising.';
+   status.innerHTML=msg;
+ }
+}
+function validateOfferPay(){
+ const dob=val('payDob') || val('starterDob');
+ const start=val('offerStartDate');
+ const age=ageOnDate(dob,start);
+ const apprentice=document.getElementById('isApprentice')?.checked;
+ const offer=parseFloat(val('offerPayRate'));
+ const status=document.getElementById('payStatus');
+ if(age===null || !Number.isFinite(offer)) return;
+
+ let legal = apprentice ? nmw2026.apprentice : age>=21?nmw2026.adult:age>=18?nmw2026.young:nmw2026.under18;
+ if(offer<legal){
+   status.innerHTML='<b style="color:#a40000">PAY RATE WARNING:</b> £'+offer.toFixed(2)+' is below the current legal minimum of '+money(legal)+'. Do not issue the offer at this rate.';
+ } else {
+   calculatePay();
+   status.innerHTML += ' Offered rate £'+offer.toFixed(2)+' / hour passes the current minimum-wage check.';
  }
 }
 
@@ -701,12 +814,19 @@ function populateRoleProfile(role){
 
 document.addEventListener('change',e=>{
  if(e.target.matches('.screenScore,.assessmentScore,.interviewScore')) calculateScores();
+ if(e.target.matches('#payDob,#starterDob,#offerStartDate,#isApprentice')) {
+   if(e.target.id==='starterDob'){ const p=document.getElementById('payDob'); if(p && !p.value)p.value=e.target.value; }
+   if(e.target.id==='payDob'){ const s=document.getElementById('starterDob'); if(s && !s.value)s.value=e.target.value; }
+   calculatePay();
+ }
+ if(e.target.matches('#offerPayRate')) { e.target.dataset.userEdited='1'; validateOfferPay(); }
  if(e.target.matches('#candidateRole,#vacancyJobTitle,#applicationRole,#offerRole')){
    const v=e.target.value;
    ['candidateRole','vacancyJobTitle','applicationRole','offerRole'].forEach(id=>{
      const x=document.getElementById(id); if(x && x!==e.target) x.value=v;
    });
    populateRoleProfile(v);
+   calculatePay();
    syncReferenceForm();
  }
 });
