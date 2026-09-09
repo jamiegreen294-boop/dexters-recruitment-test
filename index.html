@@ -151,30 +151,32 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <h2>Candidate Assessment</h2>
 <p>Dexter’s can use short, job-related scenarios before interview.</p>
 <h3>Scenario 1 — Customer service</h3>
-<label>A customer says their order is wrong and they are in a hurry. What would you do?</label><textarea></textarea>
+<label>A customer says their order is wrong and they are in a hurry. What would you do?</label><textarea id="ansCustomer"></textarea>
 <label>Score</label><select class="assessmentScore"><option value="">Not scored</option><option value="1">1 - Weak</option><option value="2">2</option><option value="3">3 - Acceptable</option><option value="4">4</option><option value="5">5 - Strong</option></select>
 <h3>Scenario 2 — Food safety / allergen awareness</h3>
-<label>A customer tells you they have a severe allergy but you are unsure whether a sauce is safe. What do you do?</label><textarea></textarea>
+<label>A customer tells you they have a severe allergy but you are unsure whether a sauce is safe. What do you do?</label><textarea id="ansAllergen"></textarea>
 <label>Score</label><select class="assessmentScore"><option value="">Not scored</option><option value="1">1 - Weak</option><option value="2">2</option><option value="3">3 - Acceptable</option><option value="4">4</option><option value="5">5 - Strong</option></select>
 <h3>Scenario 3 — Teamwork under pressure</h3>
-<label>The shop becomes very busy and a colleague is falling behind. What would you do?</label><textarea></textarea>
+<label>The shop becomes very busy and a colleague is falling behind. What would you do?</label><textarea id="ansTeamwork"></textarea>
 <label>Score</label><select class="assessmentScore"><option value="">Not scored</option><option value="1">1 - Weak</option><option value="2">2</option><option value="3">3 - Acceptable</option><option value="4">4</option><option value="5">5 - Strong</option></select>
 <div class="scorecard">
 <div class="scoretile"><b>Assessment total</b><strong id="assessmentTotal">0 / 15</strong></div>
 <div class="scoretile"><b>Assessment %</b><strong id="assessmentPct">0%</strong></div>
 </div>
-<label>Assessor comments</label><textarea></textarea>
+<div class="actions"><button class="btn primary" type="button" onclick="analyseWrittenAnswers()">Analyse written answers & suggest scores</button></div>
+<div class="autofill"><b>AI-style answer summary</b><p id="answerSummary">Enter candidate answers, then analyse them.</p></div>
+<label>Assessor comments</label><textarea id="assessorComments"></textarea>
 </section>
 
 <section id="interview" class="section">
 <h2>Structured Interview Record</h2>
 <div class="cols3"><div><label>Interview date</label><input type="datetime-local"></div><div><label>Interviewers</label><input></div><div><label>Location / method</label><input></div></div>
 <h3>Values & behaviours</h3>
-<label>1. Tell us about a time you helped a customer or colleague when you did not have to.</label><textarea></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label>2. Tell us about a time you worked in a busy or stressful situation.</label><textarea></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label>3. Give an example of a mistake you made and how you dealt with it.</label><textarea></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label>4. What does excellent hygiene and food safety mean in a takeaway/café environment?</label><textarea></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label>5. What would you do if you disagreed with an instruction from a supervisor?</label><textarea></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label>1. Tell us about a time you helped a customer or colleague when you did not have to.</label><textarea id="intHelp"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label>2. Tell us about a time you worked in a busy or stressful situation.</label><textarea id="intPressure"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label>3. Give an example of a mistake you made and how you dealt with it.</label><textarea id="intMistake"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label>4. What does excellent hygiene and food safety mean in a takeaway/café environment?</label><textarea id="intFoodSafety"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label>5. What would you do if you disagreed with an instruction from a supervisor?</label><textarea id="intSupervisor"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
 <h3>Practical fit</h3>
 <label>Confirmed availability against vacancy</label><textarea></textarea>
 <label>Candidate questions</label><textarea></textarea>
@@ -193,6 +195,10 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <div class="scoretile"><b>Assessment</b><strong id="decisionAssessment">0 / 15</strong></div>
 <div class="scoretile"><b>Interview</b><strong id="decisionInterview">0 / 25</strong></div>
 <div class="scoretile"><b>Combined</b><strong id="combinedPct">0%</strong></div>
+</div>
+<div class="autofill">
+<b>Automatic written-answer analysis</b>
+<p id="decisionAnswerSummary">No written-answer analysis completed yet.</p>
 </div>
 <div class="autofill">
 <b>Automatic recruitment recommendation</b>
@@ -520,6 +526,73 @@ function downloadReferenceForm(){
  const blob=new Blob([referenceFormHtml()],{type:'text/html'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Dexters-Reference-Form-'+(val('refCandidate')||'Candidate').replace(/[^a-z0-9]+/gi,'-')+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
+function keywordScore(text, groups){
+ const t=(text||'').toLowerCase();
+ let hits=0;
+ groups.forEach(g=>{ if(g.some(k=>t.includes(k))) hits++; });
+ const lengthBonus=t.trim().split(/\s+/).filter(Boolean).length>=20?1:0;
+ return Math.max(1,Math.min(5,hits+lengthBonus));
+}
+function setSelectIndex(selector,index,score){
+ const els=[...document.querySelectorAll(selector)];
+ const el=els[index];
+ if(!el)return;
+ el.value=String(score);
+}
+function analyseWrittenAnswers(){
+ const customer=val('ansCustomer');
+ const allergen=val('ansAllergen');
+ const teamwork=val('ansTeamwork');
+
+ const customerScore=keywordScore(customer,[
+   ['listen','understand','check'],
+   ['apolog','sorry'],
+   ['replace','correct','fix','resolve'],
+   ['manager','supervisor','escalat']
+ ]);
+ const allergenScore=keywordScore(allergen,[
+   ['stop','do not','dont','not guess','never guess'],
+   ['allergen','ingredient','label','matrix'],
+   ['manager','supervisor','ask'],
+   ['cross-contamination','cross contamination','cross-contact','cross contact']
+ ]);
+ const teamworkScore=keywordScore(teamwork,[
+   ['help','support','assist'],
+   ['communicat','ask','tell'],
+   ['priorit','organis','organize'],
+   ['calm','team']
+ ]);
+
+ setSelectIndex('.assessmentScore',0,customerScore);
+ setSelectIndex('.assessmentScore',1,allergenScore);
+ setSelectIndex('.assessmentScore',2,teamworkScore);
+
+ const interviewIds=['intHelp','intPressure','intMistake','intFoodSafety','intSupervisor'];
+ const rubrics=[
+   [['help','support','customer'],['listen','communicat'],['result','outcome','resolved'],['team','colleague']],
+   [['calm','pressure','busy'],['priorit','organis'],['communicat','team'],['result','finish','completed']],
+   [['mistake','wrong','error'],['admit','own','responsib'],['fix','correct','resolve'],['learn','prevent','improve']],
+   [['hygiene','clean','wash'],['temperature','cook','chill'],['allergen','cross'],['procedure','record','check']],
+   [['listen','understand'],['ask','clarify','question'],['respect','professional'],['manager','escalat','safety']]
+ ];
+ const interviewScores=interviewIds.map((id,i)=>keywordScore(val(id),rubrics[i]));
+ interviewScores.forEach((s,i)=>setSelectIndex('.interviewScore',i,s));
+
+ const allTexts=[customer,allergen,teamwork,...interviewIds.map(val)];
+ const completed=allTexts.filter(x=>x.trim().length>0).length;
+ const avg=Math.round(([customerScore,allergenScore,teamworkScore,...interviewScores].reduce((a,b)=>a+b,0)/8)*10)/10;
+ const strengths=[];
+ if(allergenScore>=4)strengths.push('good allergen-safety awareness');
+ if(customerScore>=4)strengths.push('strong customer-service approach');
+ if(teamworkScore>=4)strengths.push('positive teamwork behaviour');
+ if(interviewScores[2]>=4)strengths.push('good ownership of mistakes');
+ if(interviewScores[3]>=4)strengths.push('strong food-safety awareness');
+ const summary='Analysed '+completed+' of 8 written answers. Suggested average score: '+avg+'/5. '+(strengths.length?'Strengths noted: '+strengths.join(', ')+'.':'No clear high-scoring strengths identified yet.')+' Manager should review every suggested score against the actual answer before making a decision.';
+ const out=document.getElementById('answerSummary'); if(out)out.textContent=summary;
+ const out2=document.getElementById('decisionAnswerSummary'); if(out2)out2.textContent=summary;
+ calculateScores();
+}
+
 function downloadReferenceEmail(){
  buildReferenceRequest();
  const boundary='DEXTERS_REF_BOUNDARY';
