@@ -6,7 +6,7 @@ const defaultRecord={
  application:{status:'Application received',submittedAt:null,why:'',experience:'',availability:'',employmentHistory:'Example Café Glasgow — Café Assistant — Mar 2025 to Aug 2026',gaps:'None',training:'Food hygiene awareness; customer service experience',answers:{}},
  screening:{status:'Pending',essentialMet:null,reason:'',rationale:'',managerScore:null},
  interview:{status:'Not scheduled',scheduledAt:'',method:'In person',transcript:'',answers:{},suggestedScores:{},managerScores:{},overrideReasons:{},recordAudio:false,transcriptionOnly:true},
- references:{status:'Pending',items:[{number:1,status:'Not requested',requestedAt:null,receivedAt:null,outcome:'',referee:'Taylor Smith — Example Café Glasgow'},{number:2,status:'Not requested',requestedAt:null,receivedAt:null,outcome:'',referee:''}]},
+ references:{status:'Pending',items:[{number:1,status:'Not requested',requestedAt:null,receivedAt:null,outcome:'',referee:'Taylor Smith — Example Café Glasgow',email:'taylor.smith@example.test'},{number:2,status:'Not requested',requestedAt:null,receivedAt:null,outcome:'',referee:'Jordan Lee — Example Hospitality Ltd',email:'jordan.lee@example.test'}]},
  rtw:{status:'Pending',method:'',checkDate:'',checker:'',result:'',followUpDate:'',evidenceNote:'',under18:false,apprentice:false},
  offer:{status:'Not sent',sentAt:null,deadline:'2026-09-14',snapshotVersion:null},
  documents:{},
