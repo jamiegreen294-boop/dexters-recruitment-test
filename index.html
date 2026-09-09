@@ -17,7 +17,7 @@ header{background:#101010;color:#fff;border-bottom:4px solid var(--gold)}.head{m
 label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit;background:#fff}textarea{min-height:90px}
 .check{display:flex;gap:9px;align-items:flex-start;margin:9px 0}.check input{width:auto;margin-top:4px}.score{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:end}.score select{width:100%}
 .box{background:#faf9f6;border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}.good{background:var(--ok)}.danger{background:#fff0f0;border-color:#e7baba}.sign{border:1px dashed #999;border-radius:10px;padding:18px;margin-top:15px}
-.scorecard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.scoretile{border:1px solid var(--line);border-radius:10px;padding:12px;background:#faf9f6}.scoretile b{display:block;font-size:12px;color:var(--muted);text-transform:uppercase}.scoretile strong{font-size:24px}.autofill{background:#eef6ff;border:1px solid #b9d5f1;border-radius:10px;padding:14px;margin:12px 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:9px;padding:11px 15px;font-weight:800;cursor:pointer}.btn.primary{background:#111;color:#fff}.btn.secondary{background:#e9e4da}.footer{font-size:12px;color:var(--muted);margin-top:18px}
+.scorecard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.scoretile{border:1px solid var(--line);border-radius:10px;padding:12px;background:#faf9f6}.scoretile b{display:block;font-size:12px;color:var(--muted);text-transform:uppercase}.scoretile strong{font-size:24px}.autofill{background:#eef6ff;border:1px solid #b9d5f1;border-radius:10px;padding:14px;margin:12px 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:9px;padding:11px 15px;font-weight:800;cursor:pointer}.btn.primary{background:#111;color:#fff}.btn.secondary{background:#e9e4da}.rotaTable{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}.rotaTable th,.rotaTable td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}.rotaTable th{background:#f0ece4}.rotaTotal{font-weight:900;white-space:nowrap}.footer{font-size:12px;color:var(--muted);margin-top:18px}
 @media(max-width:820px){.scorecard{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.nav{position:static;max-height:none}.cols,.cols3,.statusbar{grid-template-columns:1fr}.head h1{font-size:22px}}
 @media print{.nav,.notice,.actions,.statusbar{display:none!important}.grid{display:block}.section{display:block!important;page-break-after:always}.panel{border:0;padding:0}.box{break-inside:avoid}}
 </style>
@@ -60,10 +60,11 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <button data-id="privacy">13. Recruitment privacy</button>
 <h3>Offer & onboarding</h3>
 <button data-id="offer">14. Conditional offer</button>
-<button data-id="starter">15. New starter details</button>
-<button data-id="induction">16. Induction & mandatory training</button>
-<button data-id="probation">17. Probation plan</button>
-<button data-id="audit">18. Recruitment audit trail</button>
+<button data-id="rotapattern">15. 4-week rota pattern</button>
+<button data-id="starter">16. New starter details</button>
+<button data-id="induction">17. Induction & mandatory training</button>
+<button data-id="probation">18. Probation plan</button>
+<button data-id="audit">19. Recruitment audit trail</button>
 </aside>
 
 <main class="panel">
@@ -450,7 +451,7 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <div class="cols3">
   <div><label>Pay rate to offer</label><input id="offerPayRate" type="number" step="0.01" min="0"></div>
   <div><label>Pay frequency</label><input id="payFrequency" value="Hourly"></div>
-  <div><label>Contracted / expected hours</label><input id="offerHours"></div>
+  <div><label>Contracted / expected hours</label><input id="offerHours" readonly></div>
 </div>
 <div class="box good" id="payStatus"><b>Pay check:</b> Enter the proposed start date and date of birth to calculate the correct rate.</div>
 <div class="check"><input id="isApprentice" type="checkbox"><span>Worker is a qualifying apprentice. Apprentice minimum wage rules may apply and must be checked separately.</span></div>
@@ -460,6 +461,48 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <label>Offer expiry / acceptance deadline</label><input type="date">
 <div class="check"><input type="checkbox"><span>Candidate clearly told the offer is conditional until listed checks are satisfied.</span></div>
 <div class="sign"><b>Candidate acceptance</b><br><br>Name: ____________________ &nbsp; Signature: ____________________ &nbsp; Date: ____________</div>
+</section>
+
+
+<section id="rotapattern" class="section">
+<h2>Dexter's 4-Week Rota Pattern</h2>
+<p class="subtle">Choose a standard part-time or full-time pattern. The rota uses only Dexter's actual AM and back shifts and rotates weekend work.</p>
+
+<div class="cols3">
+  <div><label>Contract type</label>
+    <select id="rotaContractType">
+      <option value="">Select</option>
+      <option>Part-time</option>
+      <option>Full-time</option>
+    </select>
+  </div>
+  <div><label>Standard hours pattern</label>
+    <select id="rotaTemplate">
+      <option value="">Select hours</option>
+      <option value="16">Part-time — 16 hours/week average</option>
+      <option value="20">Part-time — 20 hours/week average</option>
+      <option value="24">Part-time — 24 hours/week average</option>
+      <option value="36">Full-time — 36 hours/week average</option>
+      <option value="40">Full-time — 40 hours/week average</option>
+    </select>
+  </div>
+  <div><label>4-week contracted average</label><input id="rotaAverage" readonly></div>
+</div>
+
+<div class="box good">
+<b>Dexter's shift lengths used:</b><br>
+Mon–Fri AM = 6 hours (08:00–14:00) • Mon–Fri Back = 4 hours (17:00–21:00)<br>
+Saturday AM = 5 hours (09:00–14:00) • Saturday Back = 3 hours (17:00–20:00) • Sunday AM = 5 hours (10:00–15:00)
+</div>
+
+<div id="rotaPatternOutput" class="autofill">
+Choose a standard hours pattern to generate the 4-week repeating rota.
+</div>
+
+<label>Agreed 4-week rota pattern</label>
+<textarea id="rotaPatternText" readonly style="min-height:260px"></textarea>
+
+<div class="check"><input id="rotaAccepted" type="checkbox"><span>The employee has been shown the normal 4-week pattern and understands that rota changes, additional hours or shift swaps must follow Dexter's normal scheduling process and their contract.</span></div>
 </section>
 
 <section id="starter" class="section">
@@ -575,6 +618,89 @@ function calculateScores(){
  }
 }
 
+
+
+const dextersRotaPatterns = {
+ "16":[
+  [["Mon","AM"],["Wed","AM"],["Fri","Back"]],
+  [["Tue","AM"],["Sat","AM"],["Sun","AM"]],
+  [["Mon","Back"],["Wed","Back"],["Sat","AM"],["Sat","Back"]],
+  [["Tue","AM"],["Thu","AM"],["Fri","Back"]]
+ ],
+ "20":[
+  [["Mon","AM"],["Tue","AM"],["Wed","Back"],["Thu","Back"]],
+  [["Tue","AM"],["Thu","AM"],["Sat","AM"],["Sat","Back"]],
+  [["Mon","Back"],["Wed","Back"],["Fri","Back"],["Sat","Back"],["Sun","AM"]],
+  [["Mon","AM"],["Wed","AM"],["Thu","Back"],["Fri","Back"]]
+ ],
+ "24":[
+  [["Mon","AM"],["Tue","AM"],["Wed","AM"],["Thu","AM"]],
+  [["Mon","AM"],["Wed","AM"],["Fri","Back"],["Sat","AM"],["Sat","Back"]],
+  [["Tue","AM"],["Thu","AM"],["Fri","Back"],["Sat","Back"],["Sun","AM"]],
+  [["Mon","AM"],["Wed","AM"],["Tue","Back"],["Thu","Back"],["Fri","Back"]]
+ ],
+ "36":[
+  [["Mon","AM"],["Tue","AM"],["Wed","AM"],["Thu","AM"],["Mon","Back"],["Wed","Back"],["Fri","Back"]],
+  [["Mon","AM"],["Wed","AM"],["Fri","AM"],["Tue","Back"],["Thu","Back"],["Sat","AM"],["Sun","AM"]],
+  [["Tue","AM"],["Wed","AM"],["Thu","AM"],["Fri","AM"],["Mon","Back"],["Wed","Back"],["Fri","Back"]],
+  [["Tue","AM"],["Thu","AM"],["Fri","AM"],["Mon","Back"],["Wed","Back"],["Sat","AM"],["Sun","AM"]]
+ ],
+ "40":[
+  [["Mon","AM"],["Tue","AM"],["Wed","AM"],["Thu","AM"],["Mon","Back"],["Tue","Back"],["Thu","Back"],["Fri","Back"]],
+  [["Mon","AM"],["Wed","AM"],["Fri","AM"],["Tue","Back"],["Thu","Back"],["Fri","Back"],["Sat","AM"],["Sun","AM"]],
+  [["Tue","AM"],["Wed","AM"],["Thu","AM"],["Mon","Back"],["Wed","Back"],["Fri","Back"],["Sat","AM"],["Sun","AM"]],
+  [["Mon","AM"],["Tue","AM"],["Thu","AM"],["Fri","AM"],["Mon","Back"],["Tue","Back"],["Wed","Back"],["Fri","Back"]]
+ ]
+};
+const shiftInfo = {
+ "Mon-AM":{label:"Monday AM 08:00–14:00",hours:6},
+ "Tue-AM":{label:"Tuesday AM 08:00–14:00",hours:6},
+ "Wed-AM":{label:"Wednesday AM 08:00–14:00",hours:6},
+ "Thu-AM":{label:"Thursday AM 08:00–14:00",hours:6},
+ "Fri-AM":{label:"Friday AM 08:00–14:00",hours:6},
+ "Mon-Back":{label:"Monday Back 17:00–21:00",hours:4},
+ "Tue-Back":{label:"Tuesday Back 17:00–21:00",hours:4},
+ "Wed-Back":{label:"Wednesday Back 17:00–21:00",hours:4},
+ "Thu-Back":{label:"Thursday Back 17:00–21:00",hours:4},
+ "Fri-Back":{label:"Friday Back 17:00–21:00",hours:4},
+ "Sat-AM":{label:"Saturday AM 09:00–14:00",hours:5},
+ "Sat-Back":{label:"Saturday Back 17:00–20:00",hours:3},
+ "Sun-AM":{label:"Sunday AM 10:00–15:00",hours:5}
+};
+
+function shiftDetail(pair){ return shiftInfo[pair[0]+'-'+pair[1]]; }
+function renderRotaPattern(){
+ const hours=val('rotaTemplate');
+ const pattern=dextersRotaPatterns[hours];
+ const out=document.getElementById('rotaPatternOutput');
+ const txt=document.getElementById('rotaPatternText');
+ const avg=document.getElementById('rotaAverage');
+ const contract=document.getElementById('rotaContractType');
+ const offerHours=document.getElementById('offerHours');
+ if(!pattern){
+   if(out)out.textContent='Choose a standard hours pattern to generate the 4-week repeating rota.';
+   if(txt)txt.value='';
+   if(avg)avg.value='';
+   return;
+ }
+ if(contract) contract.value=Number(hours)>=36?'Full-time':'Part-time';
+
+ let total4=0, rows='', textLines=[];
+ pattern.forEach((week,i)=>{
+   const details=week.map(shiftDetail).filter(Boolean);
+   const total=details.reduce((a,s)=>a+s.hours,0);
+   total4+=total;
+   rows += '<tr><td><b>Week '+(i+1)+'</b></td><td>'+details.map(s=>s.label).join('<br>')+'</td><td class="rotaTotal">'+total+' hrs</td></tr>';
+   textLines.push('WEEK '+(i+1)+' — '+total+' hours\n'+details.map(s=>'• '+s.label).join('\n'));
+ });
+ const average=total4/4;
+ if(avg)avg.value=average.toFixed(1)+' hours/week';
+ if(offerHours)offerHours.value=average.toFixed(1)+' hours/week average';
+ if(out)out.innerHTML='<table class="rotaTable"><thead><tr><th>Week</th><th>Scheduled shifts</th><th>Total</th></tr></thead><tbody>'+rows+'</tbody></table><div class="box"><b>4-week total:</b> '+total4+' hours &nbsp; • &nbsp; <b>Average:</b> '+average.toFixed(1)+' hours/week</div>';
+ if(txt)txt.value=textLines.join('\n\n')+'\n\n4-WEEK TOTAL: '+total4+' hours\nAVERAGE: '+average.toFixed(1)+' hours/week';
+ const offer=document.getElementById('offerShiftPattern');
+ if(offer && !offer.dataset.userEdited) offer.value='Standard Dexter\'s 4-week rota: '+average.toFixed(1)+' hours/week average. See 4-week rota pattern.';
+}
 
 const dextersStartingRates = {
  "Dexter's Café All-Rounder / Barista": 12.75,
@@ -845,6 +971,7 @@ function syncShiftSelections(){
 document.addEventListener('change',e=>{
  if(e.target.matches('.screenScore,.assessmentScore,.interviewScore')) calculateScores();
  if(e.target.matches('.shiftChoice,.vacancyShift')) syncShiftSelections();
+ if(e.target.matches('#rotaTemplate,#rotaContractType')) renderRotaPattern();
  if(e.target.matches('#offerShiftPattern')) e.target.dataset.userEdited='1';
  if(e.target.matches('#payDob,#starterDob,#offerStartDate,#isApprentice')) {
    if(e.target.id==='starterDob'){ const p=document.getElementById('payDob'); if(p && !p.value)p.value=e.target.value; }
