@@ -637,17 +637,13 @@ Choose a standard hours pattern to generate the 4-week repeating rota.
 </main>
 </div></div>
 <script>
-document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=(ev)=>{ if(ev)ev.preventDefault();
  document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));
  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
  b.classList.add('active');
  document.getElementById(b.dataset.id).classList.add('active');
  if(b.dataset.id==='references'){syncReferenceForm();buildReferenceRequest();}
- if(b.dataset.id==='decision'){calculateScores();
-syncShiftSelections();
-const initialHours=document.getElementById('dashboardHoursTemplate')?.value||document.getElementById('offerHoursTemplate')?.value||'';
-if(initialHours)syncHoursTemplate(initialHours);
-syncCoreRecord();}
+ if(b.dataset.id==='decision'){calculateScores();}
 });
 
 function n(v){ const x=parseInt(v,10); return Number.isFinite(x)?x:0; }
@@ -1100,8 +1096,6 @@ function syncCoreRecord(){
 function fill(id,value){
  const e=document.getElementById(id); if(!e)return;
  if(e.type==='checkbox')e.checked=!!value; else e.value=value;
- e.dispatchEvent(new Event('input',{bubbles:true}));
- e.dispatchEvent(new Event('change',{bubbles:true}));
 }
 
 function syncShiftSelections(){
@@ -1214,10 +1208,25 @@ function loadDemoCandidate(){
  fill('emergencyRelationship','Parent');
  fill('emergencyPhone','07000 000000');
 
+ // One controlled sync after all dummy fields are populated.
+ syncHoursTemplate('20');
+ ['candidateRole','vacancyJobTitle','applicationRole','offerRole'].forEach(id=>{
+   const e=document.getElementById(id); if(e)e.value=role;
+ });
+ populateRoleProfile(role);
+ syncShiftSelections();
+ syncStartDate('applicationStartDate');
+ syncContactDetails();
+ syncCoreRecord();
+ syncReferenceForm();
+ calculatePay();
+ analyseWrittenAnswers();
+ calculateScores();
+ buildReferenceRequest();
+
  const ds=document.getElementById('demoStatus');
  if(ds)ds.innerHTML='<b>Test candidate loaded:</b> Alex Morgan • Café All-Rounder / Barista • 20-hour part-time pattern. Open each section from the left menu to inspect the automatic carry-through.';
  const banner=document.getElementById('demoLoadedBanner'); if(banner)banner.style.display='block';
- syncCoreRecord();
 }
 
 function clearDemoCandidate(){
@@ -1528,8 +1537,9 @@ function downloadReferenceEmail(){
 
 document.addEventListener('DOMContentLoaded',()=>{
  const params=new URLSearchParams(window.location.search);
- if(params.get('demo')==='1'){
-   setTimeout(()=>loadDemoCandidate(),300);
+ if(params.get('demo')==='1' && !window.__dextersDemoLoaded){
+   window.__dextersDemoLoaded=true;
+   setTimeout(()=>loadDemoCandidate(),150);
  }
 });
 </script>
