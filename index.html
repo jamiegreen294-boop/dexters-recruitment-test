@@ -747,6 +747,9 @@ function syncHoursTemplate(sourceValue){
  const avg=document.getElementById('rotaAverage')?.value||'';
  ['dashboardHoursAverage','offerHoursAverage'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=avg;});
  syncCoreRecord();
+if(new URLSearchParams(location.search).get('demo')==='1'){
+ setTimeout(()=>loadDemoCandidate(),150);
+}
 }
 
 function syncCandidateDetails(sourceId){
