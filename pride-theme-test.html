@@ -3,46 +3,149 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#020711">
-<title>Dexter's Pride Loyalty App Test</title>
+<meta name="theme-color" content="#050b13">
+<title>Dexter's Pride Loyalty Test</title>
 <style>
+:root{
+ --bg:#050b13;--navy:#071321;--panel:#0d1a2b;--panel2:#112238;--line:#2b4057;
+ --cream:#f4eadb;--muted:#acb8c7;--gold:#d7af69;
+ --red:#e95362;--orange:#ef9947;--yellow:#ebd35e;--green:#5ab87c;--blue:#4f90d7;--violet:#8b69d4;
+}
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#020711;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-body{display:flex;justify-content:center;align-items:flex-start}
-.shell{width:min(100%,650px);position:relative;margin:0 auto;background:#020711}
-.shell img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
-.hotspot{position:absolute;display:block;border-radius:18px;text-indent:-9999px;overflow:hidden;outline:none}
-.hotspot:focus-visible{box-shadow:0 0 0 3px #fff,0 0 0 6px #d7b06a}
-#spin{left:7.2%;top:59.6%;width:41%;height:10.7%}
-#rewards{left:51.4%;top:59.6%;width:41%;height:10.7%}
-#again{left:7.2%;top:71.3%;width:41%;height:10.7%}
-#ask{left:51.4%;top:71.3%;width:41%;height:10.7%}
-#order{left:33%;top:94.8%;width:14%;height:4.4%;border-radius:12px}
-#navRewards{left:47%;top:94.8%;width:14%;height:4.4%;border-radius:12px}
-#more{left:79%;top:94.8%;width:14%;height:4.4%;border-radius:12px}
-.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(20px);opacity:0;background:#0b1725;color:#fff;border:1px solid #ffffff2e;padding:10px 14px;border-radius:999px;font-size:12px;transition:.2s;z-index:20;pointer-events:none}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.badge{position:fixed;right:10px;top:10px;z-index:10;background:#08111edb;color:#d9e4ee;border:1px solid #ffffff25;padding:7px 10px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.05em}
+html,body{margin:0;background:#02060c;color:var(--cream);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:470px;min-height:100vh;background:
+radial-gradient(circle at 50% -12%,#18304d 0,transparent 32%),
+linear-gradient(180deg,#07111e,#030811 70%);padding:10px 14px 102px;position:relative;overflow:hidden}
+.top{display:flex;align-items:center;justify-content:space-between;padding:8px 4px 11px;position:relative;z-index:5}
+.status{display:flex;align-items:center;gap:8px;color:#84e7bd;font-size:13px;font-weight:700}
+.dot{width:9px;height:9px;background:#57e1b6;border-radius:50%;box-shadow:0 0 11px #57e1b699}
+.tools{display:flex;gap:10px}.tool{width:38px;height:38px;border:1px solid #ffffff24;border-radius:50%;display:grid;place-items:center;color:#dbe5ef;font-size:18px;background:#07111d88}
+.brand{text-align:center;position:relative;z-index:5;margin-top:2px}
+.brand h1{margin:0;font:700 33px/1 Georgia,serif;letter-spacing:.035em}.brand .sub{margin-top:5px;font-size:10px;letter-spacing:.42em;color:#d5dde8}
+.rainline{width:78px;height:2px;margin:11px auto 0;background:linear-gradient(90deg,var(--red),var(--orange),var(--yellow),var(--green),var(--blue),var(--violet));border-radius:999px}
+.tagline{text-align:center;position:relative;z-index:5;margin:12px 0 8px;font-size:10px;line-height:1.45;letter-spacing:.2em;color:#d8e0ea}
+
+.header-art{height:182px;border-radius:26px;position:relative;overflow:hidden;margin-top:-75px;padding-top:75px;background:
+linear-gradient(180deg,rgba(7,17,30,.15),rgba(6,9,16,.56)),
+radial-gradient(circle at 16% 27%,#324a67 0,transparent 24%),
+radial-gradient(circle at 76% 25%,#512e43 0,transparent 30%),
+linear-gradient(145deg,#263b58 0%,#16243b 50%,#28162c 100%);
+box-shadow:inset 0 -35px 45px #02060ca6}
+.header-art:before{content:"";position:absolute;left:0;right:0;bottom:0;height:83px;background:
+linear-gradient(90deg,#050911 0 11%,transparent 11% 14%,#070c14 14% 23%,transparent 23% 26%,#050911 26% 38%,transparent 38% 41%,#070c14 41% 55%,transparent 55% 58%,#050911 58% 72%,transparent 72% 75%,#070c14 75% 88%,transparent 88% 91%,#050911 91%);
+clip-path:polygon(0 52%,5% 52%,5% 31%,10% 31%,10% 58%,16% 58%,16% 18%,22% 18%,22% 49%,28% 49%,28% 39%,34% 39%,34% 61%,43% 61%,43% 27%,49% 27%,49% 48%,57% 48%,57% 14%,63% 14%,63% 54%,70% 54%,70% 30%,76% 30%,76% 57%,84% 57%,84% 22%,91% 22%,91% 43%,100% 43%,100% 100%,0 100%)}
+.flag{position:absolute;left:25px;bottom:56px;width:76px;height:48px;border-radius:5px 10px 10px 5px;transform:rotate(-8deg);background:linear-gradient(#e40303 0 16.6%,#ff8c00 16.6% 33.2%,#ffed00 33.2% 49.8%,#008026 49.8% 66.4%,#004dff 66.4% 83%,#750787 83%);box-shadow:0 12px 20px #0008}
+.flag:before{content:"";position:absolute;left:-5px;top:-18px;width:3px;height:95px;background:#bfc7d2;border-radius:2px}
+.crowd{position:absolute;left:0;right:0;bottom:0;height:65px;background:
+radial-gradient(circle at 8% 75%,#02060b 0 8px,transparent 9px),
+radial-gradient(circle at 18% 72%,#02060b 0 10px,transparent 11px),
+radial-gradient(circle at 30% 78%,#02060b 0 8px,transparent 9px),
+radial-gradient(circle at 44% 70%,#02060b 0 10px,transparent 11px),
+radial-gradient(circle at 58% 76%,#02060b 0 9px,transparent 10px),
+radial-gradient(circle at 72% 71%,#02060b 0 10px,transparent 11px),
+radial-gradient(circle at 87% 76%,#02060b 0 9px,transparent 10px),
+linear-gradient(#02060b,#02060b) bottom/100% 39px no-repeat}
+.pride-building{position:absolute;right:18px;bottom:36px;width:105px;height:83px;background:linear-gradient(180deg,#141d27,#060a10);clip-path:polygon(0 18%,72% 0,100% 13%,100% 100%,0 100%);box-shadow:0 10px 22px #0007}
+.pride-building:after{content:"";position:absolute;left:19px;top:24px;width:66px;height:31px;background:linear-gradient(#e40303 0 16.6%,#ff8c00 16.6% 33.2%,#ffed00 33.2% 49.8%,#008026 49.8% 66.4%,#004dff 66.4% 83%,#750787 83%);opacity:.92;transform:skewY(-5deg);box-shadow:0 0 18px #ff8c0055}
+.scribble{position:absolute;color:#d9e1eb88;font:italic 17px/1.15 cursive;transform:rotate(-9deg);z-index:3}.s1{left:12px;top:82px}.s2{right:12px;top:76px;text-align:right}.welcome{position:absolute;right:12px;bottom:45px;width:88px;padding:8px 5px;border:1px solid #d6ad6655;border-radius:11px;background:#07111ec4;text-align:center;font-size:8px;line-height:1.35;letter-spacing:.09em;z-index:4}
+
+.hero{margin-top:12px;border:1px solid #d7af697a;border-radius:26px;min-height:225px;padding:18px;position:relative;overflow:hidden;background:
+radial-gradient(circle at 68% 46%,#4a34264a 0,transparent 27%),
+linear-gradient(135deg,#0c1929,#0f1d30 60%,#090f18);box-shadow:0 14px 30px #0006}
+.hero h2{margin:0;font:700 34px/.95 Georgia,serif;max-width:190px}.hero h2 span{background:linear-gradient(90deg,var(--red),var(--orange),var(--yellow),var(--green),var(--blue),var(--violet));-webkit-background-clip:text;color:transparent}
+.heart{position:absolute;left:184px;top:29px;font-size:26px}
+.hero-copy{margin-top:12px;font-size:10px;letter-spacing:.14em;line-height:1.45;color:#d9e1ea;max-width:210px}
+.cta{position:absolute;left:18px;bottom:18px;border:1px solid var(--gold);border-radius:999px;padding:10px 14px;color:#f7ead0;font-size:10px;font-weight:900;letter-spacing:.09em;text-decoration:none;background:#07101ac7}
+.food{position:absolute;right:9px;top:49px;width:190px;height:132px}
+.burger{position:absolute;left:0;bottom:3px;width:132px;height:94px;filter:drop-shadow(0 12px 10px #0007)}
+.burger .x{position:absolute;left:0;width:132px;border-radius:50%}
+.b1{height:34px;top:0;background:linear-gradient(#d9a15a,#a96527);box-shadow:inset 0 5px 8px #fff2}
+.l1{height:15px;top:32px;background:#5d8c3d}.tom{height:8px;top:42px;background:#b94b3d}.ch{height:14px;top:48px;background:#f2c047;clip-path:polygon(0 0,100% 0,84% 100%,58% 60%,35% 100%,0 75%)}
+.pat{height:24px;top:56px;background:linear-gradient(#673525,#4d251b)}.b2{height:20px;top:75px;background:#b67a38}
+.fries{position:absolute;right:0;top:2px;width:55px;height:105px;background:linear-gradient(#8d6236,#5f3f26);border-radius:7px 7px 17px 17px;box-shadow:0 12px 14px #0006}
+.fries:before{content:"";position:absolute;left:5px;right:5px;top:-26px;height:56px;background:repeating-linear-gradient(90deg,#efb242 0 5px,#c87d2c 5px 9px);clip-path:polygon(0 40%,8% 0,17% 38%,27% 5%,36% 34%,46% 0,57% 34%,68% 4%,78% 40%,89% 5%,100% 35%,100% 100%,0 100%)}
+.wave{position:absolute;right:-34px;bottom:-28px;width:260px;height:106px;border-radius:50%;background:repeating-radial-gradient(ellipse at center,var(--red) 0 8px,var(--orange) 9px 17px,var(--yellow) 18px 26px,var(--green) 27px 35px,var(--blue) 36px 44px,var(--violet) 45px 53px,transparent 54px 64px);opacity:.7;transform:rotate(-12deg)}
+
+.loyalty{margin-top:12px;border:1px solid #ffffff22;border-radius:23px;padding:16px;background:linear-gradient(135deg,#102238,#091625);position:relative;overflow:hidden}
+.loyalty:after{content:"";position:absolute;right:-15px;top:-21px;width:124px;height:49px;transform:rotate(27deg);background:linear-gradient(var(--red),var(--orange),var(--yellow),var(--green),var(--blue),var(--violet));opacity:.72}
+.loyalty h3{font:700 22px/1 Georgia,serif;margin:0}.loyalty .kicker{margin-top:5px;color:var(--muted);font-size:9px;letter-spacing:.15em}
+.loyal-row{display:grid;grid-template-columns:1fr 1px 105px;gap:14px;align-items:center;margin-top:15px}.divider{height:78px;background:#8796a85c}
+.stamps{display:flex;gap:5px;flex-wrap:wrap}.stamp{width:27px;height:27px;border:1px solid #748396;border-radius:50%;display:grid;place-items:center;color:#738297}.stamp.on{background:var(--gold);border-color:var(--gold);color:#17212c;font-size:12px}
+.stamptext{font-size:11px;margin-top:8px}.points{text-align:left}.points b{font-size:28px}.points span{display:block;font-size:13px;color:#cbd5df}.rewardbtn{margin-top:10px;display:inline-block;border:1px solid var(--gold);border-radius:999px;padding:8px 12px;color:#fff;text-decoration:none;font-size:10px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.tile{min-height:130px;border:1px solid #ffffff1c;border-radius:21px;padding:14px;background:linear-gradient(145deg,#102238,#0b1829);display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--cream);position:relative;overflow:hidden}.tile:active{transform:scale(.99)}
+.art{width:76px;min-width:76px;height:78px;display:grid;place-items:center;font-size:46px}.tile .copy strong{display:block;font:700 17px/1.05 Georgia,serif}.tile .copy small{display:block;margin-top:7px;font-size:9px;line-height:1.35;letter-spacing:.06em;color:var(--muted)}.arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:22px;color:#d8e1eb}
+.bag{width:54px;height:61px;background:linear-gradient(#c49a68,#8b6642);border-radius:5px 5px 12px 12px;position:relative;color:#152031;font:700 27px Georgia,serif;display:grid;place-items:center}.bag:before{content:"";position:absolute;left:12px;top:-14px;width:30px;height:20px;border:4px solid #b99365;border-bottom:0;border-radius:7px 7px 0 0}
+.chat{width:60px;height:47px;border:3px solid var(--gold);border-radius:16px;display:grid;place-items:center;font-size:22px;position:relative}.chat:after{content:"";position:absolute;right:-19px;bottom:-9px;width:35px;height:24px;border-radius:12px;background:linear-gradient(90deg,var(--red),var(--orange),var(--yellow),var(--green),var(--blue),var(--violet));opacity:.86;transform:rotate(8deg)}
+
+.bottom-banner{margin-top:12px;border:1px solid #ffffff20;border-radius:22px;min-height:134px;background:linear-gradient(110deg,#0e1e33,#1a1830);padding:16px;position:relative;overflow:hidden}.bottom-banner h3{font:700 24px/1.03 Georgia,serif;max-width:250px;margin:0}.bottom-banner small{display:block;margin-top:12px;font-size:9px;letter-spacing:.14em;color:#c0ccd8}.bottom-banner .flag{left:auto;right:20px;bottom:25px;transform:rotate(-6deg);width:86px;height:54px}.bottom-banner .sil{position:absolute;right:0;left:45%;bottom:0;height:55px;background:#050a12;clip-path:polygon(0 70%,10% 55%,19% 68%,29% 30%,35% 67%,45% 45%,54% 70%,64% 38%,72% 69%,80% 48%,89% 70%,100% 54%,100% 100%,0 100%)}.hand{position:absolute;right:12px;top:14px;font:italic 15px cursive;color:#dae3ebaa;transform:rotate(-7deg)}
+
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(470px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:#07101df5;border-top:1px solid #ffffff18;backdrop-filter:blur(16px);padding:9px 7px max(9px,env(safe-area-inset-bottom));z-index:20}.nav a{color:#9baabc;text-decoration:none;text-align:center;font-size:10px;padding:5px 0}.nav b{display:block;font-size:21px;margin-bottom:2px}.nav .active{color:var(--gold)}
+.toast{position:fixed;left:50%;bottom:83px;transform:translateX(-50%) translateY(10px);opacity:0;transition:.2s;background:#0b1725;color:#fff;border:1px solid #ffffff30;border-radius:999px;padding:9px 13px;font-size:11px;z-index:50;pointer-events:none}.toast.show{opacity:1;transform:translateX(-50%)}
+@media(max-width:370px){.brand h1{font-size:29px}.hero h2{font-size:30px}.food{transform:scale(.88);transform-origin:right center;right:0}.loyal-row{grid-template-columns:1fr}.divider{display:none}.points{display:flex;gap:8px;align-items:end}.tile{min-height:117px;padding:12px}.art{width:60px;min-width:60px}}
 </style>
 </head>
 <body>
-<div class="badge">GITHUB TEST · LIVE APP UNCHANGED</div>
-<main class="shell" aria-label="Dexter's approved Pride loyalty app design test">
-  <img src="pride-approved.jpg" alt="Approved Dexter's Pride loyalty app design">
-  <a class="hotspot" id="spin" href="#spin" aria-label="Spin to Win"></a>
-  <a class="hotspot" id="rewards" href="#rewards" aria-label="Your Rewards"></a>
-  <a class="hotspot" id="again" href="#again" aria-label="Order Again"></a>
-  <a class="hotspot" id="ask" href="https://wa.me/441414735249" target="_blank" rel="noopener" aria-label="Ask Dexter"></a>
-  <a class="hotspot" id="order" href="#order" aria-label="Order"></a>
-  <a class="hotspot" id="navRewards" href="#rewards" aria-label="Rewards"></a>
-  <a class="hotspot" id="more" href="#more" aria-label="More"></a>
+<main class="app">
+ <div class="top">
+   <div class="status"><span class="dot"></span>Collection open <span>›</span></div>
+   <div class="tools"><div class="tool">♢</div><div class="tool">○</div></div>
+ </div>
+
+ <section class="header-art">
+   <div class="flag"></div><div class="crowd"></div><div class="pride-building"></div>
+   <div class="scribble s1">LOVE<br>GOOD<br>FOOD ♡</div>
+   <div class="scribble s2">Good<br>Food<br>Brighter<br>Together ♡</div>
+   <div class="welcome">ALL<br>GOOD<br>PEOPLE<br>WELCOME<br>HERE ♡</div>
+ </section>
+
+ <div class="brand"><h1>DEXTER’S</h1><div class="sub">LOYALTY</div><div class="rainline"></div></div>
+ <div class="tagline">SAME GREAT FOOD<br>A BRIGHTER TOMORROW</div>
+
+ <section class="hero">
+   <h2>Proud<br><span>Together</span></h2><div class="heart">💗</div>
+   <div class="hero-copy">GREAT FOOD BRINGS<br>PEOPLE TOGETHER</div>
+   <a class="cta action" href="#order" data-label="Order">GOOD FOOD,<br>BRIGHTER DAYS →</a>
+   <div class="food"><div class="burger"><i class="x b1"></i><i class="x l1"></i><i class="x tom"></i><i class="x ch"></i><i class="x pat"></i><i class="x b2"></i></div><div class="fries"></div></div>
+   <div class="wave"></div>
+ </section>
+
+ <section class="loyalty">
+   <h3>Your Loyalty</h3><div class="kicker">GOOD FOOD GOES FURTHER</div>
+   <div class="loyal-row">
+     <div><div class="stamps"><span class="stamp on">★</span><span class="stamp on">★</span><span class="stamp on">★</span><span class="stamp on">★</span><span class="stamp on">★</span><span class="stamp on">★</span><span class="stamp"></span><span class="stamp"></span><span class="stamp"></span></div><div class="stamptext">6 of 9 stamps ⓘ</div></div>
+     <div class="divider"></div>
+     <div class="points"><b>750</b><span>points</span><a class="rewardbtn action" href="#rewards" data-label="View rewards">View rewards →</a></div>
+   </div>
+ </section>
+
+ <section class="grid">
+   <a class="tile action" href="#spin" data-label="Spin to Win"><div class="art">🎡</div><div class="copy"><strong>Spin to Win</strong><small>PRIZES, TREATS<br>AND MORE</small></div><span class="arrow">›</span></a>
+   <a class="tile action" href="#rewards" data-label="Your Rewards"><div class="art">🎁</div><div class="copy"><strong>Your Rewards</strong><small>EXCLUSIVE FOOD,<br>TREATS & OFFERS</small></div><span class="arrow">›</span></a>
+   <a class="tile action" href="#again" data-label="Order Again"><div class="art"><div class="bag">D</div></div><div class="copy"><strong>Order Again</strong><small>YOUR FAVOURITES<br>IN A TAP</small></div><span class="arrow">›</span></a>
+   <a class="tile" href="https://wa.me/441414735249" target="_blank" rel="noopener"><div class="art"><div class="chat">•••</div></div><div class="copy"><strong>Ask Dexter</strong><small>FOOD, OFFERS,<br>LOCAL INFO & MORE</small></div><span class="arrow">›</span></a>
+ </section>
+
+ <section class="bottom-banner">
+   <h3>A more inclusive<br>tomorrow tastes better</h3>
+   <small>PEOPLE · FOOD · COMMUNITY · ALWAYS</small>
+   <div class="sil"></div><div class="flag"></div><div class="hand">Kind<br>Food<br>Brighter<br>Futures ♡</div>
+ </section>
 </main>
-<div class="toast" id="toast">Test action</div>
+
+<nav class="nav">
+ <a class="active action" href="#home" data-label="Home"><b>⌂</b>Home</a>
+ <a class="action" href="#order" data-label="Order"><b>☰</b>Order</a>
+ <a class="action" href="#rewards" data-label="Rewards"><b>☆</b>Rewards</a>
+ <a class="action" href="#map" data-label="Map"><b>⌖</b>Map</a>
+ <a class="action" href="#more" data-label="More"><b>•••</b>More</a>
+</nav>
+<div class="toast" id="toast"></div>
 <script>
 const toast=document.getElementById('toast');
-function show(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>toast.classList.remove('show'),1300)}
-for(const id of ['spin','rewards','again','order','navRewards','more']){
-  document.getElementById(id).addEventListener('click',e=>{e.preventDefault();show(e.currentTarget.getAttribute('aria-label')+' · test button works')});
+for(const a of document.querySelectorAll('.action')){
+ a.addEventListener('click',e=>{e.preventDefault();toast.textContent=(a.dataset.label||'Test')+' · test button works';toast.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>toast.classList.remove('show'),1200)})
 }
 </script>
 </body>
