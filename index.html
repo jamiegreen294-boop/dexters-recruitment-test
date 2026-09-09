@@ -73,7 +73,15 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <h2>Candidate Recruitment Dashboard</h2>
 <p class="subtle">One record from vacancy approval to completed onboarding.</p>
 <div class="cols"><div><label>Candidate full legal name</label><input id="candidateName"></div><div><label>Preferred name</label><input></div></div>
-<div class="cols3"><div><label>Role</label><input id="candidateRole"></div><div><label>Location</label><input value="Dexter's"></div><div><label>Recruitment reference</label><input placeholder="DEX-REC-0001"></div></div>
+<div class="cols3"><div><label>Role</label><select id="candidateRole"><option value="">Select role</option>
+<option>Dexter's Café All-Rounder / Barista</option>
+<option>Dexter's Café Assistant / Barista</option>
+<option>Dexter's Front of House / Barista</option>
+<option>Dexter's Kitchen Assistant / Kitchen Porter</option>
+<option>Dexter's Food Preparation Assistant</option>
+<option>Dexter's Café Supervisor</option>
+<option>Dexter's Assistant Manager</option>
+<option>Dexter's Café Manager</option></select></div><div><label>Location</label><input value="Dexter's"></div><div><label>Recruitment reference</label><input placeholder="DEX-REC-0001"></div></div>
 <div class="cols3"><div><label>Application received</label><input type="date"></div><div><label>Recruiting manager</label><input id="recruitingManager"></div><div><label>Current stage</label><select><option>Application</option><option>Screening</option><option>Assessment</option><option>Interview</option><option>Checks</option><option>Conditional offer</option><option>Appointed</option><option>Closed</option></select></div></div>
 <h3>Stage controls</h3>
 <div class="check"><input type="checkbox"><span>Vacancy approved and role criteria documented before advertising.</span></div>
@@ -87,7 +95,15 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 
 <section id="vacancy" class="section">
 <h2>Vacancy Approval & Job Profile</h2>
-<div class="cols3"><div><label>Job title</label><input></div><div><label>Department</label><input placeholder="Front counter / Kitchen / Delivery / Supervisor"></div><div><label>Reports to</label><input></div></div>
+<div class="cols3"><div><label>Job title</label><select id="vacancyJobTitle"><option value="">Select role</option>
+<option>Dexter's Café All-Rounder / Barista</option>
+<option>Dexter's Café Assistant / Barista</option>
+<option>Dexter's Front of House / Barista</option>
+<option>Dexter's Kitchen Assistant / Kitchen Porter</option>
+<option>Dexter's Food Preparation Assistant</option>
+<option>Dexter's Café Supervisor</option>
+<option>Dexter's Assistant Manager</option>
+<option>Dexter's Café Manager</option></select></div><div><label>Department</label><input placeholder="Front counter / Kitchen / Delivery / Supervisor"></div><div><label>Reports to</label><input></div></div>
 <div class="cols3"><div><label>Employment type</label><select><option>Permanent</option><option>Fixed term</option><option>Casual / variable hours</option><option>Apprenticeship</option></select></div><div><label>Contracted / expected hours</label><input></div><div><label>Pay rate / salary</label><input></div></div>
 <label>Purpose of role</label><textarea></textarea>
 <label>Key duties</label><textarea placeholder="Customer service, food preparation, cleaning, cash handling, allergen procedures, opening/closing duties..."></textarea>
@@ -106,7 +122,15 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <div class="cols"><div><label>Current address</label><textarea></textarea></div><div><label>Previous address if recently moved</label><textarea></textarea></div></div>
 <div class="cols3"><div><label>Mobile</label><input></div><div><label>Email</label><input type="email"></div><div><label>Best contact method</label><select><option>Email</option><option>Phone</option><option>SMS</option></select></div></div>
 <h3>Role & availability</h3>
-<div class="cols3"><div><label>Role applied for</label><input></div><div><label>Available start date</label><input type="date"></div><div><label>Notice period</label><input></div></div>
+<div class="cols3"><div><label>Role applied for</label><select id="applicationRole"><option value="">Select role</option>
+<option>Dexter's Café All-Rounder / Barista</option>
+<option>Dexter's Café Assistant / Barista</option>
+<option>Dexter's Front of House / Barista</option>
+<option>Dexter's Kitchen Assistant / Kitchen Porter</option>
+<option>Dexter's Food Preparation Assistant</option>
+<option>Dexter's Café Supervisor</option>
+<option>Dexter's Assistant Manager</option>
+<option>Dexter's Café Manager</option></select></div><div><label>Available start date</label><input type="date"></div><div><label>Notice period</label><input></div></div>
 <label>Availability by day and time</label><textarea placeholder="Mon: 07:00–18:00, Tue: unavailable..."></textarea>
 <div class="cols"><div><label>Maximum hours available</label><input></div><div><label>Minimum hours sought</label><input></div></div>
 <label>Any known dates unavailable in the next 3 months?</label><textarea></textarea>
@@ -374,7 +398,15 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 
 <section id="offer" class="section">
 <h2>Conditional Offer & Approval</h2>
-<div class="cols3"><div><label>Job title</label><input></div><div><label>Start date</label><input type="date"></div><div><label>Place of work</label><input value="Dexter's"></div></div>
+<div class="cols3"><div><label>Job title</label><select id="offerRole"><option value="">Select role</option>
+<option>Dexter's Café All-Rounder / Barista</option>
+<option>Dexter's Café Assistant / Barista</option>
+<option>Dexter's Front of House / Barista</option>
+<option>Dexter's Kitchen Assistant / Kitchen Porter</option>
+<option>Dexter's Food Preparation Assistant</option>
+<option>Dexter's Café Supervisor</option>
+<option>Dexter's Assistant Manager</option>
+<option>Dexter's Café Manager</option></select></div><div><label>Start date</label><input type="date"></div><div><label>Place of work</label><input value="Dexter's"></div></div>
 <div class="cols3"><div><label>Pay rate</label><input></div><div><label>Pay frequency</label><input></div><div><label>Contracted / expected hours</label><input></div></div>
 <label>Working pattern / flexibility agreed</label><textarea></textarea>
 <label>Probation arrangements</label><textarea></textarea>
@@ -497,6 +529,13 @@ function calculateScores(){
 }
 document.addEventListener('change',e=>{
  if(e.target.matches('.screenScore,.assessmentScore,.interviewScore')) calculateScores();
+ if(e.target.matches('#candidateRole,#vacancyJobTitle,#applicationRole,#offerRole')){
+   const v=e.target.value;
+   ['candidateRole','vacancyJobTitle','applicationRole','offerRole'].forEach(id=>{
+     const x=document.getElementById(id); if(x && x!==e.target) x.value=v;
+   });
+   syncReferenceForm();
+ }
 });
 calculateScores();
 
