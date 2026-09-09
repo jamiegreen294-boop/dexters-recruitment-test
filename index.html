@@ -272,13 +272,26 @@ Sunday AM 10:00–15:00 • No Sunday back shift
 
 <section id="interview" class="section">
 <h2>Structured Interview Record</h2>
+<div class="box good">
+  <b>Microphone interview assistant</b>
+  <p>This test can transcribe the interview live and place the candidate's answers into the interview questions. The manager must review and correct the transcript before relying on it.</p>
+  <div class="check"><input id="interviewRecordingConsent" type="checkbox"><span>The candidate has been told the interview will be recorded/transcribed for recruitment purposes and has agreed to continue.</span></div>
+  <div class="actions">
+    <button class="btn primary" type="button" onclick="startInterviewRecording()">🎤 Start interview recording</button>
+    <button class="btn secondary" type="button" onclick="stopInterviewRecording()">■ Stop recording</button>
+    <button class="btn secondary" type="button" onclick="nextInterviewQuestion()">Next question</button>
+  </div>
+  <div id="recordingStatus" class="box"><b>Status:</b> Not recording.</div>
+  <label>Live interview transcript</label>
+  <textarea id="interviewTranscript" readonly style="min-height:180px"></textarea>
+</div>
 <div class="cols3"><div><label>Interview date</label><input type="datetime-local"></div><div><label>Interviewers</label><input></div><div><label>Location / method</label><input></div></div>
 <h3>Values & behaviours</h3>
-<label>1. Tell us about a time you helped a customer or colleague when you did not have to.</label><textarea id="intHelp"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label>2. Tell us about a time you worked in a busy or stressful situation.</label><textarea id="intPressure"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label>3. Give an example of a mistake you made and how you dealt with it.</label><textarea id="intMistake"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label>4. What does excellent hygiene and food safety mean in a takeaway/café environment?</label><textarea id="intFoodSafety"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
-<label>5. What would you do if you disagreed with an instruction from a supervisor?</label><textarea id="intSupervisor"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label id="qLabel0">1. Tell us about a time you helped a customer or colleague when you did not have to.</label><textarea id="intHelp"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label id="qLabel1">2. Tell us about a time you worked in a busy or stressful situation.</label><textarea id="intPressure"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label id="qLabel2">3. Give an example of a mistake you made and how you dealt with it.</label><textarea id="intMistake"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label id="qLabel3">4. What does excellent hygiene and food safety mean in a takeaway/café environment?</label><textarea id="intFoodSafety"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
+<label id="qLabel4">5. What would you do if you disagreed with an instruction from a supervisor?</label><textarea id="intSupervisor"></textarea><select class="interviewScore"><option value="">Not scored</option><option value="1">Score 1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select>
 <h3>Practical fit</h3>
 <label>Confirmed availability against vacancy</label><textarea></textarea>
 <label>Candidate questions</label><textarea></textarea>
@@ -1502,6 +1515,91 @@ function setSelectIndex(selector,index,score){
  if(!el)return;
  el.value=String(score);
 }
+
+let interviewRecognition=null;
+let currentInterviewQuestion=0;
+let interviewIsRecording=false;
+const interviewAnswerIds=['intHelp','intPressure','intMistake','intFoodSafety','intSupervisor'];
+
+function setRecordingStatus(msg,active=false){
+ const s=document.getElementById('recordingStatus');
+ if(s){
+   s.innerHTML='<b>Status:</b> '+msg;
+   s.style.borderColor=active?'#a40000':'';
+ }
+}
+function highlightInterviewQuestion(){
+ interviewAnswerIds.forEach((id,i)=>{
+   const lab=document.getElementById('qLabel'+i);
+   if(lab)lab.style.background=i===currentInterviewQuestion?'#fff5d8':'';
+ });
+ const lab=document.getElementById('qLabel'+currentInterviewQuestion);
+ if(lab)lab.scrollIntoView({block:'center',behavior:'smooth'});
+}
+function nextInterviewQuestion(){
+ if(currentInterviewQuestion<interviewAnswerIds.length-1)currentInterviewQuestion++;
+ highlightInterviewQuestion();
+ setRecordingStatus('Recording question '+(currentInterviewQuestion+1)+' of 5.',interviewIsRecording);
+}
+function appendInterviewText(text){
+ if(!text)return;
+ const transcript=document.getElementById('interviewTranscript');
+ if(transcript)transcript.value+=(transcript.value?'\n':'')+text;
+ const target=document.getElementById(interviewAnswerIds[currentInterviewQuestion]);
+ if(target)target.value+=(target.value?' ':'')+text;
+}
+function startInterviewRecording(){
+ if(!document.getElementById('interviewRecordingConsent')?.checked){
+   setRecordingStatus('Confirm the candidate recording/transcription agreement before starting.');
+   return;
+ }
+ const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!SpeechRecognition){
+   setRecordingStatus('Live speech transcription is not supported by this browser. Use Chrome/Edge on a supported device, or enter answers manually.');
+   return;
+ }
+ if(interviewIsRecording)return;
+ interviewRecognition=new SpeechRecognition();
+ interviewRecognition.continuous=true;
+ interviewRecognition.interimResults=true;
+ interviewRecognition.lang='en-GB';
+ let interim='';
+ interviewRecognition.onresult=(event)=>{
+   let finalText='';
+   interim='';
+   for(let i=event.resultIndex;i<event.results.length;i++){
+     const t=event.results[i][0].transcript.trim();
+     if(event.results[i].isFinal)finalText+=(finalText?' ':'')+t;
+     else interim+=(interim?' ':'')+t;
+   }
+   if(finalText)appendInterviewText(finalText);
+   const s=document.getElementById('recordingStatus');
+   if(s)s.innerHTML='<b>Status:</b> Recording question '+(currentInterviewQuestion+1)+' of 5'+(interim?' — hearing: “'+interim+'”':'');
+ };
+ interviewRecognition.onerror=(e)=>setRecordingStatus('Microphone/transcription error: '+e.error);
+ interviewRecognition.onend=()=>{
+   if(interviewIsRecording){
+     try{interviewRecognition.start()}catch(e){}
+   }
+ };
+ try{
+   interviewRecognition.start();
+   interviewIsRecording=true;
+   setRecordingStatus('Recording question 1 of 5.',true);
+   highlightInterviewQuestion();
+ }catch(e){
+   setRecordingStatus('Could not start microphone transcription.');
+ }
+}
+function stopInterviewRecording(){
+ interviewIsRecording=false;
+ if(interviewRecognition){
+   try{interviewRecognition.stop()}catch(e){}
+ }
+ setRecordingStatus('Recording stopped. Review and correct the answers before scoring.');
+ analyseWrittenAnswers();
+}
+
 function analyseWrittenAnswers(){
  const customer=val('ansCustomer');
  const allergen=val('ansAllergen');
