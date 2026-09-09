@@ -1,18 +1,39 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Apply to Dexter's TEST</title><style>
 :root{--bg:#f4f2ed;--ink:#171717;--card:#fff;--muted:#6f6a63;--line:#ddd7cd;--gold:#d9b14c;--ok:#e8f5ec;--warn:#fff5d8}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.45}header{background:#101010;color:#fff;border-bottom:4px solid var(--gold)}.head{max-width:1180px;margin:auto;padding:20px 18px;display:flex;gap:16px;align-items:center}.logo{width:90px;height:66px;object-fit:contain;background:#fff;border-radius:9px;padding:4px}.wrap{max-width:1180px;margin:20px auto;padding:0 14px 60px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px}.stat b{display:block;color:var(--muted);font-size:12px;text-transform:uppercase}.stat strong{font-size:22px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.btn{display:inline-block;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:#111;color:#fff}.secondary{background:#e9e4da;color:#111}.good{background:var(--ok);border:1px solid #b9d5c2;border-radius:10px;padding:12px}.warn{background:var(--warn);border:1px solid #e4c465;border-radius:10px;padding:12px}.step{padding:11px;border-left:4px solid #111;background:#faf9f6;margin:8px 0}.tag{display:inline-block;background:#111;color:#fff;border-radius:999px;padding:4px 8px;font-size:12px}label{display:block;font-weight:700;margin:11px 0 5px}input,select,textarea{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit;background:#fff}textarea{min-height:90px}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left}@media(max-width:800px){.grid,.cols,.cards{grid-template-columns:1fr}}
-</style></head><body>
+</style><script src="recruitment-store.js"></script></head><body>
 <header><div class="head"><img class="logo" src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png" alt="Dexter's logo"><div><h1>Apply to work at Dexter's</h1><div>Public recruitment application • TEST</div></div></div></header>
 <div class="wrap"><div class="warn"><b>DEMO ONLY.</b> Do not enter real personal information.</div>
-<div class="panel"><h2>Application Form</h2><p>Complete once; the details create a Recruitment Profile in Dexter's Back Office.</p>
-<div class="cols"><div><label>Full legal name</label><input id="name" value="Alex Morgan"></div><div><label>Email</label><input id="email" value="alex.morgan@example.test"></div></div>
-<label>Role</label><select id="role"><option>Dexter's Café All-Rounder / Barista</option><option>Dexter's Café Assistant / Barista</option><option>Dexter's Front of House / Barista</option><option>Dexter's Kitchen Assistant / Kitchen Porter</option><option>Dexter's Food Preparation Assistant</option><option>Dexter's Café Supervisor</option><option>Dexter's Assistant Manager</option><option>Dexter's Café Manager</option></select>
+<div class="panel"><h2>Full Application Form</h2><p>Complete once; these details create the candidate Recruitment Profile and flow into screening, interview, offer and onboarding.</p>
+<div class="cols"><div><label>Full legal name</label><input id="name" value="Alex Morgan"></div><div><label>Preferred name</label><input id="preferred" value="Alex"></div></div>
+<div class="cols"><div><label>Email</label><input id="email" value="alex.morgan@example.test"></div><div><label>Mobile</label><input id="mobile" value="07123 456789"></div></div>
+<label>Address</label><input id="address" value="24 Example Street, Glasgow, G51 1AA">
+<div class="cols"><div><label>Date of birth</label><input id="dob" type="date" value="2007-11-18"></div><div><label>Role</label><select id="role"><option>Dexter's Café All-Rounder / Barista</option><option>Dexter's Café Assistant / Barista</option><option>Dexter's Front of House / Barista</option><option>Dexter's Kitchen Assistant / Kitchen Porter</option><option>Dexter's Food Preparation Assistant</option><option>Dexter's Café Supervisor</option><option>Dexter's Assistant Manager</option><option>Dexter's Café Manager</option></select></div></div>
 <label>Preferred hours</label><select id="hours"><option>16 hours/week</option><option selected>20 hours/week</option><option>24 hours/week</option><option>36 hours/week</option><option>40 hours/week</option></select>
-<label>Why Dexter's?</label><textarea id="why">I enjoy fast-paced café work, customer service and working across different duties.</textarea>
-<label>Experience</label><textarea id="experience">Previous café experience with till work, drinks, food preparation, cleaning and customer service.</textarea>
+<label>Available start date</label><input id="start" type="date" value="2026-09-21">
 <label>Shift availability</label><textarea id="availability">Available Mon–Fri AM/back, Saturday AM/back and Sunday AM.</textarea>
-<div class="nav"><button class="btn primary" onclick="submitApp()">Submit test application</button><a class="btn secondary" href="candidate-portal.html">Candidate login</a></div><div id="status" class="good">Ready to submit the dummy application.</div>
+<label>Employment history</label><textarea id="employmentHistory">Example Café Glasgow — Café Assistant — March 2025 to August 2026.</textarea>
+<label>Employment gaps / explanation</label><textarea id="gaps">None.</textarea>
+<label>Relevant training / qualifications</label><textarea id="training">Food hygiene awareness; customer service experience.</textarea>
+<label>Why would you like to work at Dexter's?</label><textarea id="why">I enjoy fast-paced café work, customer service and working across different duties.</textarea>
+<label>Tell us about your relevant experience</label><textarea id="experience">Previous café experience with till work, drinks, food preparation, cleaning and customer service.</textarea>
+<h3>Role-related questions</h3>
+<label>A customer says their order is wrong and they are in a hurry. What would you do?</label><textarea id="answerCustomer">Listen, apologise, check the order and resolve it quickly, asking a supervisor if needed.</textarea>
+<label>A customer has a severe allergy and you are not sure about a sauce. What would you do?</label><textarea id="answerAllergen">I would stop and never guess, check the allergen information and ingredients, and ask a manager before serving anything.</textarea>
+<label>The shop is very busy and a colleague is falling behind. What would you do?</label><textarea id="answerTeamwork">Communicate, help prioritise urgent work and support the team while keeping calm and following safety procedures.</textarea>
+<div class="check"><input id="accuracy" type="checkbox" checked><span>I confirm the information in this test application is accurate.</span></div>
+<div class="nav"><button class="btn primary" onclick="submitApp()">Submit test application</button><a class="btn secondary" href="candidate-portal.html">Candidate portal</a></div>
+<div id="status" class="good">Ready to submit the dummy application.</div>
 </div></div>
 <script>
-function submitApp(){const rec={name:name.value,email:email.value,role:role.value,hours:hours.value,ref:'DEX-REC-TEST-001',stage:'Application received',start:'21 September 2026',pay:'£10.85/hour',offerSent:false,signed:false,checks:false,staff:false,why:why.value,experience:experience.value,availability:availability.value};localStorage.setItem('dexRecruit',JSON.stringify(rec));status.innerHTML='<b>✓ APPLICATION SUBMITTED.</b> Recruitment Profile created for the test Back Office.'}
+function submitApp(){
+ if(!accuracy.checked){status.innerHTML='<b>Please confirm the application information before submitting.</b>';return}
+ const r=DexRecruit.load();
+ r.candidate.name=name.value.trim();r.candidate.preferred=preferred.value.trim();r.candidate.email=email.value.trim();r.candidate.mobile=mobile.value.trim();r.candidate.address=address.value.trim();r.candidate.dob=dob.value;r.candidate.role=role.value;r.candidate.hours=hours.value;r.candidate.start=start.value;
+ r.application={...r.application,status:'Application received',submittedAt:new Date().toISOString(),why:why.value,experience:experience.value,availability:availability.value,employmentHistory:employmentHistory.value,gaps:gaps.value,training:training.value,answers:{customer:answerCustomer.value,allergen:answerAllergen.value,teamwork:answerTeamwork.value}};
+ r.screening.status='Pending';r.appointment.status='Recruitment';
+ DexRecruit.save(r);DexRecruit.audit('Application submitted','Public application received','Candidate');
+ DexRecruit.queueEmail('Application acknowledgement',r.candidate.email,"We've received your Dexter's application","Thank you for applying to Dexter's. Your application has been received and will be reviewed against the criteria for the vacancy.");
+ status.innerHTML='<b>✓ APPLICATION SUBMITTED.</b> Recruitment Profile created and acknowledgement email queued in the test system.';
+}
 </script></body></html>
