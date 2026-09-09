@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dexter's Promotions Email TEST</title><style>
+body{margin:0;background:#f4f2ed;color:#171717;font-family:Arial,Helvetica,sans-serif}header{background:#111;color:#fff;border-bottom:4px solid #d9b14c;padding:20px}.wrap{max-width:1000px;margin:auto;padding:18px}.panel{background:#fff;border:1px solid #ddd7cd;border-radius:14px;padding:18px;margin:14px 0}.warn{background:#fff5d8;border:1px solid #e4c465;border-radius:10px;padding:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;font-weight:700;margin:10px 0 5px}input,textarea,select{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit;box-sizing:border-box}textarea{min-height:120px}.btn{border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;background:#111;color:#fff}.secondary{background:#e9e4da;color:#111}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid #ddd7cd;text-align:left}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+</style></head><body><header><h1>Dexter's Customer Promotions</h1><div>EMAIL CAMPAIGN — CONNECTED TEST DESIGN</div></header><div class="wrap">
+<div class="warn"><b>TEST ONLY.</b> No real customer data and no real emails are sent. Intended production sender: <b>offers@dextersspot.co.uk</b>. Marketing must respect consent/preferences and opt-outs.</div>
+<div class="panel"><h2>Campaign</h2><div class="grid"><div><label>From</label><input id="from" value="offers@dextersspot.co.uk" readonly></div><div><label>Audience</label><select id="aud"><option>Marketing opted-in customers only</option><option>Loyalty members opted-in only</option><option>Custom selected opted-in customers</option></select></div></div>
+<label>Subject</label><input id="subject" value="A little something from Dexter's 👀">
+<label>Message</label><textarea id="message">We've got something tasty for you at Dexter's.
+
+Pop in and see what's on offer.
+
+Dexter's</textarea>
+<div class="grid"><div><label>Schedule</label><input id="when" type="datetime-local"></div><div><label>Reply-To</label><input id="reply" value="offers@dextersspot.co.uk" readonly></div></div>
+<p><button class="btn secondary" onclick="preview()">Preview</button> <button class="btn" onclick="queue()">Queue test campaign</button></p><div id="status"></div></div>
+<div class="panel"><h2>Test audience</h2><table><thead><tr><th>Customer</th><th>Email</th><th>Marketing</th><th>Included</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div class="panel"><h2>Preview</h2><div id="preview"></div></div>
+<div class="panel"><h2>Campaign audit</h2><table><thead><tr><th>Time</th><th>From</th><th>Recipients</th><th>Status</th></tr></thead><tbody id="audit"></tbody></table></div>
+</div><script>
+const customers=[{n:'Test Customer A',e:'customer.a@example.test',ok:true},{n:'Test Customer B',e:'customer.b@example.test',ok:false},{n:'Test Loyalty Member',e:'loyalty@example.test',ok:true}];
+const KEY='dexPromotionsTestV1';
+function draw(){rows.innerHTML=customers.map(c=>'<tr><td>'+c.n+'</td><td>'+c.e+'</td><td>'+(c.ok?'Opted in':'Opted out')+'</td><td>'+(c.ok?'Yes':'No')+'</td></tr>').join('');const a=JSON.parse(localStorage.getItem(KEY)||'[]');audit.innerHTML=a.map(x=>'<tr><td>'+new Date(x.at).toLocaleString('en-GB')+'</td><td>'+x.from+'</td><td>'+x.count+'</td><td>'+x.status+'</td></tr>').join('')}
+function preview(){document.getElementById('preview').innerHTML='<p><b>From:</b> '+from.value+'</p><h3>'+subject.value+'</h3><div style="white-space:pre-wrap">'+message.value+'</div><hr><small>You are receiving this because your Dexter\'s marketing preference allows promotional email. Production emails will include an unsubscribe/preferences link.</small>'}
+function queue(){const rec=customers.filter(c=>c.ok);const a=JSON.parse(localStorage.getItem(KEY)||'[]');a.unshift({at:new Date().toISOString(),from:from.value,count:rec.length,status:'TEST queued — no email sent'});localStorage.setItem(KEY,JSON.stringify(a));status.innerHTML='<div class="warn"><b>Queued for test only:</b> '+rec.length+' opted-in recipient(s). Opted-out customers were excluded automatically.</div>';draw()}
+draw();preview();
+</script></body></html>
