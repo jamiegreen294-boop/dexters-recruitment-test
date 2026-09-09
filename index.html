@@ -75,6 +75,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <button type="button" data-id="induction">17. Induction & mandatory training</button>
 <button type="button" data-id="probation">18. Probation plan</button>
 <button type="button" data-id="audit">19. Recruitment audit trail</button>
+<button type="button" data-id="systemaudit">20. Full system pre-build audit</button>
 </aside>
 
 <main class="panel">
@@ -680,6 +681,51 @@ Choose a standard hours pattern to generate the 4-week repeating rota.
   </div>
 </div>
 <p class="footer">Dexter’s Recruitment & Onboarding Pack • Professional TEST VERSION • Scotland / UK • September 2026</p>
+
+<section id="systemaudit" class="section">
+<span class="tag">DEXTER'S</span><span class="tag">PRE-BUILD SYSTEM CHECK</span>
+<h2>Full Recruitment System — Pre-Build Audit</h2>
+<div class="box good"><b>Test applicant:</b> Alex Morgan • Café All-Rounder / Barista • 20 hours/week • DEX-REC-TEST-001</div>
+
+<h3>End-to-end test journey</h3>
+<table>
+<thead><tr><th>Stage</th><th>Test result</th><th>Before full test</th></tr></thead>
+<tbody>
+<tr><td>Public application</td><td>PASS — creates a basic recruitment record</td><td><b>Upgrade required:</b> connect the full application form, not the current shortened demo form.</td></tr>
+<tr><td>Recruitment profile</td><td>PASS — candidate/core offer details can be displayed</td><td>Use one private database record as the single source of truth.</td></tr>
+<tr><td>Screening / rejection</td><td>PASS — unsuccessful reason, internal rationale and professional message are generated</td><td>Real email delivery and audit event still required.</td></tr>
+<tr><td>Assessment / interview</td><td>PASS — structured questions and scoring exist</td><td>Interview transcription must save into the same recruitment record.</td></tr>
+<tr><td>Microphone transcription</td><td>PASS — browser speech-to-text can fill the current question and suggest a score</td><td><b>Important:</b> current test transcribes speech but does not preserve an audio recording. Add secure audio recording only if Dexter's chooses to retain recordings.</td></tr>
+<tr><td>Human scoring</td><td>PASS — suggested scores can be reviewed</td><td>Keep manager confirmation/override and reason; do not make the hiring decision solely from automated scoring.</td></tr>
+<tr><td>References</td><td>PASS — completed employer-reference workflow demonstrated</td><td>Add reference 1/reference 2 tracking, reminders and exact returned-document snapshot.</td></tr>
+<tr><td>Right to Work</td><td>PARTIAL</td><td>Add official check method/result, checker identity, check date, evidence record, expiry/follow-up reminder where applicable.</td></tr>
+<tr><td>Conditional offer</td><td>PASS — branded letter can be generated</td><td>Candidate portal must display the exact generated offer snapshot, not a separately recreated version.</td></tr>
+<tr><td>Candidate portal</td><td>PASS — collapsible documents, individual signatures and timestamps</td><td>Needs real secure login/invite token, document versioning and server-side signature audit.</td></tr>
+<tr><td>4-week rota</td><td>PASS — 16/20/24/36/40 patterns arithmetic checked</td><td>All five templates correctly average to their stated weekly hours.</td></tr>
+<tr><td>Move Recruitment → Staff</td><td>PASS in demo state</td><td>Transfer the actual signed document files/snapshots, not just signature metadata.</td></tr>
+<tr><td>Staff App onboarding</td><td>DESIGNED</td><td>Connect staff record to induction, mandatory training and issued documents after appointment.</td></tr>
+</tbody>
+</table>
+
+<h3>Must add before the full connected test</h3>
+<div class="box warn">
+<b>1. One joined-up record.</b> The full recruitment pack, public application, Back Office and candidate portal are currently separate test pages. The full test must use one candidate record so every answer, score, check, document and signature flows forward automatically.
+</div>
+<div class="box warn"><b>2. Secure candidate access.</b> Email invite/login or one-time secure link, expiry, logout, password/reset flow where applicable and separation between candidates.</div>
+<div class="box warn"><b>3. Real communication service.</b> Application acknowledgement, interview invite, rejection, offer/signing request, reminder and appointment emails need queued delivery plus sent/failed status in the audit trail.</div>
+<div class="box warn"><b>4. Exact signed-document snapshots.</b> At signing, preserve the exact document version the candidate saw, their signature, timestamp and audit identity. Later edits must create a new version rather than changing the signed copy.</div>
+<div class="box warn"><b>5. Final employment documents.</b> Add the formal employment contract / written particulars pack after conditions are satisfied, then sign it through the same portal and attach it to Staff.</div>
+<div class="box warn"><b>6. Right-to-Work workflow.</b> Support the appropriate Home Office/manual/digital route, record the check correctly and schedule follow-up checks for time-limited permission.</div>
+<div class="box warn"><b>7. Interview recording decision.</b> Decide whether Dexter's needs the audio itself or only an agreed live transcript. If audio is retained, add secure storage, access control and a defined retention rule.</div>
+<div class="box warn"><b>8. Automated-score governance.</b> Store suggested score, manager-confirmed score and override reason separately. Essential criteria can block progression, but a manager must confirm the employment decision.</div>
+<div class="box warn"><b>9. Recruitment retention.</b> Add retention/review dates for unsuccessful candidates and a clear handover rule defining which successful-candidate information moves into the staff file.</div>
+<div class="box warn"><b>10. Vacancy management.</b> Applications should belong to a named vacancy with opening/closing dates, number of positions, status and the exact job description/person specification version used for that recruitment round.</div>
+
+<h3>Recommended before launch</h3>
+<p>Interview scheduling/rescheduling and no-show/withdrawn statuses; second-reviewer/manager approval; reference reminders; offer-expiry reminders; candidate document download/print; accessibility/mobile checks; dashboard search/filter; overdue-action alerts; under-18/apprentice-specific checks; and a full audit log covering create/view/change/send/sign/approve/convert-to-staff actions.</p>
+
+<div class="box good"><b>Pre-build conclusion:</b> The overall workflow is sound. The biggest job before the full test is not adding more forms — it is joining the existing forms, interview, offer, portal, signatures and staff handover into one secure candidate record and preserving the exact documents that were issued and signed.</div>
+</section>
 </main>
 </div></div>
 <script>
