@@ -24,7 +24,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs" type="module"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
-</head>
+<script src="recruitment-store.js"></script></head>
 <body>
 <header><div class="head">
 <img class="logo" alt="Dexter's logo" src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png">
@@ -86,6 +86,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <p class="subtle">One record from vacancy approval to completed onboarding.</p>
 <div class="actions">
   <button class="btn primary" type="button" onclick="loadDemoCandidate()">Load complete test candidate</button>
+<button class="btn secondary" type="button" onclick="loadUnifiedRecruitmentRecord()">Load connected application record</button>
   <button class="btn secondary" type="button" onclick="clearDemoCandidate()">Clear test candidate</button>
 </div>
 <div class="box good" id="demoStatus"><b>Test mode:</b> Load the dummy applicant to check which information carries through the full pack.</div>
@@ -275,7 +276,7 @@ Sunday AM 10:00–15:00 • No Sunday back shift
 <h2>Structured Interview Record</h2>
 <div class="box good">
   <b>Microphone interview assistant</b>
-  <p>This test can transcribe the interview live and place the candidate's answers into the interview questions. The manager must review and correct the transcript before relying on it.</p>
+  <p>This test can transcribe the interview live and place the candidate's answers into the interview questions. <b>No interview audio is stored or retained.</b> Only the transcribed answers and reviewed scores can be saved to the recruitment record. The manager must review and correct the transcript before relying on it.</p>
   <div class="check"><input id="interviewRecordingConsent" type="checkbox"><span>The candidate has been told the interview will be recorded/transcribed for recruitment purposes and has agreed to continue.</span></div>
   <div class="actions">
     <button class="btn primary" type="button" onclick="startInterviewRecording()">🎤 Start interview recording</button>
@@ -1274,6 +1275,20 @@ function downloadConditionalOfferLetter(){
  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
 
+function loadUnifiedRecruitmentRecord(){
+ if(!window.DexRecruit)return;
+ const r=DexRecruit.load(), c=r.candidate, a=r.application;
+ const put=(id,v)=>{const e=document.getElementById(id);if(e&&v!==undefined&&v!==null)e.value=v};
+ put('candidateName',c.name);put('candidatePreferredName',c.preferred);put('candidateRole',c.role);
+ put('applicationCandidateName',c.name);put('applicationPreferredName',c.preferred);put('applicationEmail',c.email);put('applicationMobile',c.mobile);put('applicationAddress',c.address);
+ put('applicationRole',c.role);put('applicationWhyDexters',a.why);put('applicationExperience',a.experience);
+ put('ansCustomer',a.answers?.customer||'');put('ansAllergen',a.answers?.allergen||'');put('ansTeamwork',a.answers?.teamwork||'');
+ const ids=['intHelp','intPressure','intMistake','intFoodSafety','intSupervisor'];
+ ids.forEach((id,i)=>put(id,r.interview.answers?.[i]||''));
+ const tr=document.getElementById('interviewTranscript');if(tr)tr.value=r.interview.transcript||'';
+ syncCoreRecord();analyseWrittenAnswers();
+ const b=document.getElementById('demoLoadedBanner');if(b){b.style.display='block';b.innerHTML='<b>✓ CONNECTED APPLICATION RECORD LOADED</b> — '+c.name+' • '+c.role+' • '+c.hours+'.';}
+}
 function loadCompletedTestReference(){
  syncReferenceForm();
 
@@ -1579,6 +1594,14 @@ function scoreInterviewAnswer(index){
  const selects=[...document.querySelectorAll('.interviewScore')];
  const sel=selects[index];
  if(sel)sel.value=score?String(score):'';
+ if(window.DexRecruit){
+   const r=DexRecruit.load();
+   r.interview.suggestedScores[index]=score||'';
+   r.interview.answers[index]=answer;
+   r.interview.transcriptionOnly=true;
+   r.interview.recordAudio=false;
+   DexRecruit.save(r);
+ }
  const note=document.getElementById('scoreNote'+index);
  if(note){
    if(!answer.trim())note.innerHTML='<b>Suggested score:</b> Not scored — no answer recorded.';
@@ -1625,6 +1648,16 @@ function appendInterviewText(text){
  if(target){
    target.value+=(target.value?' ':'')+text;
    scoreInterviewAnswer(currentInterviewQuestion);
+   if(window.DexRecruit){
+     const r=DexRecruit.load();
+     r.interview.transcriptionOnly=true;
+     r.interview.recordAudio=false;
+     r.interview.answers[currentInterviewQuestion]=target.value;
+     const tr=document.getElementById('interviewTranscript');
+     r.interview.transcript=tr?tr.value:'';
+     r.interview.status='In progress';
+     DexRecruit.save(r);
+   }
  }
 }
 function startInterviewRecording(){
@@ -1678,6 +1711,16 @@ function stopInterviewRecording(){
  setRecordingStatus('Recording stopped. Suggested interview scores generated from the recorded answers. Review each answer and score before making a decision.');
  scoreAllInterviewAnswers();
  analyseWrittenAnswers();
+ if(window.DexRecruit){
+   const r=DexRecruit.load();
+   r.interview.status='Completed — manager review required';
+   r.interview.transcriptionOnly=true;
+   r.interview.recordAudio=false;
+   const tr=document.getElementById('interviewTranscript');
+   r.interview.transcript=tr?tr.value:'';
+   DexRecruit.save(r);
+   DexRecruit.audit('Interview transcription completed','Speech converted to text only; no audio retained');
+ }
 }
 
 function analyseWrittenAnswers(){
