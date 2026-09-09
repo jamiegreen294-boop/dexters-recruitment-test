@@ -68,69 +68,56 @@ label{display:block;font-weight:700;margin:10px 0 5px}input{width:100%;padding:1
 </div>
 </div>
 <script>
+const API='https://bpnkouymdvcogeaqjmxl.supabase.co/functions/v1/recruitment-public-api';
 const required=['offer','job','rota','privacy','starter','contract'];
+let CURRENT=null;
 function token(){return new URLSearchParams(location.search).get('token')||''}
-function fmt(x){return x?new Date(x).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'medium'}):''}
-function render(){
- const r=DexRecruit.load();
- if(token()!==r.candidatePortal.inviteToken){loginStatus.innerHTML='<b>Access denied.</b> This test portal requires the candidate-specific invitation token.';portal.style.display='none';return}
- r.candidatePortal.lastLoginAt=new Date().toISOString();DexRecruit.save(r);
- hello.textContent='Welcome, '+r.candidate.name;
- candidateRef.textContent='Recruitment reference '+r.candidate.ref;
- role.value=r.candidate.role;hours.value=r.candidate.hours;start.value=r.candidate.start;pay.value=r.candidate.pay||'Not yet confirmed';applicationType.value=r.application.type||'Vacancy';portal.style.display='block';
- loginStatus.innerHTML='<b>Secure candidate test access accepted.</b>';
-
- applicationStatus.textContent=r.application.status||'Application received';
- interviewStatus.textContent=r.interview.status||'Not scheduled';
- checksStatus.textContent=r.checks.complete?'Complete':'Pending';
-
- docs.innerHTML=required.map(k=>docBlock(k,r)).join('');
- const signed=required.filter(k=>r.documents[k]?.signed).length;
- docsStatus.textContent=signed+' / 6 signed';
- summary.innerHTML='<b>Signing progress:</b> '+signed+' / 6 documents signed.'+(r.checks.complete?' Pre-employment checks are complete.':' Employment contract becomes available after manager checks are complete.');
-
- const ref1=r.references.items?.[0],ref2=r.references.items?.[1];
- checksPanel.innerHTML=
-  '<div class="statusbar"><span class="chip '+(r.rtw.status==='Complete'||r.rtw.status==='Checked'?'ok':'wait')+'">Right to Work: '+(r.rtw.status||'Pending')+'</span>'+
-  '<span class="chip '+(ref1?.status==='Received'?'ok':'wait')+'">Reference 1: '+(ref1?.status||'Not requested')+'</span>'+
-  '<span class="chip '+(ref2?.status==='Received'?'ok':'wait')+'">Reference 2: '+(ref2?.status||'Not requested')+'</span></div>'+
-  '<p class="muted">Any employment offer remains subject to required pre-employment checks and Dexter\'s final appointment decision.</p>';
-
- const steps=[
-  ['Application',r.application.status||'Application received',r.application.submittedAt],
-  ['Screening',r.screening.status||'Pending',''],
-  ['Interview',r.interview.status||'Not scheduled',r.interview.scheduledAt],
-  ['References',r.references.status||'Pending',''],
-  ['Right to Work',r.rtw.status||'Pending',r.rtw.checkDate],
-  ['Offer',r.offer.status||'Not sent',r.offer.sentAt],
-  ['Appointment',r.appointment.status||'Recruitment',r.appointment.staffCreatedAt]
- ];
- progressTimeline.innerHTML=steps.map(s=>'<div class="step"><b>'+s[0]+'</b><span>'+s[1]+'</span>'+(s[2]?'<br><small>'+fmt(s[2])+'</small>':'')+'</div>').join('');
-
- applicationPanel.innerHTML=
-  '<div class="grid two"><div><label>Application type</label><input readonly value="'+(r.application.type||'Vacancy')+'"></div><div><label>Vacancy reference</label><input readonly value="'+(r.application.vacancyId||'General / speculative')+'"></div></div>'+
-  '<div class="grid two"><div><label>Availability</label><input readonly value="'+(r.application.availability||'Not recorded')+'"></div><div><label>Training / experience</label><input readonly value="'+(r.application.training||'Not recorded')+'"></div></div>'+
-  '<p class="muted"><b>Interview transcript/audio:</b> Dexter\'s stores written notes/transcript only in this test workflow; interview audio is not retained by Dexter\'s.</p>';
-}
-function docBlock(k,r){
- const d=r.documents[k];
- const locked=k==='contract'&&!r.checks.complete;
- if(!d)return '<div class="doc locked"><div class="docbody"><b>'+title(k)+'</b><p>'+(k==='contract'?'Not available until the manager completes the required pre-employment checks.':'Not yet issued by Dexter\'s Recruitment Team.')+'</p></div></div>';
- const stamp=d.signed?'<div class="signed"><b>✓ Signed by '+d.signature+'</b><br>'+fmt(d.signedAt)+' • Version '+d.version+'</div>':'';
- return '<details class="doc" '+(k==='offer'?'open':'')+'><summary>'+d.title+(d.signed?' — Signed':' — Awaiting signature')+'</summary><div class="docbody">'+d.html+'<div class="signature"><label>Type your full legal name to sign this document</label><input id="sig_'+k+'" '+(d.signed?'disabled value="'+d.signature+'"':'')+'><button class="btn primary" '+(d.signed||locked?'disabled':'')+' onclick="signDoc(\''+k+'\')">Sign this document</button>'+stamp+'</div></div></details>'
-}
+function fmt(x){return x?new Date(x).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}):''}
+function esc(v){return String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 function title(k){return({offer:'Conditional Offer Letter',job:'Job Description & Person Specification',rota:'4-Week Rota Pattern',privacy:'Recruitment Privacy Notice',starter:'New Starter Declaration',contract:'Employment Contract / Written Particulars'})[k]}
+async function call(action,extra={}){
+ const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,token:token(),...extra})});
+ const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.error||'Candidate portal request failed');return d;
+}
+async function render(){
+ portal.style.display='none';loginStatus.innerHTML='<b>Checking your secure candidate link…</b>';
+ try{
+  const d=await call('candidate_get');CURRENT=d.candidate;
+  const r=CURRENT;
+  hello.textContent='Welcome, '+r.name;candidateRef.textContent='Recruitment reference '+r.reference;
+  role.value=r.role||'Not confirmed';hours.value=r.hours||'Not confirmed';start.value=r.start||'Not confirmed';pay.value='Shown in issued offer';applicationType.value=r.applicationType||'Vacancy';portal.style.display='block';
+  loginStatus.innerHTML='<b>Secure candidate access accepted.</b>';
+  applicationStatus.textContent=r.applicationStatus||'Application received';
+  interviewStatus.textContent=r.interviewStatus||'Pending';
+  const checksComplete=r.rtwStatus==='Checked'&&r.ref1==='Received'&&r.ref2==='Received';
+  checksStatus.textContent=checksComplete?'Complete':'Pending';
+  const docsObj=r.documents||{};docs.innerHTML=required.map(k=>docBlock(k,r,docsObj,checksComplete)).join('');
+  const signed=required.filter(k=>docsObj[k]?.signed).length;docsStatus.textContent=signed+' / 6 signed';
+  summary.innerHTML='<b>Signing progress:</b> '+signed+' / 6 documents signed.'+(checksComplete?' Required pre-employment checks are complete.':' Employment contract becomes available after required checks are complete.');
+  checksPanel.innerHTML='<div class="statusbar"><span class="chip '+(r.rtwStatus==='Checked'?'ok':'wait')+'">Right to Work: '+esc(r.rtwStatus)+'</span><span class="chip '+(r.ref1==='Received'?'ok':'wait')+'">Reference 1: '+esc(r.ref1)+'</span><span class="chip '+(r.ref2==='Received'?'ok':'wait')+'">Reference 2: '+esc(r.ref2)+'</span></div><p class="muted">Any employment offer remains subject to required checks and Dexter\'s final appointment decision.</p>';
+  const steps=[['Application',r.applicationStatus,r.applicationSubmitted],['Interview',r.interviewStatus,r.interviewDate],['References',r.ref1+' / '+r.ref2,''],['Right to Work',r.rtwStatus,r.checkDate],['Offer',r.offerStatus,''],['Documents',r.docsStatus,''],['Decision',r.decision,r.convertedAt]];
+  progressTimeline.innerHTML=steps.map(s=>'<div class="step"><b>'+esc(s[0])+'</b><span>'+esc(s[1]||'Pending')+'</span>'+(s[2]?'<br><small>'+fmt(s[2])+'</small>':'')+'</div>').join('');
+  applicationPanel.innerHTML='<div class="grid two"><div><label>Application type</label><input readonly value="'+esc(r.applicationType||'Vacancy')+'"></div><div><label>Vacancy reference</label><input readonly value="'+esc(r.vacancyId||'General / speculative')+'"></div></div><div class="grid two"><div><label>Availability</label><input readonly value="'+esc(r.availability||'Not recorded')+'"></div><div><label>Training / experience</label><input readonly value="'+esc(r.training||'Not recorded')+'"></div></div><p class="muted"><b>Interview transcript/audio:</b> Dexter\'s stores written notes/transcript only; interview audio is not retained by Dexter\'s.</p>';
+ }catch(e){
+  loginStatus.innerHTML='<b>Access denied.</b> '+esc(e.message||e);
+ }
+}
+function docBlock(k,r,docsObj,checksComplete){
+ const d=docsObj[k];const locked=k==='contract'&&!checksComplete;
+ if(!d)return '<div class="doc locked"><div class="docbody"><b>'+title(k)+'</b><p>'+(k==='contract'?'Not available until required checks are complete and Dexter\'s issues the contract.':'Not yet issued by Dexter\'s Recruitment Team.')+'</p></div></div>';
+ const stamp=d.signed?'<div class="signed"><b>✓ Signed by '+esc(d.signature)+'</b><br>'+fmt(d.signedAt)+' • Version '+esc(d.version)+'</div>':'';
+ return '<details class="doc" '+(k==='offer'?'open':'')+'><summary>'+esc(d.title||title(k))+(d.signed?' — Signed':' — Awaiting signature')+'</summary><div class="docbody">'+(d.html||'')+'<div class="signature"><label>Type your full legal name to sign this document</label><input id="sig_'+k+'" '+(d.signed?'disabled value="'+esc(d.signature)+'"':'')+'><button class="btn primary" '+(d.signed||locked?'disabled':'')+' onclick="signDoc(\''+k+'\')">Sign this document</button>'+stamp+'</div></div></details>';
+}
+async function signDoc(k){
+ const input=document.getElementById('sig_'+k),sig=(input?.value||'').trim();
+ try{await call('candidate_sign',{key:k,signature:sig});await render()}catch(e){summary.innerHTML='<b>Signature not saved.</b> '+esc(e.message||e)}
+}
 function signedPackHtml(){
- const r=DexRecruit.load();
- const items=required.filter(k=>r.documents[k]).map(k=>{const d=r.documents[k];return '<section style="page-break-after:always"><h1>'+d.title+'</h1>'+d.html+'<hr><p><b>Document version:</b> '+d.version+'<br><b>Status:</b> '+(d.signed?'Signed':'Unsigned')+(d.signed?'<br><b>Signed by:</b> '+d.signature+'<br><b>Signed at:</b> '+fmt(d.signedAt):'')+'</p></section>'}).join('');
- return '<!doctype html><html><head><meta charset="utf-8"><title>Dexter\'s Signed Recruitment Pack</title></head><body><h1>Dexter\'s Recruitment / Employment Document Pack</h1><p>'+r.candidate.name+' • '+r.candidate.ref+'</p>'+items+'</body></html>';
+ const r=CURRENT;if(!r)return '';
+ const items=required.filter(k=>r.documents?.[k]).map(k=>{const d=r.documents[k];return '<section style="page-break-after:always"><h1>'+esc(d.title||title(k))+'</h1>'+d.html+'<hr><p><b>Document version:</b> '+esc(d.version)+'<br><b>Status:</b> '+(d.signed?'Signed':'Unsigned')+(d.signed?'<br><b>Signed by:</b> '+esc(d.signature)+'<br><b>Signed at:</b> '+fmt(d.signedAt):'')+'</p></section>'}).join('');
+ return '<!doctype html><html><head><meta charset="utf-8"><title>Dexter\'s Signed Recruitment Pack</title></head><body><h1>Dexter\'s Recruitment / Employment Document Pack</h1><p>'+esc(r.name)+' • '+esc(r.reference)+'</p>'+items+'</body></html>';
 }
-function printSignedPack(){const w=window.open('','_blank');if(!w)return;w.document.write(signedPackHtml());w.document.close();w.onload=()=>w.print()}
-function downloadSignedPack(){const blob=new Blob([signedPackHtml()],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Dexters-Signed-Pack-'+DexRecruit.load().candidate.name.replace(/[^a-z0-9]+/gi,'-')+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function signDoc(k){
- const r=DexRecruit.load(),input=document.getElementById('sig_'+k),sig=(input?.value||'').trim();
- if(sig.toLowerCase()!==r.candidate.name.toLowerCase()){summary.innerHTML='<b>Signature not accepted.</b> Type your full legal name exactly as shown on your recruitment profile.';return}
- try{DexRecruit.sign(k,sig);const x=DexRecruit.load();if(required.slice(0,5).every(a=>x.documents[a]?.signed)&&!x.checks.complete)x.application.status='Offer documents signed — checks pending';if(required.every(a=>x.documents[a]?.signed)&&x.checks.complete)x.application.status='All documents signed — ready to appoint';DexRecruit.save(x);render()}catch(e){summary.innerHTML='<b>'+e.message+'</b>'}
-}
+function printSignedPack(){const html=signedPackHtml();if(!html)return;const w=window.open('','_blank');if(!w)return;w.document.write(html);w.document.close();w.onload=()=>w.print()}
+function downloadSignedPack(){const html=signedPackHtml();if(!html)return;const blob=new Blob([html],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Dexters-Signed-Recruitment-Pack.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 render();
 </script></body></html>
