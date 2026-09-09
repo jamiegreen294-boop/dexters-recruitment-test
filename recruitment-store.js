@@ -14,6 +14,7 @@ const defaultRecord={
  checks:{complete:false,completedAt:null},
  appointment:{status:'Recruitment',staffCreatedAt:null},
  retention:{unsuccessfulReviewDate:'2027-03-09',successfulRecruitmentReviewDate:'2027-09-09'},
+ mailSettings:{recruitmentFrom:'recruitment@dextersspot.co.uk',recruitmentReplyTo:'recruitment@dextersspot.co.uk',offersFrom:'offers@dextersspot.co.uk',sendMode:'TEST queued',recruitmentSenderVerified:false},
  audit:[],emails:[]
 };
 function clone(v){return JSON.parse(JSON.stringify(v))}
@@ -34,8 +35,10 @@ function save(r){localStorage.setItem(KEY,JSON.stringify(r));return r}
 function audit(action,detail,actor='TEST Manager'){
  const r=load();r.audit.unshift({at:new Date().toISOString(),actor,action,detail});save(r);return r
 }
-function queueEmail(type,to,subject,body){
- const r=load();r.emails.unshift({id:'MAIL-'+Date.now(),type,to,subject,body,status:'TEST queued',createdAt:new Date().toISOString()});save(r);audit('Email queued',type+' → '+to);return r
+function queueEmail(type,to,subject,body,from){
+ const r=load();const sender=from||r.mailSettings?.recruitmentFrom||'recruitment@dextersspot.co.uk';
+ r.emails.unshift({id:'MAIL-'+Date.now(),type,from:sender,replyTo:r.mailSettings?.recruitmentReplyTo||sender,to,subject,body,status:'TEST queued',createdAt:new Date().toISOString()});
+ save(r);audit('Email queued',type+' • '+sender+' → '+to);return r
 }
 function snapshot(key,title,html,signature){
  const r=load();
