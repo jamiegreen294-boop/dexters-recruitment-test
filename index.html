@@ -239,42 +239,65 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 </section>
 
 <section id="references" class="section">
-<h2>Reference Request & Check Record</h2>
-<p class="subtle">Candidate details below are pulled automatically from the recruitment file. Staff only need to enter the referee's contact details.</p>
-
-<div class="autofill">
-<h3 style="margin-top:0">Auto-filled candidate details</h3>
-<div class="cols"><div><label>Candidate</label><input id="refCandidate" readonly></div><div><label>Role applied for</label><input id="refRole" readonly></div></div>
-<div class="cols"><div><label>Current / recent employer</label><input id="refEmployer" readonly></div><div><label>Current / recent job title</label><input id="refJobTitle" readonly></div></div>
-<div class="cols"><div><label>Employment dates supplied by candidate</label><input id="refEmploymentDates" readonly></div><div><label>Recruiting manager</label><input id="refManager" readonly></div></div>
-<button class="btn secondary" type="button" onclick="syncReferenceForm()">Refresh from candidate file</button>
+<h2>Employment Reference Form</h2>
+<div style="display:flex;gap:16px;align-items:center;border-bottom:3px solid #111;padding-bottom:12px;margin-bottom:18px">
+  <img src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png" alt="Dexter's logo" style="width:95px;height:70px;object-fit:contain;background:#fff;border-radius:8px;padding:4px;border:1px solid #ddd">
+  <div><div style="font-size:26px;font-weight:900">Dexter's Recruitment Team</div><div class="subtle">Employment Reference Request • Confidential recruitment document</div></div>
 </div>
 
-<h3>Referee details</h3>
-<div class="cols"><div><label>Referee name</label><input id="refereeName"></div><div><label>Organisation / relationship</label><input id="refereeOrg"></div></div>
-<div class="cols"><div><label>Referee email</label><input id="refereeEmail" type="email"></div><div><label>Referee telephone</label><input id="refereePhone"></div></div>
-<div class="check"><input id="refPermission" type="checkbox"><span>Candidate has been notified / permission recorded where required by Dexter's recruitment process.</span></div>
+<div class="box good">
+Thank you for assisting Dexter's with its recruitment process. The applicant named below has provided your details as a referee. We would be grateful if you could complete this form and return it to <b>Dexter's Recruitment Team</b>. Please provide only factual, role-relevant information.
+</div>
 
-<h3>Pre-written reference request</h3>
+<h3>Section 1 — Candidate details</h3>
+<p class="subtle">These fields are populated automatically from the candidate recruitment file.</p>
+<div class="autofill">
+<div class="cols"><div><label>Candidate full name</label><input id="refCandidate" readonly></div><div><label>Role applied for</label><input id="refRole" readonly></div></div>
+<div class="cols"><div><label>Current / most recent employer</label><input id="refEmployer" readonly></div><div><label>Current / most recent job title</label><input id="refJobTitle" readonly></div></div>
+<div class="cols"><div><label>Employment dates supplied by candidate</label><input id="refEmploymentDates" readonly></div><div><label>Recruiting manager</label><input id="refManager" readonly></div></div>
+<button class="btn secondary" type="button" onclick="syncReferenceForm()">Refresh candidate details</button>
+</div>
+
+<h3>Section 2 — Referee details</h3>
+<div class="cols"><div><label>Referee full name</label><input id="refereeName"></div><div><label>Job title / position</label><input id="refereePosition"></div></div>
+<div class="cols"><div><label>Organisation</label><input id="refereeOrg"></div><div><label>Relationship to candidate</label><input id="refereeRelationship"></div></div>
+<div class="cols"><div><label>Email address</label><input id="refereeEmail" type="email"></div><div><label>Telephone number</label><input id="refereePhone"></div></div>
+<div class="check"><input id="refPermission" type="checkbox"><span>Candidate has been notified / permission recorded in accordance with Dexter's recruitment process.</span></div>
+
+<h3>Section 3 — Employment confirmation</h3>
+<label>1. Please confirm the candidate's job title.</label><input id="confirmedJobTitle">
+<label>2. Please confirm the candidate's dates of employment.</label><input id="confirmedDates">
+<label>3. Please briefly describe the candidate's main duties and responsibilities.</label><textarea id="confirmedDuties"></textarea>
+<label>4. Please comment on the candidate's timekeeping, attendance and reliability, where appropriate.</label><textarea id="reliabilityComments" placeholder="Please do not include disability-related absence, maternity/paternity/adoption leave, reasonable-adjustment details or other protected information."></textarea>
+<label>5. Please comment on the candidate's conduct and working relationships, where appropriate.</label><textarea id="conductComments"></textarea>
+<label>6. Please comment on the candidate's suitability for the role applied for, if you are able to do so.</label><textarea id="suitabilityComments"></textarea>
+<label>7. Would you re-employ / re-engage this individual if the opportunity arose?</label>
+<select id="reemployComments"><option value="">Please select</option><option>Yes</option><option>No</option><option>Prefer not to say</option></select>
+<label>8. Is there any other factual information relevant to this application that you wish to provide?</label><textarea id="otherRefInfo"></textarea>
+
+<div class="box danger"><b>Reference guidance:</b> Please avoid information about protected characteristics, health conditions, reasonable adjustments, pregnancy or family leave, trade-union activity, religion, sexual orientation or any other information not genuinely relevant to the role.</div>
+
+<h3>Section 4 — Referee declaration</h3>
+<div class="sign">
+<p>I confirm that the information I have provided is true and accurate to the best of my knowledge and is given in good faith.</p>
+<div class="cols"><div><label>Name</label><input id="declarationName"></div><div><label>Position</label><input id="declarationPosition"></div></div>
+<div class="cols"><div><label>Date</label><input id="declarationDate" type="date"></div><div><label>Signature</label><input placeholder="Signature / typed name where accepted"></div></div>
+</div>
+
+<h3>Pre-written reference request email</h3>
 <label>Email subject</label><input id="referenceSubject" readonly>
 <label>Email message</label><textarea id="referenceMessage" style="min-height:260px"></textarea>
 <div class="actions">
-<button class="btn primary" type="button" onclick="buildReferenceRequest()">Generate / refresh reference request</button>
+<button class="btn primary" type="button" onclick="buildReferenceRequest()">Generate / refresh email</button>
 <button class="btn secondary" type="button" onclick="copyReferenceMessage()">Copy email message</button>
 <button class="btn secondary" type="button" onclick="openReferenceEmail()">Open email</button>
 <button class="btn secondary" type="button" onclick="downloadReferenceForm()">Download reference form</button>
 <button class="btn secondary" type="button" onclick="downloadReferenceEmail()">Create email with form attached (.eml)</button>
 </div>
-<div class="box good"><b>Final Back Office:</b> the private production system can send this from Dexter's business email and attach the generated reference form automatically. The public GitHub test cannot silently attach files to a normal browser email draft.</div>
 
-<div class="box danger"><b>Reference rule:</b> Ask only for information needed for the role. Do not request protected-characteristic information, reasonable-adjustment details or disability / family-leave related absence information.</div>
-<h3>Completed reference response</h3>
-<label>Dates of employment / association confirmed</label><input id="confirmedDates">
-<label>Job title / duties confirmed</label><textarea id="confirmedDuties"></textarea>
-<label>Role-relevant reliability information, if the referee chooses to provide it</label><textarea id="reliabilityComments" placeholder="Do not request disability-related absence, maternity/paternity/adoption leave or other irrelevant protected information."></textarea>
-<label>Would they re-employ / re-engage?</label><textarea id="reemployComments"></textarea>
-<label>Other role-relevant factual information</label><textarea id="otherRefInfo"></textarea>
-<label>Checked by / date</label><input id="referenceCheckedBy">
+<div style="margin-top:22px;padding-top:12px;border-top:1px solid #ccc;font-size:12px;color:#666;text-align:center">
+<b>Dexter's Recruitment Team</b> • Employment Reference Form • Confidential
+</div>
 </section>
 
 <section id="checks" class="section">
@@ -482,11 +505,11 @@ function buildReferenceRequest(){
  const subject="Reference request for "+candidate+" – Dexter's";
  const msg=
 "Dear "+referee+",\n\n"+
-candidate+" has applied to join Dexter's as "+role+" and has provided your details for an employment reference.\n\n"+
-"We would be grateful if you could complete the attached reference form. We are seeking factual, role-relevant information to help us complete our recruitment checks. The candidate has stated their current / recent employer as "+employer+".\n\n"+
-"Please return the completed form to Dexter's at your earliest convenience. If you are unable to provide a reference, please let us know.\n\n"+
-"Information supplied will be handled as part of our recruitment process and stored securely in line with our recruitment privacy arrangements.\n\n"+
-"Kind regards,\n"+manager+"\nDexter's Recruitment";
+candidate+" has applied for the position of "+role+" with Dexter's and has provided your details as a referee.\n\n"+
+"We would be grateful if you could complete the attached Employment Reference Form and return it to Dexter's Recruitment Team at your earliest convenience.\n\n"+
+"The information you provide will be used solely for recruitment purposes and handled securely in line with our recruitment privacy procedures. Please provide only factual, role-relevant information.\n\n"+
+"If you are unable to provide a reference, please let us know.\n\n"+
+"Kind regards,\nDexter's Recruitment Team";
  document.getElementById('referenceSubject').value=subject;
  document.getElementById('referenceMessage').value=msg;
 }
@@ -503,22 +526,39 @@ function openReferenceEmail(){
 function referenceFormHtml(){
  syncReferenceForm();
  const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
- return '<!doctype html><html><head><meta charset="utf-8"><title>Dexter\'s Reference Form</title><style>body{font-family:Arial;max-width:800px;margin:30px auto;color:#111}h1{border-bottom:3px solid #111;padding-bottom:10px}.row{margin:12px 0}.box{border:1px solid #aaa;min-height:70px;padding:8px;margin-top:5px}</style></head><body>'+
- '<h1>DEXTER\'S — Employment Reference Form</h1>'+
- '<div class="row"><b>Candidate:</b> '+esc(val('refCandidate'))+'</div>'+
- '<div class="row"><b>Role applied for:</b> '+esc(val('refRole'))+'</div>'+
- '<div class="row"><b>Employer stated by candidate:</b> '+esc(val('refEmployer'))+'</div>'+
- '<div class="row"><b>Job title stated by candidate:</b> '+esc(val('refJobTitle'))+'</div>'+
- '<div class="row"><b>Employment dates stated by candidate:</b> '+esc(val('refEmploymentDates'))+'</div>'+
- '<h2>To be completed by referee</h2>'+
- '<div class="row"><b>Referee name / position:</b><div class="box"></div></div>'+
- '<div class="row"><b>Confirm employment dates:</b><div class="box"></div></div>'+
- '<div class="row"><b>Confirm job title and main duties:</b><div class="box"></div></div>'+
- '<div class="row"><b>Role-relevant comments on reliability / attendance, if you are able to provide them:</b><div class="box"></div></div>'+
- '<div class="row"><b>Would you re-employ / re-engage this person?</b><div class="box"></div></div>'+
- '<div class="row"><b>Any other factual information relevant to the role:</b><div class="box"></div></div>'+
- '<div class="row"><b>Signature / name / date:</b><div class="box"></div></div>'+
- '<p>Thank you for assisting Dexter\'s recruitment process. Please return this form to the Dexter\'s recruiting manager who contacted you.</p>'+
+ return '<!doctype html><html><head><meta charset="utf-8"><title>Dexter\'s Employment Reference Form</title><style>'+
+ 'body{font-family:Arial,Helvetica,sans-serif;max-width:850px;margin:28px auto;color:#171717;padding:0 22px}'+
+ '.head{display:flex;gap:18px;align-items:center;border-bottom:4px solid #111;padding-bottom:14px;margin-bottom:18px}.head img{width:95px;height:70px;object-fit:contain;border:1px solid #ddd;border-radius:8px;padding:4px}.head h1{margin:0;font-size:28px}.sub{color:#666;margin-top:4px}.intro{background:#f5f1e8;border:1px solid #d8cfbf;border-radius:10px;padding:14px}.section{margin-top:22px}.section h2{font-size:18px;border-bottom:1px solid #bbb;padding-bottom:6px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{border:1px solid #bbb;border-radius:8px;padding:10px;min-height:50px}.field b{display:block;font-size:12px;color:#666;margin-bottom:4px}.answer{border:1px solid #aaa;border-radius:8px;min-height:82px;padding:10px;margin-top:6px}.footer{border-top:1px solid #bbb;margin-top:24px;padding-top:10px;text-align:center;color:#666;font-size:12px}'+
+ '@media print{body{margin:0;max-width:none}.section{break-inside:avoid}}'+
+ '</style></head><body>'+
+ '<div class="head"><img src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png"><div><h1>Employment Reference Form</h1><div class="sub"><b>Dexter\'s Recruitment Team</b> • Confidential recruitment document</div></div></div>'+
+ '<div class="intro">Thank you for assisting Dexter\'s with its recruitment process. The applicant named below has provided your details as a referee. Please complete this form using factual, role-relevant information only and return it to <b>Dexter\'s Recruitment Team</b>.</div>'+
+ '<div class="section"><h2>1. Candidate details</h2><div class="grid">'+
+ '<div class="field"><b>Candidate</b>'+esc(val('refCandidate'))+'</div>'+
+ '<div class="field"><b>Role applied for</b>'+esc(val('refRole'))+'</div>'+
+ '<div class="field"><b>Employer stated by candidate</b>'+esc(val('refEmployer'))+'</div>'+
+ '<div class="field"><b>Job title stated by candidate</b>'+esc(val('refJobTitle'))+'</div>'+
+ '<div class="field"><b>Employment dates supplied</b>'+esc(val('refEmploymentDates'))+'</div>'+
+ '<div class="field"><b>Recruiting manager</b>'+esc(val('refManager'))+'</div></div></div>'+
+ '<div class="section"><h2>2. Referee details</h2><div class="grid">'+
+ '<div class="field"><b>Referee name</b>'+esc(val('refereeName'))+'</div>'+
+ '<div class="field"><b>Position</b>'+esc(val('refereePosition'))+'</div>'+
+ '<div class="field"><b>Organisation</b>'+esc(val('refereeOrg'))+'</div>'+
+ '<div class="field"><b>Relationship to candidate</b>'+esc(val('refereeRelationship'))+'</div>'+
+ '<div class="field"><b>Email</b>'+esc(val('refereeEmail'))+'</div>'+
+ '<div class="field"><b>Telephone</b>'+esc(val('refereePhone'))+'</div></div></div>'+
+ '<div class="section"><h2>3. Employment confirmation</h2>'+
+ '<p><b>1. Please confirm the candidate\'s job title.</b></p><div class="answer"></div>'+
+ '<p><b>2. Please confirm the candidate\'s dates of employment.</b></p><div class="answer"></div>'+
+ '<p><b>3. Please briefly describe the candidate\'s main duties and responsibilities.</b></p><div class="answer"></div>'+
+ '<p><b>4. Please comment on timekeeping, attendance and reliability, where appropriate.</b></p><div class="answer"></div>'+
+ '<p><b>5. Please comment on conduct and working relationships, where appropriate.</b></p><div class="answer"></div>'+
+ '<p><b>6. Please comment on suitability for the role applied for, if you are able to do so.</b></p><div class="answer"></div>'+
+ '<p><b>7. Would you re-employ / re-engage this individual if the opportunity arose?</b></p><div class="answer">Yes / No / Prefer not to say</div>'+
+ '<p><b>8. Any other factual information relevant to this application?</b></p><div class="answer"></div></div>'+
+ '<div class="section"><h2>4. Declaration</h2><p>I confirm that the information I have provided is true and accurate to the best of my knowledge and is given in good faith.</p>'+
+ '<div class="grid"><div class="field"><b>Name</b></div><div class="field"><b>Position</b></div><div class="field"><b>Signature</b></div><div class="field"><b>Date</b></div></div></div>'+
+ '<div class="footer"><b>Dexter\'s Recruitment Team</b> • Employment Reference Form • Confidential</div>'+
  '</body></html>';
 }
 function downloadReferenceForm(){
