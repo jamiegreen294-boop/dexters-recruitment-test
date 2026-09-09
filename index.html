@@ -103,15 +103,26 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <option>Dexter's Food Preparation Assistant</option>
 <option>Dexter's Café Supervisor</option>
 <option>Dexter's Assistant Manager</option>
-<option>Dexter's Café Manager</option></select></div><div><label>Department</label><input placeholder="Front counter / Kitchen / Delivery / Supervisor"></div><div><label>Reports to</label><input></div></div>
+<option>Dexter's Café Manager</option></select></div><div><label>Department</label><input id="jobDepartment" placeholder="Front counter / Kitchen / Management"></div><div><label>Reports to</label><input id="jobReportsTo"></div></div>
 <div class="cols3"><div><label>Employment type</label><select><option>Permanent</option><option>Fixed term</option><option>Casual / variable hours</option><option>Apprenticeship</option></select></div><div><label>Contracted / expected hours</label><input></div><div><label>Pay rate / salary</label><input></div></div>
-<label>Purpose of role</label><textarea></textarea>
-<label>Key duties</label><textarea placeholder="Customer service, food preparation, cleaning, cash handling, allergen procedures, opening/closing duties..."></textarea>
+<div class="autofill"><b>Dexter's role profile</b><p id="roleProfileStatus">Choose a role and the full job description and person specification will be loaded automatically.</p></div>
+<label>Purpose of role</label><textarea id="jobPurpose"></textarea>
+<label>Main duties & responsibilities</label><textarea id="jobDuties" style="min-height:260px"></textarea>
+<label>Customer service responsibilities</label><textarea id="jobCustomer"></textarea>
+<label>Food safety, allergen & hygiene responsibilities</label><textarea id="jobFoodSafety"></textarea>
+<label>Health & safety responsibilities</label><textarea id="jobHealthSafety"></textarea>
+<label>Stock, waste, cash & operational responsibilities</label><textarea id="jobOperations"></textarea>
+<label>Conduct, confidentiality & data protection expectations</label><textarea id="jobConduct"></textarea>
+
 <h3>Person specification</h3>
-<label>Essential criteria</label><textarea></textarea>
-<label>Desirable criteria</label><textarea></textarea>
-<label>Physical / practical requirements genuinely necessary for the role</label><textarea></textarea>
-<label>Working pattern requirements</label><textarea placeholder="Earliest starts, latest finishes, weekends, holiday peaks — only genuine role requirements."></textarea>
+<label>Essential experience, skills & attributes</label><textarea id="jobEssential" style="min-height:220px"></textarea>
+<label>Desirable experience, skills & qualifications</label><textarea id="jobDesirable"></textarea>
+<label>Required behaviours & values</label><textarea id="jobBehaviours"></textarea>
+<label>Physical / practical requirements genuinely necessary for the role</label><textarea id="jobPractical"></textarea>
+<label>Working pattern requirements</label><textarea id="jobWorking"></textarea>
+<label>Training / qualifications required or to be completed</label><textarea id="jobQualifications"></textarea>
+<label>Probation expectations</label><textarea id="jobProbation"></textarea>
+<label>Progression / development route</label><textarea id="jobProgression"></textarea>
 <div class="check"><input type="checkbox"><span>Job advert and criteria reviewed for discriminatory wording or unnecessary requirements.</span></div>
 </section>
 
@@ -527,6 +538,167 @@ function calculateScores(){
    summary.textContent='Combined score: '+total+' / '+totalMax+' ('+pct+'%). '+detail+' Final appointment remains a manager decision and must also consider essential role requirements, lawful checks and documented evidence.';
  }
 }
+
+const roleProfiles = {
+"Dexter's Café All-Rounder / Barista":{
+ department:"Front of House & Kitchen",reportsTo:"Café Supervisor / Assistant Manager / Café Manager",
+ purpose:"Provide friendly, efficient customer service while working flexibly across the café, drinks station, food preparation and cleaning duties. The role supports the full day-to-day operation of Dexter's and helps maintain high standards of service, food safety, cleanliness and teamwork.",
+ duties:"• Welcome customers and take orders accurately.\n• Prepare and serve hot and cold drinks to Dexter's recipes and presentation standards.\n• Prepare, assemble and serve food safely and efficiently.\n• Use the till/EPOS and handle payments accurately where authorised.\n• Keep counters, customer areas, equipment and workstations clean and organised.\n• Replenish stock and packaging during service.\n• Follow opening, service and closing routines.\n• Support colleagues during busy periods and move between front and back of house as required.\n• Follow manager instructions, recipes, portion controls and operational procedures.\n• Report faults, shortages, accidents, customer complaints and food-safety concerns immediately.",
+ customer:"Deliver warm, polite and efficient service; listen carefully to orders; confirm changes and allergen queries; resolve simple service issues within authority and escalate complaints or safety concerns to a manager.",
+ food:"Follow Dexter's food-safety, allergen, handwashing, cleaning, temperature-control and cross-contamination procedures. Never guess allergen information. Use approved recipes, allergen data and manager escalation procedures.",
+ hs:"Follow safe working procedures for hot equipment, knives, manual handling, slips/trips, cleaning chemicals and fire safety. Use PPE where required and report hazards, injuries and defective equipment promptly.",
+ operations:"Rotate and replenish stock, reduce waste, follow portion controls, record waste where required, use cash/till procedures correctly and support opening/closing checks.",
+ conduct:"Maintain professional behaviour, respectful teamwork, confidentiality, customer privacy and secure handling of any personal or business information. Follow Dexter's policies on equality, dignity at work, anti-harassment and social media.",
+ essential:"• Friendly and respectful communication.\n• Reliable attendance and punctuality.\n• Ability to follow instructions and standard procedures.\n• Comfortable working at pace during busy periods.\n• Good attention to order accuracy and cleanliness.\n• Willingness to work across drinks, food preparation, cleaning and customer service.\n• Able to understand and apply food-safety and allergen instructions after training.\n• Right to work in the UK for the offered role/hours.",
+ desirable:"Previous café, takeaway, retail, hospitality, barista or food-preparation experience; till/EPOS experience; food hygiene or allergen training; experience preparing espresso-based drinks.",
+ behaviours:"Positive, helpful, calm under pressure, team-focused, honest, accountable, willing to learn, customer-focused and respectful.",
+ practical:"Ability to remain on your feet for much of a shift; move around a busy service area; safely handle routine café equipment and light stock; carry out repetitive cleaning and food-preparation tasks. Reasonable adjustments will be considered where required.",
+ working:"Flexible availability to match the contracted role, including early starts, daytime shifts, weekends and busy trading periods where specified in the vacancy. Availability requirements must reflect the actual vacancy.",
+ qualifications:"Dexter's induction; food hygiene; allergen awareness; health & safety; fire safety; cleaning/COSHH; data protection; customer service; and role-specific barista/food-preparation training. External certificates are desirable only where stated.",
+ probation:"Demonstrate reliable attendance, safe working, correct food/allergen procedures, acceptable service speed and accuracy, positive teamwork, completion of mandatory training and ability to perform the core duties with decreasing supervision.",
+ progression:"Potential progression to Café Supervisor, specialist barista/food-preparation responsibilities, Assistant Manager and Café Manager subject to performance, capability and vacancies."
+},
+"Dexter's Café Assistant / Barista":{
+ department:"Front of House",reportsTo:"Café Supervisor / Assistant Manager / Café Manager",
+ purpose:"Provide high-quality front-of-house service with a strong focus on drink preparation, customer care, till accuracy, cleanliness and supporting food service.",
+ duties:"• Greet and serve customers.\n• Take accurate orders and payments.\n• Prepare espresso-based and other drinks to Dexter's standards.\n• Serve prepared food and assist with simple food assembly where trained.\n• Maintain the coffee/drinks station and front counter.\n• Clean equipment and customer-facing areas.\n• Restock cups, milk, syrups, packaging and front-of-house products.\n• Complete opening and closing checks relevant to the station.\n• Escalate complaints, allergen questions and equipment faults.",
+ customer:"Create a welcoming customer experience, communicate clearly, check order accuracy, manage queues professionally and escalate complaints appropriately.",
+ food:"Follow allergen controls, milk-handling, date-labelling, cleaning and food-safety procedures. Never provide unverified allergen advice.",
+ hs:"Operate coffee machines and other hot equipment safely; manage spill/slip risks; follow manual-handling and cleaning-chemical procedures.",
+ operations:"Maintain drink stock and consumables, monitor wastage, follow cash/till controls and help maintain accurate opening/closing records.",
+ conduct:"Professional appearance and behaviour, confidentiality, respectful communication, equality and anti-harassment standards.",
+ essential:"• Strong customer-service manner.\n• Clear communication and listening.\n• Reliable attendance and punctuality.\n• Ability to learn drink recipes and till processes.\n• Ability to maintain cleanliness while serving at pace.\n• Willingness to follow allergen and food-safety procedures.",
+ desirable:"Previous barista or café experience; espresso-machine experience; till/EPOS experience; food hygiene/allergen certification.",
+ behaviours:"Warm, organised, attentive, calm, helpful, accurate and team-oriented.",
+ practical:"Standing for much of the shift; repeated drink preparation; safe use of hot equipment; light lifting/replenishment and routine cleaning.",
+ working:"Availability must match the advertised shift pattern, which may include early starts, weekends and busy periods.",
+ qualifications:"Dexter's induction plus barista, allergen, food hygiene, health & safety, cleaning and customer-service training.",
+ probation:"Meet drink-quality, customer-service, till-accuracy, cleanliness, attendance and training standards consistently.",
+ progression:"Café All-Rounder / experienced Barista, Café Supervisor, Assistant Manager."
+},
+"Dexter's Front of House / Barista":{
+ department:"Front of House",reportsTo:"Café Supervisor / Assistant Manager / Café Manager",
+ purpose:"Lead the customer-facing experience during each shift by providing efficient order taking, drink preparation, table/counter standards and professional handling of customer queries.",
+ duties:"• Welcome customers and explain menu choices.\n• Take and check orders accurately.\n• Prepare drinks to specification.\n• Manage counter presentation and customer areas.\n• Process payments and follow till controls.\n• Support collection/order handover.\n• Coordinate with kitchen colleagues to keep orders moving.\n• Handle routine customer issues and escalate where needed.\n• Keep front-of-house areas clean, stocked and ready for service.",
+ customer:"Strong emphasis on customer welcome, order accuracy, communication, complaint handling, collection handover and maintaining a professional service environment.",
+ food:"Apply allergen escalation procedures, maintain hygienic service practices and avoid cross-contact during drinks/food handover.",
+ hs:"Use hot equipment safely, manage queues and floor hazards, follow emergency procedures and report risks promptly.",
+ operations:"Front counter readiness, till/cash accuracy, stock replenishment, packaging control, order handover and opening/closing duties.",
+ conduct:"Respectful customer interactions, confidentiality, no discriminatory or harassing behaviour, secure handling of customer/order data.",
+ essential:"• Confident customer-facing communication.\n• Accuracy under pressure.\n• Reliable and punctual.\n• Able to coordinate with kitchen staff.\n• Comfortable handling payments and customer queries after training.\n• Able to follow allergen and escalation procedures.",
+ desirable:"Café, retail, barista or front-of-house experience; cash/till experience; complaint-handling experience.",
+ behaviours:"Confident, courteous, calm, observant, organised and solutions-focused.",
+ practical:"Standing, regular movement between counter/drinks/customer areas, routine cleaning and safe handling of hot drinks/equipment.",
+ working:"Availability aligned with the advertised rota, including peak periods and weekends where required.",
+ qualifications:"Dexter's induction, barista, customer-service, allergen, food hygiene, cash/till and health & safety training.",
+ probation:"Demonstrate consistent customer service, order accuracy, till control, drink quality, teamwork, attendance and training completion.",
+ progression:"Senior Front of House / Café Supervisor / Assistant Manager."
+},
+"Dexter's Kitchen Assistant / Kitchen Porter":{
+ department:"Kitchen",reportsTo:"Café Supervisor / Assistant Manager / Café Manager",
+ purpose:"Support safe and efficient kitchen operations through cleaning, washing-up, basic preparation, stock movement and maintaining food-safe work areas and equipment.",
+ duties:"• Wash dishes, utensils, trays and equipment safely.\n• Keep sinks, floors, bins, storage and preparation areas clean.\n• Complete cleaning schedules and chemical controls.\n• Assist with basic food preparation when trained.\n• Receive, move and store stock correctly.\n• Maintain waste and recycling areas.\n• Support service by keeping clean equipment available.\n• Follow opening/closing kitchen routines.\n• Report pest, temperature, equipment or hygiene concerns immediately.",
+ customer:"May have limited direct customer contact but must remain polite and professional and support service teams promptly.",
+ food:"Strict compliance with handwashing, cross-contamination prevention, food storage, cleaning, allergen controls and safe waste handling.",
+ hs:"Safe use of cleaning chemicals, wet-floor controls, manual handling, hot/sharp equipment awareness and PPE where required.",
+ operations:"Dishwashing flow, cleaning schedules, waste segregation, stock movement, equipment availability and kitchen readiness.",
+ conduct:"Reliable, respectful teamwork; confidentiality; follow instructions and report concerns honestly.",
+ essential:"• Reliable and punctual.\n• Willing to carry out repetitive cleaning tasks to a high standard.\n• Able to follow chemical and safety instructions.\n• Comfortable working in a busy kitchen environment.\n• Good teamwork and hygiene awareness.",
+ desirable:"Kitchen porter, cleaning, catering or food-service experience; food hygiene training; COSHH awareness.",
+ behaviours:"Hard-working, thorough, safe, dependable, cooperative and willing to help.",
+ practical:"Regular standing, bending, cleaning, washing-up and moving routine kitchen items/stock. Work may involve heat, steam, water and cleaning chemicals. Reasonable adjustments considered.",
+ working:"Shifts may include opening, closing, weekends and busy service periods according to the advertised vacancy.",
+ qualifications:"Dexter's induction, food hygiene, allergen awareness, COSHH/cleaning, manual handling, fire and health & safety training.",
+ probation:"Maintain cleaning standards, safe chemical use, reliable attendance, teamwork, correct waste/stock handling and training completion.",
+ progression:"Food Preparation Assistant, Café All-Rounder, Café Supervisor depending on training and capability."
+},
+"Dexter's Food Preparation Assistant":{
+ department:"Kitchen / Food Preparation",reportsTo:"Café Supervisor / Assistant Manager / Café Manager",
+ purpose:"Prepare ingredients and menu items safely, accurately and consistently to Dexter's recipes, portion standards and food-safety procedures.",
+ duties:"• Prepare ingredients and menu components to approved recipes.\n• Follow portion, labelling, date-code and storage controls.\n• Maintain clean and sanitised preparation areas.\n• Record temperatures/checks where assigned.\n• Prevent allergen cross-contact and follow recipe controls.\n• Rotate stock using approved date/rotation procedures.\n• Minimise waste and report shortages.\n• Support kitchen service during busy periods.\n• Clean equipment after use and report faults.",
+ customer:"Support accurate customer orders indirectly through correct preparation, labelling and communication with front-of-house staff; escalate allergen queries.",
+ food:"High responsibility for food hygiene, contamination prevention, safe storage, temperature control, allergen procedures, recipe accuracy and traceability.",
+ hs:"Safe knife/equipment use, manual handling, hot surfaces, cleaning chemicals, slips/trips and correct reporting of incidents.",
+ operations:"Stock rotation, prep levels, waste control, portion consistency, recipe compliance and readiness for service.",
+ conduct:"Follow recipes and controls exactly; do not substitute ingredients without authorisation; maintain confidentiality and professional conduct.",
+ essential:"• Strong attention to detail and cleanliness.\n• Able to follow written recipes and procedures.\n• Reliable attendance.\n• Ability to work at pace while maintaining food-safety standards.\n• Good teamwork and communication.\n• Willingness to complete food-safety/allergen training.",
+ desirable:"Food-preparation or kitchen experience; food hygiene certificate; allergen training; temperature-recording experience.",
+ behaviours:"Methodical, clean, accurate, calm, responsible and quality-focused.",
+ practical:"Standing, repetitive preparation, safe knife/equipment use, routine lifting/movement of ingredients and working around hot/cold equipment.",
+ working:"Availability aligned with preparation and service schedules, including early starts and weekends where the vacancy requires.",
+ qualifications:"Dexter's induction; food hygiene; allergen awareness; recipe/portion training; temperature control; COSHH; health & safety.",
+ probation:"Consistently meet recipe, hygiene, allergen, portion, waste, attendance and preparation-speed standards.",
+ progression:"Senior Food Preparation duties, Café All-Rounder, Café Supervisor."
+},
+"Dexter's Café Supervisor":{
+ department:"Operations / Shift Leadership",reportsTo:"Assistant Manager / Café Manager",
+ purpose:"Lead day-to-day shifts, support and coach staff, maintain service and food-safety standards, respond to operational issues and ensure opening/closing and compliance checks are completed.",
+ duties:"• Allocate staff positions and manage shift priorities.\n• Lead service during busy periods.\n• Monitor customer service, cleanliness and food quality.\n• Check completion of food-safety, allergen and cleaning controls.\n• Support staff training and give constructive feedback.\n• Handle escalated customer issues within authority.\n• Complete opening/closing, cash and security checks where authorised.\n• Monitor stock, waste and shortages.\n• Record incidents, absences, faults and shift issues.\n• Escalate safeguarding, HR, food-safety, security or serious customer matters to management.",
+ customer:"Model excellent service, manage escalated complaints fairly, protect customer safety and coach staff in service standards.",
+ food:"Actively monitor compliance with allergen, hygiene, temperature, cleaning and cross-contamination controls; stop unsafe practice and escalate serious issues.",
+ hs:"Lead safe working practices, respond to hazards/incidents, ensure emergency routines are followed and escalate reportable concerns.",
+ operations:"Shift deployment, cash/till checks, stock/waste monitoring, opening/closing, handover notes, service flow and equipment/fault escalation.",
+ conduct:"Lead by example; maintain confidentiality; avoid favouritism/discrimination; follow management instructions and HR escalation routes.",
+ essential:"• Strong hospitality/customer-service experience.\n• Reliable leadership and communication.\n• Ability to organise people and priorities under pressure.\n• Understanding of food hygiene/allergen controls or ability to demonstrate competency after training.\n• Confidence handling routine complaints and staff issues.\n• Accurate record keeping and responsible cash/security handling where required.",
+ desirable:"Previous supervisory experience; food hygiene qualification; allergen training; first aid; till/cash-up experience; rota/stock experience.",
+ behaviours:"Fair, calm, accountable, organised, approachable, decisive, safety-focused and consistent.",
+ practical:"Able to move across all operating areas, remain active throughout shifts and perform/assist with core café duties when required.",
+ working:"Must be available for the supervisory coverage specified in the vacancy, potentially including opens, closes, weekends and peak periods.",
+ qualifications:"All core Dexter's training plus supervisor/leadership training, incident reporting, cash/security, opening/closing and enhanced food-safety responsibilities.",
+ probation:"Demonstrate safe shift leadership, consistent standards, accurate controls, effective staff direction, fair conduct, reliable attendance and completion of leadership training.",
+ progression:"Assistant Manager, Café Manager."
+},
+"Dexter's Assistant Manager":{
+ department:"Management",reportsTo:"Café Manager / Business Owner",
+ purpose:"Support the Café Manager in running a safe, compliant, commercially effective and well-led operation, taking management responsibility when delegated or when the Café Manager is absent.",
+ duties:"• Support rota planning, shift cover and deployment.\n• Lead supervisors and team members.\n• Monitor customer service, food quality, hygiene and allergen compliance.\n• Support recruitment, induction, training and probation reviews.\n• Complete cash, stock, waste, security and closing controls.\n• Investigate routine operational issues and document actions.\n• Support absence/leave administration in line with policy.\n• Maintain records and escalate formal HR matters.\n• Monitor equipment, maintenance and supplier issues.\n• Support promotions, availability and operational changes.\n• Act as duty manager when authorised.",
+ customer:"Own escalated service recovery within authority, ensure complaints are recorded appropriately and protect customer safety and reputation.",
+ food:"Management-level oversight of food-safety/allergen controls, corrective action, staff competency and required records.",
+ hs:"Support risk controls, incident management, fire/emergency arrangements, maintenance escalation and safe staffing.",
+ operations:"Rota support, labour deployment, stock/waste, cash controls, security, compliance records, maintenance and daily performance.",
+ conduct:"Maintain strict confidentiality of staff/customer/business records; apply policies consistently; escalate grievances, disciplinary matters and sensitive HR issues appropriately.",
+ essential:"• Substantial hospitality/retail supervisory or management experience, or strong internal progression evidence.\n• Strong leadership and communication.\n• Ability to manage competing priorities.\n• Competence in food-safety/allergen controls.\n• Numeracy and accurate record keeping.\n• Ability to handle confidential staff information responsibly.\n• Sound judgement and escalation skills.",
+ desirable:"Assistant management experience; rota planning; recruitment/training; stock/cost control; food hygiene qualification; first aid; incident investigation.",
+ behaviours:"Professional, fair, commercially aware, organised, accountable, calm, discreet and improvement-focused.",
+ practical:"Able to work across all operating areas, support core duties when necessary and undertake opening/closing responsibilities.",
+ working:"Flexible management coverage in accordance with the advertised role, including opening/closing, weekends and emergency cover where contractually agreed.",
+ qualifications:"All core/supervisor training plus management, recruitment, data protection, HR process awareness, food-safety leadership, cash/security and incident management.",
+ probation:"Demonstrate reliable management coverage, compliance leadership, people management, record accuracy, customer resolution, operational control and appropriate escalation.",
+ progression:"Café Manager / broader operations responsibilities."
+},
+"Dexter's Café Manager":{
+ department:"Management",reportsTo:"Business Owner / Senior Management",
+ purpose:"Take overall responsibility for the day-to-day performance, people, customer experience, food safety, compliance and operational standards of Dexter's café operation within delegated authority.",
+ duties:"• Lead the café team and management structure.\n• Plan staffing, rotas and deployment within approved budgets.\n• Lead recruitment, selection, onboarding, training and probation processes.\n• Maintain food-safety, allergen, hygiene and cleaning compliance.\n• Monitor customer service and complaint resolution.\n• Oversee cash, security, stock, ordering, waste and operational records.\n• Manage performance and attendance using approved HR procedures and escalate formal matters appropriately.\n• Maintain audit trails, training records and compliance documentation.\n• Coordinate maintenance, suppliers and operational issues.\n• Review sales/service performance and implement approved improvements.\n• Ensure staff understand policies and standards.\n• Escalate legal, HR, safety, data-protection and serious customer matters to the owner/appropriate adviser.",
+ customer:"Set and monitor service standards, own serious complaints/escalations, ensure fair treatment and protect customer safety and Dexter's reputation.",
+ food:"Overall local responsibility for implementation of food-safety/allergen systems, staff competence, records, corrective actions and escalation of serious risks.",
+ hs:"Ensure workplace risks are controlled, incidents are recorded/escalated, fire/emergency procedures operate effectively and equipment/maintenance concerns are addressed.",
+ operations:"Leadership of staffing, rotas, stock, waste, cash/security, opening/closing, maintenance, supplier coordination, reporting and performance improvement.",
+ conduct:"Maintain high professional standards; protect confidential employee/customer/business data; apply policies consistently and fairly; ensure equality, dignity and anti-harassment standards are upheld.",
+ essential:"• Proven café, hospitality, takeaway, retail or comparable management capability.\n• Strong people leadership and communication.\n• Demonstrable food-safety and allergen competence.\n• Ability to plan staffing and manage operational priorities.\n• Strong record keeping, numeracy and commercial awareness.\n• Ability to handle confidential HR information and apply procedures consistently.\n• Sound judgement, accountability and escalation skills.",
+ desirable:"Café/restaurant management experience; recruitment and performance management; rota/labour planning; stock/cost control; formal food hygiene qualification; first aid; health & safety training.",
+ behaviours:"Visible leadership, fairness, accountability, professionalism, commercial awareness, resilience, discretion, consistency and continuous improvement.",
+ practical:"Able to work across the operation when required, undertake management opening/closing responsibilities and respond to operational issues during contracted working periods.",
+ working:"Management availability must reflect the actual contract and business requirement. Any expectation for weekends, opens/closes or emergency cover must be stated transparently in the vacancy and contract.",
+ qualifications:"All relevant Dexter's operational/management training; food-safety and allergen leadership; recruitment/HR process; data protection; health & safety; cash/security; incident management. External management or food-safety qualifications desirable where specified.",
+ probation:"Demonstrate effective team leadership, compliance, staffing control, customer standards, accurate records, appropriate HR handling, cost/stock awareness, reliable attendance and achievement of agreed management objectives.",
+ progression:"Senior operations / multi-site or business-management responsibilities if Dexter's expands and suitable vacancies arise."
+}
+};
+
+function populateRoleProfile(role){
+ const p=roleProfiles[role]; if(!p)return;
+ const fields={
+  jobDepartment:p.department,jobReportsTo:p.reportsTo,jobPurpose:p.purpose,jobDuties:p.duties,
+  jobCustomer:p.customer,jobFoodSafety:p.food,jobHealthSafety:p.hs,jobOperations:p.operations,
+  jobConduct:p.conduct,jobEssential:p.essential,jobDesirable:p.desirable,jobBehaviours:p.behaviours,
+  jobPractical:p.practical,jobWorking:p.working,jobQualifications:p.qualifications,
+  jobProbation:p.probation,jobProgression:p.progression
+ };
+ Object.entries(fields).forEach(([id,v])=>{const e=document.getElementById(id);if(e)e.value=v});
+ const s=document.getElementById('roleProfileStatus'); if(s)s.textContent='Full Dexter\'s job description and person specification loaded for '+role+'. Staff can review and tailor vacancy-specific hours/pay before advertising.';
+}
+
 document.addEventListener('change',e=>{
  if(e.target.matches('.screenScore,.assessmentScore,.interviewScore')) calculateScores();
  if(e.target.matches('#candidateRole,#vacancyJobTitle,#applicationRole,#offerRole')){
@@ -534,6 +706,7 @@ document.addEventListener('change',e=>{
    ['candidateRole','vacancyJobTitle','applicationRole','offerRole'].forEach(id=>{
      const x=document.getElementById(id); if(x && x!==e.target) x.value=v;
    });
+   populateRoleProfile(v);
    syncReferenceForm();
  }
 });
