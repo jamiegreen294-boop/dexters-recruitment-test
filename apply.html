@@ -35,25 +35,41 @@
 <div id="status" class="good" style="margin-top:12px">Ready to submit the dummy application.</div>
 </div></div>
 <script>
-const params=new URLSearchParams(location.search);const general=params.get('general')==='1';const r0=DexRecruit.load();
+const API='https://bpnkouymdvcogeaqjmxl.supabase.co/functions/v1/recruitment-public-api';
+const params=new URLSearchParams(location.search);
+const general=params.get('general')==='1';
+const r0=DexRecruit.load();
 if(general||r0.vacancy.status!=='Open'){
  applicationType.innerHTML='<b>General / speculative application.</b> There is no active vacancy attached to this application. You can still apply and Dexter\'s may review your details for suitable future opportunities during the stated retention period.';
 }else{
  applicationType.innerHTML='<b>Applying for:</b> '+r0.vacancy.title+' • '+r0.vacancy.hours+' • '+r0.vacancy.pay+' • Closing '+r0.vacancy.closeDate;
  role.value=r0.vacancy.title;
 }
-function addMonthsISO(months){const d=new Date();d.setMonth(d.getMonth()+Number(months||6));return d.toISOString().slice(0,10)}
-function submitApp(){
- if(!accuracy.checked||!privacyAck.checked){status.innerHTML='<b>Please confirm accuracy and acknowledge the recruitment privacy information before submitting.</b>';return}
- const r=DexRecruit.load();
- r.candidate.name=name.value.trim();r.candidate.preferred=preferred.value.trim();r.candidate.email=email.value.trim();r.candidate.mobile=mobile.value.trim();r.candidate.address=address.value.trim();r.candidate.dob=dob.value;r.candidate.role=role.value;r.candidate.hours=hours.value;r.candidate.start=start.value;
- const isGeneral=general||r.vacancy.status!=='Open';
- r.application={...r.application,status:'Application received',submittedAt:new Date().toISOString(),type:isGeneral?'Speculative':'Vacancy',vacancyId:isGeneral?null:r.vacancy.id,why:why.value,experience:experience.value,availability:availability.value,employmentHistory:employmentHistory.value,gaps:gaps.value,training:training.value,answers:{customer:answerCustomer.value,allergen:answerAllergen.value,teamwork:answerTeamwork.value},privacyAcknowledged:true,reasonableAdjustment:adjustment.value,retentionReviewDate:isGeneral?addMonthsISO(r.recruitmentSettings?.speculativeRetentionMonths||6):r.retention.unsuccessfulReviewDate};
- r.screening.status='Pending';r.appointment.status='Recruitment';DexRecruit.save(r);
- DexRecruit.audit('Application submitted',(isGeneral?'Speculative application':'Vacancy '+r.vacancy.id)+' received','Candidate');
- const subject=isGeneral?"We've received your general application to Dexter's":"We've received your Dexter's application";
- const body=isGeneral?"Thank you for taking the time to apply to Dexter's. We do not currently have a suitable active vacancy attached to your application, but we appreciate your interest. Your application may be reviewed for suitable future opportunities during our recruitment retention period.":"Thank you for applying to Dexter's. Your application has been received and will be reviewed against the published job-related criteria.";
- DexRecruit.queueEmail('Application acknowledgement',r.candidate.email,subject,body);
- status.innerHTML='<b>✓ APPLICATION SUBMITTED.</b> Recruitment Profile created and acknowledgement email queued in the test system.';
+async function submitApp(){
+ if(!accuracy.checked||!privacyAck.checked){
+   status.innerHTML='<b>Please confirm accuracy and acknowledge the recruitment privacy information before submitting.</b>';return;
+ }
+ const btn=document.querySelector('button[onclick="submitApp()"]');
+ btn.disabled=true;status.textContent='Submitting securely…';
+ const isGeneral=general||r0.vacancy.status!=='Open';
+ const payload={
+   action:'submit',website:'',
+   applicationType:isGeneral?'Speculative':'Vacancy',
+   vacancyId:isGeneral?null:r0.vacancy.id,
+   name:name.value.trim(),preferred:preferred.value.trim(),email:email.value.trim(),mobile:mobile.value.trim(),
+   address:address.value.trim(),dob:dob.value,role:role.value,hours:hours.value,start:start.value,
+   availability:availability.value,employmentHistory:employmentHistory.value,gaps:gaps.value,training:training.value,
+   why:why.value,experience:experience.value,
+   answers:{customer:answerCustomer.value,allergen:answerAllergen.value,teamwork:answerTeamwork.value},
+   reasonableAdjustment:adjustment.value,privacyAcknowledged:true,accuracyConfirmed:true
+ };
+ try{
+   const res=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+   const data=await res.json();
+   if(!res.ok||!data.ok)throw new Error(data.error||'Application could not be submitted.');
+   status.innerHTML='<b>✓ APPLICATION SUBMITTED SECURELY.</b><br>Recruitment reference <b>'+data.reference+'</b>.<br>Your application is now in Dexter\'s Back Office Recruitment.<br><a class="btn secondary" style="margin-top:10px" href="'+data.portalUrl+'">Open your candidate portal</a>';
+ }catch(e){
+   status.innerHTML='<b>Application was not submitted.</b> '+String(e.message||e);
+ }finally{btn.disabled=false}
 }
 </script></body></html>
