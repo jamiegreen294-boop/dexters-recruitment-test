@@ -120,6 +120,13 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <label>Required behaviours & values</label><textarea id="jobBehaviours"></textarea>
 <label>Physical / practical requirements genuinely necessary for the role</label><textarea id="jobPractical"></textarea>
 <label>Working pattern requirements</label><textarea id="jobWorking"></textarea>
+<h3>Shift requirement for this vacancy</h3>
+<div class="check"><input class="vacancyShift" type="checkbox" value="Mon–Fri AM 08:00–14:00"><span>Mon–Fri AM — 08:00–14:00</span></div>
+<div class="check"><input class="vacancyShift" type="checkbox" value="Mon–Fri Back 17:00–21:00"><span>Mon–Fri Back — 17:00–21:00</span></div>
+<div class="check"><input class="vacancyShift" type="checkbox" value="Saturday AM 09:00–14:00"><span>Saturday AM — 09:00–14:00</span></div>
+<div class="check"><input class="vacancyShift" type="checkbox" value="Saturday Back 17:00–20:00"><span>Saturday Back — 17:00–20:00</span></div>
+<div class="check"><input class="vacancyShift" type="checkbox" value="Sunday AM 10:00–15:00"><span>Sunday AM — 10:00–15:00</span></div>
+<label>Vacancy shift pattern</label><textarea id="vacancyShiftPattern" readonly></textarea>
 <label>Training / qualifications required or to be completed</label><textarea id="jobQualifications"></textarea>
 <label>Probation expectations</label><textarea id="jobProbation"></textarea>
 <label>Progression / development route</label><textarea id="jobProgression"></textarea>
@@ -142,7 +149,18 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <option>Dexter's Café Supervisor</option>
 <option>Dexter's Assistant Manager</option>
 <option>Dexter's Café Manager</option></select></div><div><label>Available start date</label><input type="date"></div><div><label>Notice period</label><input></div></div>
-<label>Availability by day and time</label><textarea placeholder="Mon: 07:00–18:00, Tue: unavailable..."></textarea>
+<h3>Dexter's shift availability</h3>
+<div class="box good"><b>Dexter's trading shifts:</b><br>
+Mon–Fri AM 08:00–14:00 • Mon–Fri Back 17:00–21:00<br>
+Saturday AM 09:00–14:00 • Saturday Back 17:00–20:00<br>
+Sunday AM 10:00–15:00 • No Sunday back shift
+</div>
+<div class="check"><input class="shiftChoice" type="checkbox" value="Mon–Fri AM 08:00–14:00"><span>Available for Mon–Fri AM shifts — 08:00–14:00</span></div>
+<div class="check"><input class="shiftChoice" type="checkbox" value="Mon–Fri Back 17:00–21:00"><span>Available for Mon–Fri back shifts — 17:00–21:00</span></div>
+<div class="check"><input class="shiftChoice" type="checkbox" value="Saturday AM 09:00–14:00"><span>Available for Saturday AM — 09:00–14:00</span></div>
+<div class="check"><input class="shiftChoice" type="checkbox" value="Saturday Back 17:00–20:00"><span>Available for Saturday back shift — 17:00–20:00</span></div>
+<div class="check"><input class="shiftChoice" type="checkbox" value="Sunday AM 10:00–15:00"><span>Available for Sunday AM — 10:00–15:00</span></div>
+<label>Selected shift availability</label><textarea id="selectedShiftAvailability" readonly></textarea>
 <div class="cols"><div><label>Maximum hours available</label><input></div><div><label>Minimum hours sought</label><input></div></div>
 <label>Any known dates unavailable in the next 3 months?</label><textarea></textarea>
 <h3>Employment history</h3>
@@ -436,7 +454,7 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 </div>
 <div class="box good" id="payStatus"><b>Pay check:</b> Enter the proposed start date and date of birth to calculate the correct rate.</div>
 <div class="check"><input id="isApprentice" type="checkbox"><span>Worker is a qualifying apprentice. Apprentice minimum wage rules may apply and must be checked separately.</span></div>
-<label>Working pattern / flexibility agreed</label><textarea></textarea>
+<label>Working pattern / shifts agreed</label><textarea id="offerShiftPattern" placeholder="Auto-filled from selected vacancy/applicant shifts, then confirmed at offer stage."></textarea>
 <label>Probation arrangements</label><textarea></textarea>
 <label>Conditions of offer</label><textarea placeholder="Right to Work, satisfactory references where required, role-specific lawful checks..."></textarea>
 <label>Offer expiry / acceptance deadline</label><input type="date">
@@ -520,7 +538,8 @@ document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
  b.classList.add('active');
  document.getElementById(b.dataset.id).classList.add('active');
  if(b.dataset.id==='references'){syncReferenceForm();buildReferenceRequest();}
- if(b.dataset.id==='decision'){calculateScores();}
+ if(b.dataset.id==='decision'){calculateScores();
+syncShiftSelections();}
  window.scrollTo({top:0,behavior:'smooth'});
 });
 
@@ -666,7 +685,7 @@ const roleProfiles = {
  desirable:"Previous café, takeaway, retail, hospitality, barista or food-preparation experience; till/EPOS experience; food hygiene or allergen training; experience preparing espresso-based drinks.",
  behaviours:"Positive, helpful, calm under pressure, team-focused, honest, accountable, willing to learn, customer-focused and respectful.",
  practical:"Ability to remain on your feet for much of a shift; move around a busy service area; safely handle routine café equipment and light stock; carry out repetitive cleaning and food-preparation tasks. Reasonable adjustments will be considered where required.",
- working:"Flexible availability to match the contracted role, including early starts, daytime shifts, weekends and busy trading periods where specified in the vacancy. Availability requirements must reflect the actual vacancy.",
+ working:"Availability must match the actual Dexter's shift pattern selected for the vacancy: Mon–Fri AM 08:00–14:00, Mon–Fri Back 17:00–21:00, Saturday AM 09:00–14:00, Saturday Back 17:00–20:00 and/or Sunday AM 10:00–15:00. There is no Sunday back shift.",
  qualifications:"Dexter's induction; food hygiene; allergen awareness; health & safety; fire safety; cleaning/COSHH; data protection; customer service; and role-specific barista/food-preparation training. External certificates are desirable only where stated.",
  probation:"Demonstrate reliable attendance, safe working, correct food/allergen procedures, acceptable service speed and accuracy, positive teamwork, completion of mandatory training and ability to perform the core duties with decreasing supervision.",
  progression:"Potential progression to Café Supervisor, specialist barista/food-preparation responsibilities, Assistant Manager and Café Manager subject to performance, capability and vacancies."
@@ -684,7 +703,7 @@ const roleProfiles = {
  desirable:"Previous barista or café experience; espresso-machine experience; till/EPOS experience; food hygiene/allergen certification.",
  behaviours:"Warm, organised, attentive, calm, helpful, accurate and team-oriented.",
  practical:"Standing for much of the shift; repeated drink preparation; safe use of hot equipment; light lifting/replenishment and routine cleaning.",
- working:"Availability must match the advertised shift pattern, which may include early starts, weekends and busy periods.",
+ working:"Availability must match the selected Dexter's AM/back shift pattern for the vacancy.",
  qualifications:"Dexter's induction plus barista, allergen, food hygiene, health & safety, cleaning and customer-service training.",
  probation:"Meet drink-quality, customer-service, till-accuracy, cleanliness, attendance and training standards consistently.",
  progression:"Café All-Rounder / experienced Barista, Café Supervisor, Assistant Manager."
@@ -702,7 +721,7 @@ const roleProfiles = {
  desirable:"Café, retail, barista or front-of-house experience; cash/till experience; complaint-handling experience.",
  behaviours:"Confident, courteous, calm, observant, organised and solutions-focused.",
  practical:"Standing, regular movement between counter/drinks/customer areas, routine cleaning and safe handling of hot drinks/equipment.",
- working:"Availability aligned with the advertised rota, including peak periods and weekends where required.",
+ working:"Availability aligned with the selected Dexter's AM/back shift pattern, including weekend shifts where stated.",
  qualifications:"Dexter's induction, barista, customer-service, allergen, food hygiene, cash/till and health & safety training.",
  probation:"Demonstrate consistent customer service, order accuracy, till control, drink quality, teamwork, attendance and training completion.",
  progression:"Senior Front of House / Café Supervisor / Assistant Manager."
@@ -720,7 +739,7 @@ const roleProfiles = {
  desirable:"Kitchen porter, cleaning, catering or food-service experience; food hygiene training; COSHH awareness.",
  behaviours:"Hard-working, thorough, safe, dependable, cooperative and willing to help.",
  practical:"Regular standing, bending, cleaning, washing-up and moving routine kitchen items/stock. Work may involve heat, steam, water and cleaning chemicals. Reasonable adjustments considered.",
- working:"Shifts may include opening, closing, weekends and busy service periods according to the advertised vacancy.",
+ working:"Shifts are selected from Dexter's standard AM/back shift pattern for the vacancy.",
  qualifications:"Dexter's induction, food hygiene, allergen awareness, COSHH/cleaning, manual handling, fire and health & safety training.",
  probation:"Maintain cleaning standards, safe chemical use, reliable attendance, teamwork, correct waste/stock handling and training completion.",
  progression:"Food Preparation Assistant, Café All-Rounder, Café Supervisor depending on training and capability."
@@ -738,7 +757,7 @@ const roleProfiles = {
  desirable:"Food-preparation or kitchen experience; food hygiene certificate; allergen training; temperature-recording experience.",
  behaviours:"Methodical, clean, accurate, calm, responsible and quality-focused.",
  practical:"Standing, repetitive preparation, safe knife/equipment use, routine lifting/movement of ingredients and working around hot/cold equipment.",
- working:"Availability aligned with preparation and service schedules, including early starts and weekends where the vacancy requires.",
+ working:"Availability aligned with Dexter's selected AM/back shift pattern for the vacancy.",
  qualifications:"Dexter's induction; food hygiene; allergen awareness; recipe/portion training; temperature control; COSHH; health & safety.",
  probation:"Consistently meet recipe, hygiene, allergen, portion, waste, attendance and preparation-speed standards.",
  progression:"Senior Food Preparation duties, Café All-Rounder, Café Supervisor."
@@ -756,7 +775,7 @@ const roleProfiles = {
  desirable:"Previous supervisory experience; food hygiene qualification; allergen training; first aid; till/cash-up experience; rota/stock experience.",
  behaviours:"Fair, calm, accountable, organised, approachable, decisive, safety-focused and consistent.",
  practical:"Able to move across all operating areas, remain active throughout shifts and perform/assist with core café duties when required.",
- working:"Must be available for the supervisory coverage specified in the vacancy, potentially including opens, closes, weekends and peak periods.",
+ working:"Must be available for the supervisory AM/back shift coverage specified in the vacancy.",
  qualifications:"All core Dexter's training plus supervisor/leadership training, incident reporting, cash/security, opening/closing and enhanced food-safety responsibilities.",
  probation:"Demonstrate safe shift leadership, consistent standards, accurate controls, effective staff direction, fair conduct, reliable attendance and completion of leadership training.",
  progression:"Assistant Manager, Café Manager."
@@ -774,7 +793,7 @@ const roleProfiles = {
  desirable:"Assistant management experience; rota planning; recruitment/training; stock/cost control; food hygiene qualification; first aid; incident investigation.",
  behaviours:"Professional, fair, commercially aware, organised, accountable, calm, discreet and improvement-focused.",
  practical:"Able to work across all operating areas, support core duties when necessary and undertake opening/closing responsibilities.",
- working:"Flexible management coverage in accordance with the advertised role, including opening/closing, weekends and emergency cover where contractually agreed.",
+ working:"Management coverage must match the AM/back shifts stated in the vacancy, including weekend shifts where contractually agreed.",
  qualifications:"All core/supervisor training plus management, recruitment, data protection, HR process awareness, food-safety leadership, cash/security and incident management.",
  probation:"Demonstrate reliable management coverage, compliance leadership, people management, record accuracy, customer resolution, operational control and appropriate escalation.",
  progression:"Café Manager / broader operations responsibilities."
@@ -792,7 +811,7 @@ const roleProfiles = {
  desirable:"Café/restaurant management experience; recruitment and performance management; rota/labour planning; stock/cost control; formal food hygiene qualification; first aid; health & safety training.",
  behaviours:"Visible leadership, fairness, accountability, professionalism, commercial awareness, resilience, discretion, consistency and continuous improvement.",
  practical:"Able to work across the operation when required, undertake management opening/closing responsibilities and respond to operational issues during contracted working periods.",
- working:"Management availability must reflect the actual contract and business requirement. Any expectation for weekends, opens/closes or emergency cover must be stated transparently in the vacancy and contract.",
+ working:"Management availability must reflect Dexter's actual contracted AM/back shift requirement. Weekend coverage must be stated transparently in the vacancy and contract.",
  qualifications:"All relevant Dexter's operational/management training; food-safety and allergen leadership; recruitment/HR process; data protection; health & safety; cash/security; incident management. External management or food-safety qualifications desirable where specified.",
  probation:"Demonstrate effective team leadership, compliance, staffing control, customer standards, accurate records, appropriate HR handling, cost/stock awareness, reliable attendance and achievement of agreed management objectives.",
  progression:"Senior operations / multi-site or business-management responsibilities if Dexter's expands and suitable vacancies arise."
@@ -812,8 +831,21 @@ function populateRoleProfile(role){
  const s=document.getElementById('roleProfileStatus'); if(s)s.textContent='Full Dexter\'s job description and person specification loaded for '+role+'. Staff can review and tailor vacancy-specific hours/pay before advertising.';
 }
 
+function syncShiftSelections(){
+ const applicant=[...document.querySelectorAll('.shiftChoice:checked')].map(x=>x.value);
+ const vacancy=[...document.querySelectorAll('.vacancyShift:checked')].map(x=>x.value);
+ const a=document.getElementById('selectedShiftAvailability'); if(a)a.value=applicant.join('\n');
+ const v=document.getElementById('vacancyShiftPattern'); if(v)v.value=vacancy.join('\n');
+ const o=document.getElementById('offerShiftPattern');
+ if(o && !o.dataset.userEdited){
+   const chosen=vacancy.length?vacancy:applicant;
+   o.value=chosen.join('\n');
+ }
+}
 document.addEventListener('change',e=>{
  if(e.target.matches('.screenScore,.assessmentScore,.interviewScore')) calculateScores();
+ if(e.target.matches('.shiftChoice,.vacancyShift')) syncShiftSelections();
+ if(e.target.matches('#offerShiftPattern')) e.target.dataset.userEdited='1';
  if(e.target.matches('#payDob,#starterDob,#offerStartDate,#isApprentice')) {
    if(e.target.id==='starterDob'){ const p=document.getElementById('payDob'); if(p && !p.value)p.value=e.target.value; }
    if(e.target.id==='payDob'){ const s=document.getElementById('starterDob'); if(s && !s.value)s.value=e.target.value; }
