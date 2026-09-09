@@ -1,17 +1,71 @@
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dexter's Candidate Portal TEST</title><style>
-:root{--bg:#f4f2ed;--ink:#171717;--card:#fff;--muted:#6f6a63;--line:#ddd7cd;--gold:#d9b14c;--ok:#e8f5ec;--warn:#fff5d8}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.45}header{background:#101010;color:#fff;border-bottom:4px solid var(--gold)}.head{max-width:1000px;margin:auto;padding:20px 18px;display:flex;gap:16px;align-items:center}.logo{width:90px;height:66px;object-fit:contain;background:#fff;border-radius:9px;padding:4px}.wrap{max-width:1000px;margin:20px auto;padding:0 14px 60px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.btn{display:inline-block;border:0;border-radius:9px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:#111;color:#fff}.secondary{background:#e9e4da;color:#111}.good{background:var(--ok);border:1px solid #b9d5c2;border-radius:10px;padding:12px}.warn{background:var(--warn);border:1px solid #e4c465;border-radius:10px;padding:12px}label{display:block;font-weight:700;margin:10px 0 5px}input{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit}.doc{border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden;background:#fff}.doc summary{cursor:pointer;font-weight:900;padding:14px;background:#f6f3ed}.docbody{padding:16px}.signature{border-top:1px solid var(--line);margin-top:18px;padding-top:14px}.signed{background:var(--ok);border:1px solid #b9d5c2;border-radius:8px;padding:10px;margin-top:8px}.locked{opacity:.65}@media(max-width:800px){.grid{grid-template-columns:1fr}}
+:root{--bg:#f5f1ea;--ink:#191715;--card:#fff;--muted:#6d655e;--line:#ddd4c8;--gold:#d6ad46;--gold2:#f2d585;--ok:#e7f4eb;--warn:#fff4d8;--soft:#f8f5f0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.45}
+header{background:#111;color:#fff;border-bottom:5px solid var(--gold)}.head{max-width:1100px;margin:auto;padding:22px 18px;display:flex;gap:18px;align-items:center}.logo{width:110px;height:80px;object-fit:contain;background:#fff;border-radius:14px;padding:6px}.brand h1{margin:0;font-size:34px}.brand .sub{opacity:.85;font-weight:700;margin-top:4px}
+.wrap{max-width:1100px;margin:20px auto;padding:0 14px 70px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 10px #00000008}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.two{grid-template-columns:1fr 1fr}.four{grid-template-columns:repeat(4,1fr)}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:14px}.kpi b{display:block;font-size:24px;margin-top:3px}.muted{color:var(--muted)}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.btn{display:inline-block;border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer;text-decoration:none}.primary{background:#111;color:#fff}.secondary{background:#ece6dc;color:#111}
+.good{background:var(--ok);border:1px solid #b8d8c0;border-radius:10px;padding:12px}.warn{background:var(--warn);border:1px solid #e1c56d;border-radius:10px;padding:12px}
+.statusbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}.chip{display:inline-block;padding:6px 9px;border-radius:999px;background:#efe9df;font-size:13px;font-weight:800}.chip.ok{background:#dff2e6;color:#245a39}.chip.wait{background:#fff0c8;color:#785915}
+.section-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:8px}.section-title h2{margin:0}
+label{display:block;font-weight:700;margin:10px 0 5px}input{width:100%;padding:10px;border:1px solid #bdb7ad;border-radius:8px;font:inherit;background:#fff}
+.doc{border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden;background:#fff}.doc summary{cursor:pointer;font-weight:900;padding:14px;background:#f6f3ed}.docbody{padding:16px}.signature{border-top:1px solid var(--line);margin-top:18px;padding-top:14px}.signed{background:var(--ok);border:1px solid #b9d5c2;border-radius:8px;padding:10px;margin-top:8px}.locked{opacity:.65}
+.timeline{border-left:3px solid var(--gold);padding-left:14px}.step{margin:0 0 16px}.step b{display:block}.step small{color:var(--muted)}
+.support{background:#111;color:#fff}.support a{color:#fff}
+@media(max-width:800px){.grid,.two,.four{grid-template-columns:1fr}.brand h1{font-size:28px}.head{align-items:flex-start}.logo{width:90px;height:70px}.section-title{display:block}}
 </style><script src="recruitment-store.js"></script></head><body>
-<header><div class="head"><img class="logo" src="dexters-recruitment-logo.png" alt="Dexters Sit-in and Take Away logo"><div><h1>Dexter's Candidate Portal</h1><div>FULL CONNECTED TEST</div></div></div></header>
-<div class="wrap"><div class="warn"><b>TEST ONLY.</b> This simulates secure candidate access. Do not enter real data.</div>
-<div class="panel"><h2 id="hello">Candidate portal</h2><div id="loginStatus" class="good"></div>
-<div id="portal" style="display:none">
-<div class="grid"><div><label>Role</label><input id="role" readonly></div><div><label>Hours</label><input id="hours" readonly></div><div><label>Start</label><input id="start" readonly></div></div>
-<p>Open each section to read the exact document snapshot that was issued to you. Each document is signed separately and timestamped.</p>
-<div id="docs"></div>
-<div class="nav"><button class="btn secondary" onclick="printSignedPack()">Print signed document pack</button><button class="btn secondary" onclick="downloadSignedPack()">Download signed document pack</button></div>
-<div id="summary" class="good"></div>
-</div></div>
+<header><div class="head"><img class="logo" src="https://bpnkouymdvcogeaqjmxl.supabase.co/functions/v1/dexters-logo" alt="Dexter's logo"><div class="brand"><h1>Dexter's Candidate Portal</h1><div class="sub">Recruitment, offer and onboarding documents</div></div></div></header>
+<div class="wrap">
+<div class="warn"><b>TEST ONLY.</b> This is the connected recruitment test portal. Do not enter real personal information.</div>
+
+<div class="panel">
+ <div class="section-title"><div><h2 id="hello">Candidate portal</h2><div class="muted" id="candidateRef"></div></div><div id="loginStatus" class="good"></div></div>
+ <div id="portal" style="display:none">
+
+  <div class="grid four" style="margin-top:14px">
+   <div class="kpi"><span class="muted">Application</span><b id="applicationStatus">—</b></div>
+   <div class="kpi"><span class="muted">Interview</span><b id="interviewStatus">—</b></div>
+   <div class="kpi"><span class="muted">Checks</span><b id="checksStatus">—</b></div>
+   <div class="kpi"><span class="muted">Documents</span><b id="docsStatus">—</b></div>
+  </div>
+
+  <div class="panel" style="margin-top:14px;background:#faf8f4">
+   <div class="section-title"><div><h2>Your role</h2><div class="muted">Details currently held on your recruitment record.</div></div></div>
+   <div class="grid"><div><label>Role</label><input id="role" readonly></div><div><label>Hours</label><input id="hours" readonly></div><div><label>Start</label><input id="start" readonly></div></div>
+   <div class="grid two"><div><label>Pay</label><input id="pay" readonly></div><div><label>Recruitment type</label><input id="applicationType" readonly></div></div>
+  </div>
+
+  <div class="grid two">
+   <div class="panel">
+    <h2>Recruitment progress</h2>
+    <div class="timeline" id="progressTimeline"></div>
+   </div>
+   <div class="panel">
+    <h2>Checks & references</h2>
+    <div id="checksPanel"></div>
+   </div>
+  </div>
+
+  <div class="panel">
+   <div class="section-title"><div><h2>Your issued documents</h2><div class="muted">Read each exact document snapshot issued by Dexter's. Signatures are recorded separately with date/time and version.</div></div></div>
+   <div id="docs"></div>
+   <div class="nav"><button class="btn secondary" onclick="printSignedPack()">Print signed document pack</button><button class="btn secondary" onclick="downloadSignedPack()">Download signed document pack</button></div>
+   <div id="summary" class="good"></div>
+  </div>
+
+  <div class="panel">
+   <h2>Application & interview information</h2>
+   <div id="applicationPanel"></div>
+  </div>
+
+  <div class="panel support">
+   <h2>Need help or a reasonable adjustment?</h2>
+   <p>Contact Dexter's Recruitment Team if you need help accessing documents, attending interview, or requesting a reasonable adjustment.</p>
+   <p><b>Email:</b> recruitment@dextersspot.co.uk</p>
+  </div>
+ </div>
+</div>
 </div>
 <script>
 const required=['offer','job','rota','privacy','starter','contract'];
@@ -21,11 +75,42 @@ function render(){
  const r=DexRecruit.load();
  if(token()!==r.candidatePortal.inviteToken){loginStatus.innerHTML='<b>Access denied.</b> This test portal requires the candidate-specific invitation token.';portal.style.display='none';return}
  r.candidatePortal.lastLoginAt=new Date().toISOString();DexRecruit.save(r);
- hello.textContent='Welcome, '+r.candidate.name;role.value=r.candidate.role;hours.value=r.candidate.hours;start.value=r.candidate.start;portal.style.display='block';
- loginStatus.innerHTML='<b>Candidate test login accepted.</b> Recruitment reference '+r.candidate.ref+'.';
+ hello.textContent='Welcome, '+r.candidate.name;
+ candidateRef.textContent='Recruitment reference '+r.candidate.ref;
+ role.value=r.candidate.role;hours.value=r.candidate.hours;start.value=r.candidate.start;pay.value=r.candidate.pay||'Not yet confirmed';applicationType.value=r.application.type||'Vacancy';portal.style.display='block';
+ loginStatus.innerHTML='<b>Secure candidate test access accepted.</b>';
+
+ applicationStatus.textContent=r.application.status||'Application received';
+ interviewStatus.textContent=r.interview.status||'Not scheduled';
+ checksStatus.textContent=r.checks.complete?'Complete':'Pending';
+
  docs.innerHTML=required.map(k=>docBlock(k,r)).join('');
  const signed=required.filter(k=>r.documents[k]?.signed).length;
+ docsStatus.textContent=signed+' / 6 signed';
  summary.innerHTML='<b>Signing progress:</b> '+signed+' / 6 documents signed.'+(r.checks.complete?' Pre-employment checks are complete.':' Employment contract becomes available after manager checks are complete.');
+
+ const ref1=r.references.items?.[0],ref2=r.references.items?.[1];
+ checksPanel.innerHTML=
+  '<div class="statusbar"><span class="chip '+(r.rtw.status==='Complete'||r.rtw.status==='Checked'?'ok':'wait')+'">Right to Work: '+(r.rtw.status||'Pending')+'</span>'+
+  '<span class="chip '+(ref1?.status==='Received'?'ok':'wait')+'">Reference 1: '+(ref1?.status||'Not requested')+'</span>'+
+  '<span class="chip '+(ref2?.status==='Received'?'ok':'wait')+'">Reference 2: '+(ref2?.status||'Not requested')+'</span></div>'+
+  '<p class="muted">Any employment offer remains subject to required pre-employment checks and Dexter\'s final appointment decision.</p>';
+
+ const steps=[
+  ['Application',r.application.status||'Application received',r.application.submittedAt],
+  ['Screening',r.screening.status||'Pending',''],
+  ['Interview',r.interview.status||'Not scheduled',r.interview.scheduledAt],
+  ['References',r.references.status||'Pending',''],
+  ['Right to Work',r.rtw.status||'Pending',r.rtw.checkDate],
+  ['Offer',r.offer.status||'Not sent',r.offer.sentAt],
+  ['Appointment',r.appointment.status||'Recruitment',r.appointment.staffCreatedAt]
+ ];
+ progressTimeline.innerHTML=steps.map(s=>'<div class="step"><b>'+s[0]+'</b><span>'+s[1]+'</span>'+(s[2]?'<br><small>'+fmt(s[2])+'</small>':'')+'</div>').join('');
+
+ applicationPanel.innerHTML=
+  '<div class="grid two"><div><label>Application type</label><input readonly value="'+(r.application.type||'Vacancy')+'"></div><div><label>Vacancy reference</label><input readonly value="'+(r.application.vacancyId||'General / speculative')+'"></div></div>'+
+  '<div class="grid two"><div><label>Availability</label><input readonly value="'+(r.application.availability||'Not recorded')+'"></div><div><label>Training / experience</label><input readonly value="'+(r.application.training||'Not recorded')+'"></div></div>'+
+  '<p class="muted"><b>Interview transcript/audio:</b> Dexter\'s stores written notes/transcript only in this test workflow; interview audio is not retained by Dexter\'s.</p>';
 }
 function docBlock(k,r){
  const d=r.documents[k];
