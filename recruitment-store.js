@@ -1,9 +1,10 @@
 (function(){
 const KEY='dexRecruitUnifiedV1';
 const defaultRecord={
- vacancy:{id:'VAC-TEST-001',title:"Dexter's Café All-Rounder / Barista",status:'Open',openDate:'2026-09-09',closeDate:'2026-09-30',positions:1,jobVersion:'JD-v1'},
+ vacancy:{id:'VAC-TEST-001',title:"Dexter's Café All-Rounder / Barista",status:'Open',openDate:'2026-09-09',closeDate:'2026-09-30',positions:1,jobVersion:'JD-v1',location:"Dexter's",hours:'20 hours/week',pay:'From applicable legal minimum / role rate',summary:'Customer service, food and drink preparation, cleaning, food safety and teamwork.',duties:'Serve customers, prepare food and drinks, handle orders/payments, maintain cleanliness and follow food-safety/allergen controls.',essential:'Reliable, good communication, customer-focused, able to work safely and complete required training.',shiftPattern:'AM and back shifts; Sunday AM only.'},
+ recruitmentSettings:{jobsAlwaysVisible:true,allowSpeculativeApplications:true,speculativeRetentionMonths:6,privacyContact:'recruitment@dextersspot.co.uk',equalOpportunitiesText:"Dexter's is committed to fair and equal recruitment. Applications are assessed against job-related criteria and reasonable adjustments can be requested.",rightToWorkText:'Any offer of employment is subject to a lawful Right to Work check. Dexter\'s applies checks consistently and does not use nationality as a selection criterion.'},
  candidate:{ref:'DEX-REC-TEST-001',name:'Alex Morgan',preferred:'Alex',email:'alex.morgan@example.test',mobile:'07123 456789',address:'24 Example Street, Glasgow, G51 1AA',role:"Dexter's Café All-Rounder / Barista",hours:'20 hours/week',start:'21 September 2026',pay:'£10.85/hour',dob:'2007-11-18'},
- application:{status:'Application received',submittedAt:null,why:'',experience:'',availability:'',employmentHistory:'Example Café Glasgow — Café Assistant — Mar 2025 to Aug 2026',gaps:'None',training:'Food hygiene awareness; customer service experience',answers:{}},
+ application:{status:'Application received',submittedAt:null,type:'Vacancy',vacancyId:'VAC-TEST-001',why:'',experience:'',availability:'',employmentHistory:'Example Café Glasgow — Café Assistant — Mar 2025 to Aug 2026',gaps:'None',training:'Food hygiene awareness; customer service experience',answers:{},privacyAcknowledged:false,retentionReviewDate:''},
  screening:{status:'Pending',essentialMet:null,reason:'',rationale:'',managerScore:null},
  interview:{status:'Not scheduled',scheduledAt:'',method:'In person',transcript:'',answers:{},suggestedScores:{},managerScores:{},overrideReasons:{},recordAudio:false,transcriptionOnly:true},
  references:{status:'Pending',items:[{number:1,status:'Not requested',requestedAt:null,receivedAt:null,outcome:'',referee:'Taylor Smith — Example Café Glasgow',email:'taylor.smith@example.test'},{number:2,status:'Not requested',requestedAt:null,receivedAt:null,outcome:'',referee:'Jordan Lee — Example Hospitality Ltd',email:'jordan.lee@example.test'}]},
@@ -27,30 +28,20 @@ function mergeDeep(base,extra){
  }
  return extra===undefined?base:extra;
 }
-function load(){
- try{return mergeDeep(clone(defaultRecord),JSON.parse(localStorage.getItem(KEY)||'{}'))}
- catch(e){return clone(defaultRecord)}
-}
+function load(){try{return mergeDeep(clone(defaultRecord),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){return clone(defaultRecord)}}
 function save(r){localStorage.setItem(KEY,JSON.stringify(r));return r}
-function audit(action,detail,actor='TEST Manager'){
- const r=load();r.audit.unshift({at:new Date().toISOString(),actor,action,detail});save(r);return r
-}
+function audit(action,detail,actor='TEST Manager'){const r=load();r.audit.unshift({at:new Date().toISOString(),actor,action,detail});save(r);return r}
 function queueEmail(type,to,subject,body,from){
  const r=load();const sender=from||r.mailSettings?.recruitmentFrom||'recruitment@dextersspot.co.uk';
  r.emails.unshift({id:'MAIL-'+Date.now(),type,from:sender,replyTo:r.mailSettings?.recruitmentReplyTo||sender,to,subject,body,status:'TEST queued',createdAt:new Date().toISOString()});
  save(r);audit('Email queued',type+' • '+sender+' → '+to);return r
 }
 function snapshot(key,title,html,signature){
- const r=load();
- const version=(r.documents[key]?.version||0)+1;
+ const r=load();const version=(r.documents[key]?.version||0)+1;
  r.documents[key]={key,title,html,version,signed:false,signature:null,signedAt:null,createdAt:new Date().toISOString()};
- if(signature){r.documents[key].signature=signature}
- save(r);audit('Document snapshot created',title+' v'+version);return r.documents[key]
+ if(signature)r.documents[key].signature=signature;save(r);audit('Document snapshot created',title+' v'+version);return r.documents[key]
 }
-function sign(key,signature){
- const r=load();if(!r.documents[key])throw new Error('Document not available');
- r.documents[key].signed=true;r.documents[key].signature=signature;r.documents[key].signedAt=new Date().toISOString();save(r);audit('Document signed',r.documents[key].title+' by '+signature,'Candidate');return r.documents[key]
-}
+function sign(key,signature){const r=load();if(!r.documents[key])throw new Error('Document not available');r.documents[key].signed=true;r.documents[key].signature=signature;r.documents[key].signedAt=new Date().toISOString();save(r);audit('Document signed',r.documents[key].title+' by '+signature,'Candidate');return r.documents[key]}
 function allSigned(keys){const r=load();return keys.every(k=>r.documents[k]?.signed)}
 function reset(){save(clone(defaultRecord));audit('Test record reset','Unified recruitment test reset');return load()}
 window.DexRecruit={KEY,defaultRecord,load,save,audit,queueEmail,snapshot,sign,allSigned,reset};
