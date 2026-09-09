@@ -521,10 +521,21 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <div class="box good" id="payStatus"><b>Pay check:</b> Enter the proposed start date and date of birth to calculate the correct rate.</div>
 <div class="check"><input id="isApprentice" type="checkbox"><span>Worker is a qualifying apprentice. Apprentice minimum wage rules may apply and must be checked separately.</span></div>
 <label>Working pattern / shifts agreed</label><textarea id="offerShiftPattern" placeholder="Auto-filled from selected vacancy/applicant shifts, then confirmed at offer stage."></textarea>
-<label>Probation arrangements</label><textarea></textarea>
-<label>Conditions of offer</label><textarea placeholder="Right to Work, satisfactory references where required, role-specific lawful checks..."></textarea>
-<label>Offer expiry / acceptance deadline</label><input type="date">
-<div class="check"><input type="checkbox"><span>Candidate clearly told the offer is conditional until listed checks are satisfied.</span></div>
+<label>Probation arrangements</label><textarea id="offerProbation">6-month probation period, with regular review of attendance, conduct, customer service, food safety, teamwork, training completion and role competence.</textarea>
+<label>Conditions of offer</label><textarea id="offerConditions" placeholder="Right to Work, satisfactory references where required, role-specific lawful checks...">This offer is conditional upon Dexter's being satisfied with the required pre-employment checks, including confirmation of your Right to Work in the UK, satisfactory references where required, verification of any role-relevant qualifications or training, and completion of any other lawful checks required for the role.</textarea>
+<label>Offer expiry / acceptance deadline</label><input id="offerDeadline" type="date">
+<div class="check"><input id="offerConditionalAck" type="checkbox"><span>Candidate clearly told the offer is conditional until listed checks are satisfied.</span></div>
+
+<h3>Generated Conditional Offer Letter</h3>
+<div class="actions">
+  <button class="btn primary" type="button" onclick="generateConditionalOfferLetter()">Generate conditional offer letter</button>
+  <button class="btn secondary" type="button" onclick="printConditionalOfferLetter()">Print offer letter</button>
+  <button class="btn secondary" type="button" onclick="downloadConditionalOfferLetter()">Download offer letter</button>
+</div>
+<div id="conditionalOfferPreview" class="autofill" style="min-height:180px">
+  Complete the offer details above, then generate the candidate's conditional offer letter.
+</div>
+
 <div class="sign"><b>Candidate acceptance</b><br><br>Name: ____________________ &nbsp; Signature: ____________________ &nbsp; Date: ____________</div>
 </section>
 
@@ -1115,6 +1126,77 @@ function syncShiftSelections(){
 }
 
 
+
+function escHtml(s){
+ return String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+function offerLetterData(){
+ const candidate=val('offerCandidateName')||val('candidateName')||'[Candidate name]';
+ const role=val('offerRole')||val('candidateRole')||'[Role]';
+ const start=val('offerStartDate')||'[Start date]';
+ const place=document.querySelector('#offer input[value="Dexter\'s"]')?.value||"Dexter's";
+ const hours=val('offerHours')||val('offerHoursAverage')||'[Contracted hours]';
+ const contract=val('offerContractType')||'[Contract type]';
+ const pay=val('offerPayRate') ? '£'+Number(val('offerPayRate')).toFixed(2)+' per hour' : (val('recommendedPayRate')||'[Pay rate]');
+ const freq=val('payFrequency')||'Hourly';
+ const shifts=val('offerShiftPattern')||val('rotaPatternText')||'[Agreed shift pattern]';
+ const probation=val('offerProbation')||'[Probation arrangements]';
+ const conditions=val('offerConditions')||'[Conditions of offer]';
+ const deadline=val('offerDeadline')||'[Acceptance deadline]';
+ const ref=val('offerRecruitmentReference')||val('recruitmentReference')||'';
+ return {candidate,role,start,place,hours,contract,pay,freq,shifts,probation,conditions,deadline,ref};
+}
+function conditionalOfferLetterHtml(){
+ const d=offerLetterData();
+ return '<div class="offerLetter" style="background:#fff;border:1px solid #ccc;border-radius:12px;padding:24px;max-width:820px;margin:auto">'+
+ '<div style="display:flex;gap:16px;align-items:center;border-bottom:4px solid #111;padding-bottom:14px;margin-bottom:20px">'+
+ '<img src="https://raw.githubusercontent.com/jamiegreen294-boop/Dexters-loyalty-/main/dexters-logo.png" style="width:95px;height:70px;object-fit:contain;border:1px solid #ddd;border-radius:8px;padding:4px">'+
+ '<div><div style="font-size:28px;font-weight:900">Dexter\'s</div><div style="font-size:18px;font-weight:700">Conditional Offer of Employment</div></div></div>'+
+ '<p><b>Private & Confidential</b></p>'+
+ '<p><b>To:</b> '+escHtml(d.candidate)+'<br><b>Recruitment reference:</b> '+escHtml(d.ref)+'</p>'+
+ '<p>Dear '+escHtml(d.candidate)+',</p>'+
+ '<p>We are pleased to make you a <b>conditional offer of employment</b> with Dexter\'s for the position of <b>'+escHtml(d.role)+'</b>.</p>'+
+ '<h4>Offer details</h4>'+
+ '<table style="width:100%;border-collapse:collapse">'+
+ '<tr><td style="padding:7px;border:1px solid #ddd"><b>Proposed start date</b></td><td style="padding:7px;border:1px solid #ddd">'+escHtml(d.start)+'</td></tr>'+
+ '<tr><td style="padding:7px;border:1px solid #ddd"><b>Place of work</b></td><td style="padding:7px;border:1px solid #ddd">'+escHtml(d.place)+'</td></tr>'+
+ '<tr><td style="padding:7px;border:1px solid #ddd"><b>Contract type</b></td><td style="padding:7px;border:1px solid #ddd">'+escHtml(d.contract)+'</td></tr>'+
+ '<tr><td style="padding:7px;border:1px solid #ddd"><b>Contracted hours</b></td><td style="padding:7px;border:1px solid #ddd">'+escHtml(d.hours)+'</td></tr>'+
+ '<tr><td style="padding:7px;border:1px solid #ddd"><b>Rate of pay</b></td><td style="padding:7px;border:1px solid #ddd">'+escHtml(d.pay)+' ('+escHtml(d.freq)+')</td></tr>'+
+ '</table>'+
+ '<h4>Normal working pattern</h4><p style="white-space:pre-line">'+escHtml(d.shifts)+'</p>'+
+ '<h4>Probation</h4><p style="white-space:pre-line">'+escHtml(d.probation)+'</p>'+
+ '<h4>Conditions of this offer</h4><p style="white-space:pre-line">'+escHtml(d.conditions)+'</p>'+
+ '<p>This letter is an offer subject to the conditions above. It does not replace the written statement of employment particulars or any employment contract that Dexter\'s will provide as part of the onboarding process.</p>'+
+ '<p>Please confirm whether you accept this conditional offer by <b>'+escHtml(d.deadline)+'</b>.</p>'+
+ '<p>Kind regards,<br><b>Dexter\'s Recruitment Team</b></p>'+
+ '<hr><h4>Candidate acceptance</h4>'+
+ '<p>I, '+escHtml(d.candidate)+', confirm that I accept the conditional offer described above, subject to the stated pre-employment conditions.</p>'+
+ '<p>Signature: ______________________________ &nbsp;&nbsp; Date: __________________</p>'+
+ '</div>';
+}
+function generateConditionalOfferLetter(){
+ const p=document.getElementById('conditionalOfferPreview');
+ if(p)p.innerHTML=conditionalOfferLetterHtml();
+}
+function printConditionalOfferLetter(){
+ const html=conditionalOfferLetterHtml();
+ const w=window.open('','_blank');
+ if(!w)return;
+ w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Dexter\'s Conditional Offer</title></head><body>'+html+'<script>window.onload=()=>window.print()<\/script></body></html>');
+ w.document.close();
+}
+function downloadConditionalOfferLetter(){
+ const d=offerLetterData();
+ const html='<!doctype html><html><head><meta charset="utf-8"><title>Dexter\'s Conditional Offer</title></head><body>'+conditionalOfferLetterHtml()+'</body></html>';
+ const blob=new Blob([html],{type:'text/html'});
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='Dexters-Conditional-Offer-'+(d.candidate||'Candidate').replace(/[^a-z0-9]+/gi,'-')+'.html';
+ a.click();
+ setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
 function loadCompletedTestReference(){
  syncReferenceForm();
 
@@ -1232,6 +1314,10 @@ function loadDemoCandidate(){
  fill('rtwCheckDate','2026-09-18');
  syncCoreRecord();
 
+ fill('offerDeadline','2026-09-14');
+ fill('offerConditionalAck',true);
+ generateConditionalOfferLetter();
+
  fill('starterNI','TEST ONLY — NOT A REAL NI NUMBER');
  fill('starterPayrollId','TEST-001');
  fill('emergencyName','Jordan Morgan');
@@ -1284,6 +1370,10 @@ document.addEventListener('change',e=>{
    calculatePay();
  }
  if(e.target.matches('#offerPayRate')) { e.target.dataset.userEdited='1'; validateOfferPay(); }
+ if(e.target.matches('#offerCandidateName,#offerRole,#offerStartDate,#offerHoursTemplate,#offerPayRate,#payFrequency,#offerShiftPattern,#offerProbation,#offerConditions,#offerDeadline')) {
+   const p=document.getElementById('conditionalOfferPreview');
+   if(p && p.innerHTML.includes('offerLetter')) generateConditionalOfferLetter();
+ }
  if(e.target.matches('#candidateRole,#vacancyJobTitle,#applicationRole,#offerRole')){
    const v=e.target.value;
    ['candidateRole','vacancyJobTitle','applicationRole','offerRole'].forEach(id=>{
