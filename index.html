@@ -45,27 +45,27 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <div class="grid">
 <aside class="nav" id="nav">
 <h3>Recruitment control</h3>
-<button class="active" data-id="dashboard">1. Candidate file dashboard</button>
-<button data-id="vacancy">2. Vacancy approval & job profile</button>
-<button data-id="application">3. Full application form</button>
-<button data-id="screen">4. Initial screening</button>
-<button data-id="assessment">5. Candidate assessment</button>
-<button data-id="interview">6. Structured interview</button>
-<button data-id="decision">7. Selection decision</button>
+<button type="button" class="active" data-id="dashboard">1. Candidate file dashboard</button>
+<button type="button" data-id="vacancy">2. Vacancy approval & job profile</button>
+<button type="button" data-id="application">3. Full application form</button>
+<button type="button" data-id="screen">4. Initial screening</button>
+<button type="button" data-id="assessment">5. Candidate assessment</button>
+<button type="button" data-id="interview">6. Structured interview</button>
+<button type="button" data-id="decision">7. Selection decision</button>
 <h3>Compliance checks</h3>
-<button data-id="rtw">8. Right to Work</button>
-<button data-id="overseas">9. Overseas / visa restrictions</button>
-<button data-id="references">10. References</button>
-<button data-id="checks">11. Pre-employment checks</button>
-<button data-id="equality">12. Equal opportunities</button>
-<button data-id="privacy">13. Recruitment privacy</button>
+<button type="button" data-id="rtw">8. Right to Work</button>
+<button type="button" data-id="overseas">9. Overseas / visa restrictions</button>
+<button type="button" data-id="references">10. References</button>
+<button type="button" data-id="checks">11. Pre-employment checks</button>
+<button type="button" data-id="equality">12. Equal opportunities</button>
+<button type="button" data-id="privacy">13. Recruitment privacy</button>
 <h3>Offer & onboarding</h3>
-<button data-id="offer">14. Conditional offer</button>
-<button data-id="rotapattern">15. 4-week rota pattern</button>
-<button data-id="starter">16. New starter details</button>
-<button data-id="induction">17. Induction & mandatory training</button>
-<button data-id="probation">18. Probation plan</button>
-<button data-id="audit">19. Recruitment audit trail</button>
+<button type="button" data-id="offer">14. Conditional offer</button>
+<button type="button" data-id="rotapattern">15. 4-week rota pattern</button>
+<button type="button" data-id="starter">16. New starter details</button>
+<button type="button" data-id="induction">17. Induction & mandatory training</button>
+<button type="button" data-id="probation">18. Probation plan</button>
+<button type="button" data-id="audit">19. Recruitment audit trail</button>
 </aside>
 
 <main class="panel">
@@ -387,7 +387,7 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 <div class="sign">
 <p>I confirm that the information I have provided is true and accurate to the best of my knowledge and is given in good faith.</p>
 <div class="cols"><div><label>Name</label><input id="declarationName"></div><div><label>Position</label><input id="declarationPosition"></div></div>
-<div class="cols"><div><label>Date</label><input id="declarationDate" type="date"></div><div><label>Signature</label><input placeholder="Signature / typed name where accepted"></div></div>
+<div class="cols"><div><label>Date</label><input id="declarationDate" type="date"></div><div><label>Signature</label><input id="declarationSignature" placeholder="Signature / typed name where accepted"></div></div>
 </div>
 
 <h3>Pre-written reference request email</h3>
@@ -648,7 +648,6 @@ syncShiftSelections();
 const initialHours=document.getElementById('dashboardHoursTemplate')?.value||document.getElementById('offerHoursTemplate')?.value||'';
 if(initialHours)syncHoursTemplate(initialHours);
 syncCoreRecord();}
- window.scrollTo({top:0,behavior:'smooth'});
 });
 
 function n(v){ const x=parseInt(v,10); return Number.isFinite(x)?x:0; }
@@ -1186,6 +1185,24 @@ function loadDemoCandidate(){
  fill('refereeEmail','manager@example.test');
  fill('refereePhone','0141 000 0000');
  fill('refereeRelationship','Previous line manager');
+ fill('refPermission',true);
+ fill('confirmedJobTitle','Café Assistant');
+ fill('confirmedDates','March 2025 to August 2026');
+ fill('confirmedDuties','Alex worked front of house and supported café operations including taking customer orders, till operation, preparing hot and cold drinks, basic food preparation, cleaning, stock replenishment and maintaining service areas.');
+ fill('reliabilityComments','Alex was reliable and punctual, attended scheduled shifts consistently and gave appropriate notice where changes were required.');
+ fill('conductComments','Alex worked well with colleagues, communicated politely with customers and supervisors and maintained a professional manner during busy service periods.');
+ fill('suitabilityComments','Based on Alex\'s performance with us, I believe they would be suitable for a café all-rounder role involving customer service, drink preparation and general café duties.');
+ fill('reemployComments','Yes');
+ fill('otherRefInfo','No additional factual concerns to report. Alex completed their duties satisfactorily and left to seek broader experience.');
+ fill('declarationName','Taylor Smith');
+ fill('declarationPosition','Café Manager');
+ fill('declarationDate','2026-09-10');
+ fill('declarationSignature','Taylor Smith');
+ const refSummary=document.getElementById('referenceResponseSummary');
+ if(refSummary)refSummary.textContent='Previous employer confirms the candidate worked as a Café Assistant from March 2025 to August 2026. Duties included customer service, till work, drinks, basic food preparation, cleaning and stock replenishment. The referee describes Alex as reliable, punctual and professional, reports good working relationships, considers them suitable for a café all-rounder role and states they would re-employ them. No additional factual concerns were reported. Manager review still required before relying on the reference.';
+ const refStatus=document.getElementById('referenceImportStatus');
+ if(refStatus)refStatus.innerHTML='<b>Status:</b> DEMO — completed previous-employer reference response loaded for testing.';
+ const reviewed=document.getElementById('referenceReviewed'); if(reviewed)reviewed.checked=true;
  buildReferenceRequest();
 
  fill('rtwCheckDate','2026-09-18');
@@ -1201,7 +1218,6 @@ function loadDemoCandidate(){
  if(ds)ds.innerHTML='<b>Test candidate loaded:</b> Alex Morgan • Café All-Rounder / Barista • 20-hour part-time pattern. Open each section from the left menu to inspect the automatic carry-through.';
  const banner=document.getElementById('demoLoadedBanner'); if(banner)banner.style.display='block';
  syncCoreRecord();
- window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function clearDemoCandidate(){
@@ -1307,16 +1323,16 @@ function referenceFormHtml(){
  '<div class="field"><b>Email</b>'+esc(val('refereeEmail'))+'</div>'+
  '<div class="field"><b>Telephone</b>'+esc(val('refereePhone'))+'</div></div></div>'+
  '<div class="section"><h2>3. Employment confirmation</h2>'+
- '<p><b>1. Please confirm the candidate\'s job title.</b></p><div class="answer"></div>'+
- '<p><b>2. Please confirm the candidate\'s dates of employment.</b></p><div class="answer"></div>'+
- '<p><b>3. Please briefly describe the candidate\'s main duties and responsibilities.</b></p><div class="answer"></div>'+
- '<p><b>4. Please comment on timekeeping, attendance and reliability, where appropriate.</b></p><div class="answer"></div>'+
- '<p><b>5. Please comment on conduct and working relationships, where appropriate.</b></p><div class="answer"></div>'+
- '<p><b>6. Please comment on suitability for the role applied for, if you are able to do so.</b></p><div class="answer"></div>'+
- '<p><b>7. Would you re-employ / re-engage this individual if the opportunity arose?</b></p><div class="answer">Yes / No / Prefer not to say</div>'+
- '<p><b>8. Any other factual information relevant to this application?</b></p><div class="answer"></div></div>'+
+ '<p><b>1. Please confirm the candidate\'s job title.</b></p><div class="answer">'+esc(val('confirmedJobTitle'))+'</div>'+
+ '<p><b>2. Please confirm the candidate\'s dates of employment.</b></p><div class="answer">'+esc(val('confirmedDates'))+'</div>'+
+ '<p><b>3. Please briefly describe the candidate\'s main duties and responsibilities.</b></p><div class="answer">'+esc(val('confirmedDuties'))+'</div>'+
+ '<p><b>4. Please comment on timekeeping, attendance and reliability, where appropriate.</b></p><div class="answer">'+esc(val('reliabilityComments'))+'</div>'+
+ '<p><b>5. Please comment on conduct and working relationships, where appropriate.</b></p><div class="answer">'+esc(val('conductComments'))+'</div>'+
+ '<p><b>6. Please comment on suitability for the role applied for, if you are able to do so.</b></p><div class="answer">'+esc(val('suitabilityComments'))+'</div>'+
+ '<p><b>7. Would you re-employ / re-engage this individual if the opportunity arose?</b></p><div class="answer">'+esc(val('reemployComments'))+'</div>'+
+ '<p><b>8. Any other factual information relevant to this application?</b></p><div class="answer">'+esc(val('otherRefInfo'))+'</div></div>'+
  '<div class="section"><h2>4. Declaration</h2><p>I confirm that the information I have provided is true and accurate to the best of my knowledge and is given in good faith.</p>'+
- '<div class="grid"><div class="field"><b>Name</b></div><div class="field"><b>Position</b></div><div class="field"><b>Signature</b></div><div class="field"><b>Date</b></div></div></div>'+
+ '<div class="grid"><div class="field"><b>Name</b>'+esc(val('declarationName'))+'</div><div class="field"><b>Position</b>'+esc(val('declarationPosition'))+'</div><div class="field"><b>Signature</b>'+esc(val('declarationSignature'))+'</div><div class="field"><b>Date</b>'+esc(val('declarationDate'))+'</div></div></div>'+
  '<div class="footer"><b>Dexter\'s Recruitment Team</b> • Employment Reference Form • Confidential</div>'+
  '</body></html>';
 }
