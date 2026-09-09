@@ -4,18 +4,46 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#020711">
-<title>Dexter's Pride Theme Test</title>
+<title>Dexter's Pride Loyalty App Test</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#020711}
-body{display:flex;justify-content:center}
-main{width:100%;max-width:650px;margin:0 auto}
-img{display:block;width:100%;height:auto}
+html,body{margin:0;min-height:100%;background:#020711;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+body{display:flex;justify-content:center;align-items:flex-start}
+.shell{width:min(100%,650px);position:relative;margin:0 auto;background:#020711}
+.shell img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.hotspot{position:absolute;display:block;border-radius:18px;text-indent:-9999px;overflow:hidden;outline:none}
+.hotspot:focus-visible{box-shadow:0 0 0 3px #fff,0 0 0 6px #d7b06a}
+#spin{left:7.2%;top:59.6%;width:41%;height:10.7%}
+#rewards{left:51.4%;top:59.6%;width:41%;height:10.7%}
+#again{left:7.2%;top:71.3%;width:41%;height:10.7%}
+#ask{left:51.4%;top:71.3%;width:41%;height:10.7%}
+#order{left:33%;top:94.8%;width:14%;height:4.4%;border-radius:12px}
+#navRewards{left:47%;top:94.8%;width:14%;height:4.4%;border-radius:12px}
+#more{left:79%;top:94.8%;width:14%;height:4.4%;border-radius:12px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(20px);opacity:0;background:#0b1725;color:#fff;border:1px solid #ffffff2e;padding:10px 14px;border-radius:999px;font-size:12px;transition:.2s;z-index:20;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.badge{position:fixed;right:10px;top:10px;z-index:10;background:#08111edb;color:#d9e4ee;border:1px solid #ffffff25;padding:7px 10px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.05em}
 </style>
 </head>
 <body>
-<main>
-<img src="pride-approved.jpg" alt="Dexter's approved Pride loyalty theme">
+<div class="badge">GITHUB TEST · LIVE APP UNCHANGED</div>
+<main class="shell" aria-label="Dexter's approved Pride loyalty app design test">
+  <img src="pride-approved.jpg" alt="Approved Dexter's Pride loyalty app design">
+  <a class="hotspot" id="spin" href="#spin" aria-label="Spin to Win"></a>
+  <a class="hotspot" id="rewards" href="#rewards" aria-label="Your Rewards"></a>
+  <a class="hotspot" id="again" href="#again" aria-label="Order Again"></a>
+  <a class="hotspot" id="ask" href="https://wa.me/441414735249" target="_blank" rel="noopener" aria-label="Ask Dexter"></a>
+  <a class="hotspot" id="order" href="#order" aria-label="Order"></a>
+  <a class="hotspot" id="navRewards" href="#rewards" aria-label="Rewards"></a>
+  <a class="hotspot" id="more" href="#more" aria-label="More"></a>
 </main>
+<div class="toast" id="toast">Test action</div>
+<script>
+const toast=document.getElementById('toast');
+function show(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>toast.classList.remove('show'),1300)}
+for(const id of ['spin','rewards','again','order','navRewards','more']){
+  document.getElementById(id).addEventListener('click',e=>{e.preventDefault();show(e.currentTarget.getAttribute('aria-label')+' · test button works')});
+}
+</script>
 </body>
 </html>
