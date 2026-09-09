@@ -38,9 +38,22 @@
   </div>
 </div>
 
+<h3>Signature pack status</h3>
+<div id="signaturePackStatus" class="good">Open the candidate portal to review/sign the required documents.</div>
 <h3>Workflow</h3><div class="step">Application submitted from public web link.</div><div class="step">Screening, assessment and interview completed.</div><div class="step">Conditional offer generated and emailed.</div><div class="step">Candidate logs back in and signs required documents.</div><div class="step">Manager confirms Right to Work, reference and pre-employment checks.</div><div class="step">Record converts from Recruitment to Staff and onboarding starts.</div>
 <div class="nav"><button class="btn primary" onclick="sendOffer()">Send conditional offer + portal email</button><button class="btn secondary" onclick="checks()">Confirm checks</button><button class="btn primary" onclick="moveStaff()">Move to Staff</button></div>
-<div id="status" class="good">Test applicant loaded.</div></div></div>
+<div id="status" class="good">Test applicant loaded.</div></div>
+
+<div class="panel" id="staffProfilePanel">
+<h2>Staff Profile Handover</h2>
+<div id="staffProfileStatus" class="warn"><b>Not yet moved to Staff.</b> The candidate must complete all signatures and required checks first.</div>
+<div id="staffProfileDetails" style="display:none">
+  <div class="grid"><div><label>Staff name</label><input id="staffName" readonly></div><div><label>Role</label><input id="staffRole" readonly></div><div><label>Contracted hours</label><input id="staffHours" readonly></div></div>
+  <h3>Employment documents automatically added to Staff Profile</h3>
+  <table><thead><tr><th>Document</th><th>Signature</th><th>Timestamp</th><th>Status</th></tr></thead><tbody id="staffDocsBody"></tbody></table>
+  <div class="good"><b>Onboarding handover:</b> Production will now issue the Staff App onboarding forms, induction and mandatory training from the staff profile.</div>
+</div>
+</div></div>
 <script>
 const base={name:'Alex Morgan',email:'alex.morgan@example.test',role:"Dexter's Café All-Rounder / Barista",hours:'20 hours/week',ref:'DEX-REC-TEST-001',stage:'Application received',start:'21 September 2026',pay:'£10.85/hour',offerSent:false,signed:false,checks:false,staff:false};
 function getR(){try{return {...base,...JSON.parse(localStorage.getItem('dexRecruit')||'{}')}}catch(e){return base}}
@@ -54,10 +67,49 @@ function render(){
  if(r.rejectReason)rejectReason.value=r.rejectReason;
  if(r.rejectRationale)rejectRationale.value=r.rejectRationale;
  generateRejectMessage();
+ const sigs=Object.keys(r.signedDocs||{}).length;
+ const sigBox=document.getElementById('signaturePackStatus');
+ if(sigBox)sigBox.innerHTML='<b>Signed documents:</b> '+sigs+' of 5'+(r.signed?' — complete':' — awaiting candidate');
+
+ const sp=document.getElementById('staffProfileStatus'), det=document.getElementById('staffProfileDetails'), body=document.getElementById('staffDocsBody');
+ if(r.staff){
+   sp.className='good';sp.innerHTML='<b>✓ Staff Profile active.</b> Recruitment file converted to staff record.';
+   det.style.display='block';
+   staffName.value=r.name;staffRole.value=r.role;staffHours.value=r.hours;
+   const docs=r.staffDocuments||[];
+   body.innerHTML=docs.map(d=>'<tr><td>'+d.label+'</td><td>'+d.signature+'</td><td>'+new Date(d.timestamp).toLocaleString('en-GB')+'</td><td>Attached to Staff Profile</td></tr>').join('');
+ }else{
+   sp.className='warn';sp.innerHTML='<b>Not yet moved to Staff.</b> The candidate must complete all signatures and required checks first.';
+   det.style.display='none';
+ }
 }
 function sendOffer(){const r=getR();if(r.rejected){status.innerHTML='<b>Cannot send offer.</b> This recruitment profile is closed as unsuccessful.';return}r.offerSent=true;r.stage='Offer sent — awaiting signatures';save(r);status.innerHTML='<b>TEST EMAIL:</b> Candidate invited to log back in, review the conditional offer, job description, rota and forms, then sign online.'}
 function checks(){const r=getR();if(r.rejected){status.innerHTML='<b>Profile closed.</b> No further checks should be progressed for this unsuccessful application.';return}r.checks=true;r.stage=r.signed?'Ready to appoint':'Checks complete — awaiting signatures';save(r);status.innerHTML='<b>Checks complete.</b> Right to Work, reference and required pre-employment checks marked complete for this test.'}
-function moveStaff(){const r=getR();if(r.rejected){status.innerHTML='<b>Cannot move to Staff.</b> This application was unsuccessful.';return}if(!r.offerSent||!r.signed||!r.checks){status.innerHTML='<b>Cannot move yet.</b> Offer, signatures and required checks must all be complete.';return}r.staff=true;r.stage='Appointed — moved to Staff';save(r);status.innerHTML='<b>✓ STAFF PROFILE CREATED.</b> Production will transfer the required recruitment data/documents into Staff and issue Staff App onboarding/training.'}
+function moveStaff(){
+ const r=getR();
+ if(r.rejected){status.innerHTML='<b>Cannot move to Staff.</b> This application was unsuccessful.';return}
+ if(!r.offerSent||!r.signed||!r.checks){status.innerHTML='<b>Cannot move yet.</b> Offer, all document signatures and required checks must all be complete.';return}
+ const docs=r.signedDocs||{};
+ const required=[
+   ['offer','Conditional Offer Letter'],
+   ['job','Job Description & Person Specification'],
+   ['rota','4-Week Rota Pattern'],
+   ['privacy','Recruitment Privacy Notice'],
+   ['starter','New Starter / Onboarding Declaration']
+ ];
+ r.staffDocuments=required.map(([key,label])=>({
+   key,label,
+   signature:docs[key]?.signature||r.name,
+   timestamp:docs[key]?.timestamp||new Date().toISOString(),
+   documentVersion:docs[key]?.version||'TEST-v1',
+   source:'Recruitment'
+ }));
+ r.staff=true;
+ r.recruitmentClosed=true;
+ r.stage='Appointed — moved to Staff';
+ save(r);
+ status.innerHTML='<b>✓ STAFF PROFILE CREATED.</b> All signed recruitment documents have been attached automatically to the Staff Profile. The recruitment file is now closed and the staff onboarding/training handover can begin.';
+}
 
 function generateRejectMessage(){
  const r=getR();
