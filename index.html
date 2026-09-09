@@ -40,6 +40,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 </div>
 
 <div class="notice"><b>TEST / APPROVAL VERSION.</b> This public test contains no real staff data. It is designed to show the level of detail and professional workflow before connection to Dexter’s private Back Office.</div>
+<div id="demoLoadedBanner" class="box good" style="display:none;border:2px solid #111;font-size:16px"><b>✓ TEST CANDIDATE LOADED</b> — Alex Morgan • Café All-Rounder / Barista • 20-hour part-time test record.</div>
 
 <div class="grid">
 <aside class="nav" id="nav">
@@ -747,9 +748,6 @@ function syncHoursTemplate(sourceValue){
  const avg=document.getElementById('rotaAverage')?.value||'';
  ['dashboardHoursAverage','offerHoursAverage'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=avg;});
  syncCoreRecord();
-if(new URLSearchParams(location.search).get('demo')==='1'){
- setTimeout(()=>loadDemoCandidate(),150);
-}
 }
 
 function syncCandidateDetails(sourceId){
@@ -1201,6 +1199,8 @@ function loadDemoCandidate(){
 
  const ds=document.getElementById('demoStatus');
  if(ds)ds.innerHTML='<b>Test candidate loaded:</b> Alex Morgan • Café All-Rounder / Barista • 20-hour part-time pattern. Open each section from the left menu to inspect the automatic carry-through.';
+ const banner=document.getElementById('demoLoadedBanner'); if(banner)banner.style.display='block';
+ syncCoreRecord();
  window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1509,5 +1509,12 @@ function downloadReferenceEmail(){
  const blob=new Blob([eml],{type:'message/rfc822'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Dexters-Reference-Request-'+(val('refCandidate')||'Candidate').replace(/[^a-z0-9]+/gi,'-')+'.eml';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
+
+document.addEventListener('DOMContentLoaded',()=>{
+ const params=new URLSearchParams(window.location.search);
+ if(params.get('demo')==='1'){
+   setTimeout(()=>loadDemoCandidate(),300);
+ }
+});
 </script>
 </body></html>
