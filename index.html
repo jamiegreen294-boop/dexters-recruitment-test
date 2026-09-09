@@ -73,6 +73,11 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <span class="tag">DEXTER'S</span><span class="tag">CANDIDATE FILE</span>
 <h2>Candidate Recruitment Dashboard</h2>
 <p class="subtle">One record from vacancy approval to completed onboarding.</p>
+<div class="actions">
+  <button class="btn primary" type="button" onclick="loadDemoCandidate()">Load complete test candidate</button>
+  <button class="btn secondary" type="button" onclick="clearDemoCandidate()">Clear test candidate</button>
+</div>
+<div class="box good" id="demoStatus"><b>Test mode:</b> Load the dummy applicant to check which information carries through the full pack.</div>
 <div class="cols"><div><label>Candidate full legal name</label><input id="candidateName"></div><div><label>Preferred name</label><input id="candidatePreferredName"></div></div>
 <div class="cols3"><div><label>Role</label><select id="candidateRole"><option value="">Select role</option>
 <option>Dexter's Café All-Rounder / Barista</option>
@@ -82,7 +87,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <option>Dexter's Food Preparation Assistant</option>
 <option>Dexter's Café Supervisor</option>
 <option>Dexter's Assistant Manager</option>
-<option>Dexter's Café Manager</option></select></div><div><label>Location</label><input value="Dexter's"></div><div><label>Recruitment reference</label><input placeholder="DEX-REC-0001"></div></div>
+<option>Dexter's Café Manager</option></select></div><div><label>Location</label><input id="candidateLocation" value="Dexter's"></div><div><label>Recruitment reference</label><input id="recruitmentReference" placeholder="DEX-REC-0001"></div></div>
 <h3>Employment setup</h3>
 <div class="cols3">
   <div><label>Contracted hours</label>
@@ -121,7 +126,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <option>Dexter's Café Supervisor</option>
 <option>Dexter's Assistant Manager</option>
 <option>Dexter's Café Manager</option></select></div><div><label>Department</label><input id="jobDepartment" placeholder="Front counter / Kitchen / Management"></div><div><label>Reports to</label><input id="jobReportsTo"></div></div>
-<div class="cols3"><div><label>Employment type</label><select><option>Permanent</option><option>Fixed term</option><option>Casual / variable hours</option><option>Apprenticeship</option></select></div><div><label>Contracted / expected hours</label><input></div><div><label>Pay rate / salary</label><input></div></div>
+<div class="cols3"><div><label>Employment type</label><select id="vacancyEmploymentType"><option>Permanent</option><option>Fixed term</option><option>Casual / variable hours</option><option>Apprenticeship</option></select></div><div><label>Contracted / expected hours</label><input id="vacancyHours" readonly></div><div><label>Pay rate / salary</label><input id="vacancyPay" readonly></div></div>
 <div class="autofill"><b>Dexter's role profile</b><p id="roleProfileStatus">Choose a role and the full job description and person specification will be loaded automatically.</p></div>
 <label>Purpose of role</label><textarea id="jobPurpose"></textarea>
 <label>Main duties & responsibilities</label><textarea id="jobDuties" style="min-height:260px"></textarea>
@@ -154,8 +159,8 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <h2>Full Job Application Form</h2>
 <h3>Personal & contact details</h3>
 <div class="cols"><div><label>Full legal name</label><input id="applicationCandidateName"></div><div><label>Preferred name</label><input id="applicationPreferredName"></div></div>
-<div class="cols"><div><label>Current address</label><textarea></textarea></div><div><label>Previous address if recently moved</label><textarea></textarea></div></div>
-<div class="cols3"><div><label>Mobile</label><input id="applicationMobile"></div><div><label>Email</label><input id="applicationEmail" type="email"></div><div><label>Best contact method</label><select><option>Email</option><option>Phone</option><option>SMS</option></select></div></div>
+<div class="cols"><div><label>Current address</label><textarea id="applicationAddress"></textarea></div><div><label>Previous address if recently moved</label><textarea id="applicationPreviousAddress"></textarea></div></div>
+<div class="cols3"><div><label>Mobile</label><input id="applicationMobile"></div><div><label>Email</label><input id="applicationEmail" type="email"></div><div><label>Best contact method</label><select id="applicationContactMethod"><option>Email</option><option>Phone</option><option>SMS</option></select></div></div>
 <h3>Role & availability</h3>
 <div class="cols3"><div><label>Role applied for</label><select id="applicationRole"><option value="">Select role</option>
 <option>Dexter's Café All-Rounder / Barista</option>
@@ -192,25 +197,25 @@ Sunday AM 10:00–15:00 • No Sunday back shift
 <div class="check"><input class="shiftChoice" type="checkbox" value="Saturday Back 17:00–20:00"><span>Available for Saturday back shift — 17:00–20:00</span></div>
 <div class="check"><input class="shiftChoice" type="checkbox" value="Sunday AM 10:00–15:00"><span>Available for Sunday AM — 10:00–15:00</span></div>
 <label>Selected shift availability</label><textarea id="selectedShiftAvailability" readonly></textarea>
-<div class="cols"><div><label>Maximum hours available</label><input></div><div><label>Minimum hours sought</label><input></div></div>
-<label>Any known dates unavailable in the next 3 months?</label><textarea></textarea>
+<div class="cols"><div><label>Maximum hours available</label><input id="applicationMaxHours"></div><div><label>Minimum hours sought</label><input id="applicationMinHours"></div></div>
+<label>Any known dates unavailable in the next 3 months?</label><textarea id="applicationUnavailableDates"></textarea>
 <h3>Employment history</h3>
 <label>Current / most recent employer</label><input id="currentEmployer">
 <div class="cols3"><div><label>Job title</label><input id="currentJobTitle"></div><div><label>From</label><input id="employmentFrom" type="month"></div><div><label>To</label><input id="employmentTo" type="month"></div></div>
-<label>Main duties and responsibilities</label><textarea></textarea>
-<label>Reason for leaving / seeking to leave</label><textarea></textarea>
-<label>Previous employment history</label><textarea placeholder="Employer, dates, role, main duties, reason for leaving."></textarea>
-<label>Explain any significant gaps in work / education history you wish us to consider</label><textarea></textarea>
+<label>Main duties and responsibilities</label><textarea id="employmentDuties"></textarea>
+<label>Reason for leaving / seeking to leave</label><textarea id="employmentLeavingReason"></textarea>
+<label>Previous employment history</label><textarea id="previousEmployment" placeholder="Employer, dates, role, main duties, reason for leaving."></textarea>
+<label>Explain any significant gaps in work / education history you wish us to consider</label><textarea id="employmentGaps"></textarea>
 <h3>Education, training & skills</h3>
-<label>Education / qualifications relevant to the role</label><textarea></textarea>
-<label>Food hygiene, allergens, first aid, licensing, customer service or other training</label><textarea></textarea>
-<label>Relevant systems / equipment experience</label><textarea placeholder="EPOS, kitchen equipment, delivery platforms, cash handling, stock control..."></textarea>
-<label>Languages spoken (only where relevant or voluntarily provided)</label><input>
+<label>Education / qualifications relevant to the role</label><textarea id="applicationQualifications"></textarea>
+<label>Food hygiene, allergens, first aid, licensing, customer service or other training</label><textarea id="applicationTraining"></textarea>
+<label>Relevant systems / equipment experience</label><textarea id="applicationEquipment" placeholder="EPOS, kitchen equipment, delivery platforms, cash handling, stock control..."></textarea>
+<label>Languages spoken (only where relevant or voluntarily provided)</label><input id="applicationLanguages">
 <h3>Role-related questions</h3>
-<label>Why do you want to work at Dexter's?</label><textarea></textarea>
-<label>Tell us about a time you gave good customer service</label><textarea></textarea>
-<label>Tell us about a time you worked effectively as part of a team</label><textarea></textarea>
-<label>Describe how you would respond if a customer raised an allergen concern</label><textarea></textarea>
+<label>Why do you want to work at Dexter's?</label><textarea id="applicationWhyDexters"></textarea>
+<label>Tell us about a time you gave good customer service</label><textarea id="applicationCustomerExample"></textarea>
+<label>Tell us about a time you worked effectively as part of a team</label><textarea id="applicationTeamExample"></textarea>
+<label>Describe how you would respond if a customer raised an allergen concern</label><textarea id="applicationAllergenExample"></textarea>
 <h3>Recruitment adjustments</h3>
 <label>Do you require a reasonable adjustment to take part in any stage of the recruitment process?</label><textarea placeholder="Optional. Please tell us only what adjustment would help you take part in the recruitment process. You do not need to provide a diagnosis or medical history."></textarea>
 <div class="box good"><b>Manager note:</b> Do not ask general questions about health or disability before offer. Only ask what is necessary for a lawful recruitment adjustment or another permitted exception.</div>
@@ -303,7 +308,7 @@ Sunday AM 10:00–15:00 • No Sunday back shift
 <section id="rtw" class="section">
 <h2>Right to Work Check Record</h2>
 <div class="box danger"><b>Important:</b> Apply right-to-work procedures consistently to applicants at the same stage. Do not decide who to check based on name, accent, appearance, race or nationality. Use the Home Office process in force on the employment start date and record any required follow-up check.</div>
-<div class="cols"><div><label>Candidate</label><input></div><div><label>Date check completed</label><input type="date"></div></div>
+<div class="cols"><div><label>Candidate</label><input id="rtwCandidate" readonly></div><div><label>Date check completed</label><input id="rtwCheckDate" type="date"></div></div>
 <label>Check route</label><select><option>Home Office online check / share code</option><option>Eligible manual document check</option><option>Employer Checking Service / Positive Verification Notice</option><option>Digital verification route where legally permitted</option></select>
 <label>Check reference / evidence location</label><input>
 <label>Does the evidence confirm the right to undertake this specific job?</label><select><option>Yes</option><option>No</option><option>Further verification required</option></select>
@@ -458,6 +463,7 @@ Thank you for assisting Dexter's with its recruitment process. The applicant nam
 
 <section id="offer" class="section">
 <h2>Conditional Offer & Approval</h2>
+<div class="cols"><div><label>Candidate</label><input id="offerCandidateName" readonly></div><div><label>Recruitment reference</label><input id="offerRecruitmentReference" readonly></div></div>
 <div class="cols3"><div><label>Job title</label><select id="offerRole"><option value="">Select role</option>
 <option>Dexter's Café All-Rounder / Barista</option>
 <option>Dexter's Café Assistant / Barista</option>
@@ -561,12 +567,13 @@ Choose a standard hours pattern to generate the 4-week repeating rota.
 
 <section id="starter" class="section">
 <h2>New Starter Details</h2>
+<div class="cols3"><div><label>Role</label><input id="starterRole" readonly></div><div><label>Start date</label><input id="starterStartDate" type="date" readonly></div><div><label>Contracted hours</label><input id="starterContractedHours" readonly></div></div>
 <div class="cols"><div><label>Full legal name</label><input id="starterCandidateName"></div><div><label>Preferred name</label><input id="starterPreferredName"></div></div>
-<div class="cols3"><div><label>Date of birth</label><input id="starterDob" type="date"></div><div><label>National Insurance number</label><input></div><div><label>Payroll ID</label><input></div></div>
+<div class="cols3"><div><label>Date of birth</label><input id="starterDob" type="date"></div><div><label>National Insurance number</label><input id="starterNI"></div><div><label>Payroll ID</label><input id="starterPayrollId"></div></div>
 <label>Home address</label><textarea id="starterAddress"></textarea>
 <div class="cols"><div><label>Personal email</label><input id="starterEmail"></div><div><label>Telephone</label><input id="starterPhone"></div></div>
 <h3>Emergency contact</h3>
-<div class="cols3"><div><label>Name</label><input></div><div><label>Relationship</label><input></div><div><label>Telephone</label><input></div></div>
+<div class="cols3"><div><label>Name</label><input id="emergencyName"></div><div><label>Relationship</label><input id="emergencyRelationship"></div><div><label>Telephone</label><input id="emergencyPhone"></div></div>
 <h3>Payroll / HMRC</h3>
 <div class="cols"><div><label>P45 received?</label><select><option>Yes</option><option>No — starter checklist required</option></select></div><div><label>Bank details captured securely in payroll process?</label><select><option>Yes</option><option>Pending</option></select></div></div>
 <label>Pension assessment status</label><select><option>Pending</option><option>Eligible jobholder</option><option>Non-eligible jobholder</option><option>Entitled worker</option></select>
@@ -638,7 +645,8 @@ document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
  if(b.dataset.id==='decision'){calculateScores();
 syncShiftSelections();
 const initialHours=document.getElementById('dashboardHoursTemplate')?.value||document.getElementById('offerHoursTemplate')?.value||'';
-if(initialHours)syncHoursTemplate(initialHours);}
+if(initialHours)syncHoursTemplate(initialHours);
+syncCoreRecord();}
  window.scrollTo({top:0,behavior:'smooth'});
 });
 
@@ -738,6 +746,7 @@ function syncHoursTemplate(sourceValue){
  renderRotaPattern();
  const avg=document.getElementById('rotaAverage')?.value||'';
  ['dashboardHoursAverage','offerHoursAverage'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=avg;});
+ syncCoreRecord();
 }
 
 function syncCandidateDetails(sourceId){
@@ -759,6 +768,7 @@ function syncStartDate(sourceId){
  const v=document.getElementById(sourceId)?.value||'';
  ids.forEach(id=>{const e=document.getElementById(id);if(e && id!==sourceId)e.value=v;});
  calculatePay();
+ syncCoreRecord();
 }
 
 function syncContactDetails(){
@@ -1058,6 +1068,42 @@ function populateRoleProfile(role){
  const s=document.getElementById('roleProfileStatus'); if(s)s.textContent='Full Dexter\'s job description and person specification loaded for '+role+'. Staff can review and tailor vacancy-specific hours/pay before advertising.';
 }
 
+
+function syncCoreRecord(){
+ const name=val('candidateName')||val('applicationCandidateName')||val('starterCandidateName');
+ const pref=val('candidatePreferredName')||val('applicationPreferredName')||val('starterPreferredName');
+ const role=val('candidateRole')||val('applicationRole')||val('offerRole');
+ const ref=val('recruitmentReference');
+ const start=val('applicationStartDate')||val('offerStartDate');
+ const hours=val('dashboardHoursTemplate')||val('applicationHoursTemplate')||val('offerHoursTemplate')||val('rotaTemplate');
+
+ const values={
+  candidateName:name,applicationCandidateName:name,starterCandidateName:name,offerCandidateName:name,rtwCandidate:name,
+  candidatePreferredName:pref,applicationPreferredName:pref,starterPreferredName:pref,
+  offerRecruitmentReference:ref,
+  starterRole:role,
+  starterStartDate:start
+ };
+ Object.entries(values).forEach(([id,v])=>{const e=document.getElementById(id);if(e && v)e.value=v;});
+
+ if(hours){
+   const avg=document.getElementById('rotaAverage')?.value || (hours+' hours/week');
+   const sh=document.getElementById('starterContractedHours'); if(sh)sh.value=avg;
+   const vh=document.getElementById('vacancyHours'); if(vh)vh.value=avg;
+ }
+ const addr=val('applicationAddress'); const sa=document.getElementById('starterAddress'); if(sa && addr && !sa.dataset.userEdited)sa.value=addr;
+ const pay=val('recommendedPayRate')||val('offerPayRate');
+ const vp=document.getElementById('vacancyPay'); if(vp && pay)vp.value=pay;
+ syncReferenceForm();
+}
+
+function fill(id,value){
+ const e=document.getElementById(id); if(!e)return;
+ if(e.type==='checkbox')e.checked=!!value; else e.value=value;
+ e.dispatchEvent(new Event('input',{bubbles:true}));
+ e.dispatchEvent(new Event('change',{bubbles:true}));
+}
+
 function syncShiftSelections(){
  const applicant=[...document.querySelectorAll('.shiftChoice:checked')].map(x=>x.value);
  const vacancy=[...document.querySelectorAll('.vacancyShift:checked')].map(x=>x.value);
@@ -1069,9 +1115,100 @@ function syncShiftSelections(){
    o.value=chosen.join('\n');
  }
 }
+
+function loadDemoCandidate(){
+ const role="Dexter's Café All-Rounder / Barista";
+ fill('candidateName','Alex Morgan');
+ fill('candidatePreferredName','Alex');
+ fill('candidateRole',role);
+ fill('recruitmentReference','DEX-REC-TEST-001');
+ fill('applicationReceived','2026-09-09');
+ fill('recruitingManager','Jamie Green');
+ fill('dashboardHoursTemplate','20');
+
+ fill('applicationCandidateName','Alex Morgan');
+ fill('applicationPreferredName','Alex');
+ fill('applicationAddress','24 Example Street, Glasgow, G51 1AA');
+ fill('applicationPreviousAddress','Not applicable');
+ fill('applicationMobile','07123 456789');
+ fill('applicationEmail','alex.morgan@example.test');
+ fill('applicationContactMethod','Email');
+ fill('applicationRole',role);
+ fill('applicationStartDate','2026-09-21');
+ fill('applicationNotice','Immediate');
+ fill('applicationHoursTemplate','20');
+ fill('applicationMaxHours','24');
+ fill('applicationMinHours','16');
+ fill('applicationUnavailableDates','No known dates unavailable.');
+ fill('currentEmployer','Example Café Glasgow');
+ fill('currentJobTitle','Café Assistant');
+ fill('employmentFrom','2025-03');
+ fill('employmentTo','2026-08');
+ fill('employmentDuties','Customer service, till operation, preparing hot drinks, basic food preparation, cleaning and stock replenishment.');
+ fill('employmentLeavingReason','Seeking a role with broader food preparation and customer service responsibilities.');
+ fill('previousEmployment','Retail Assistant, Glasgow — 2023 to 2025. Customer service, cash handling and stock replenishment.');
+ fill('employmentGaps','No significant gaps.');
+ fill('applicationQualifications','National 5 English and Maths. Level 2 equivalent food hygiene training completed with previous employer.');
+ fill('applicationTraining','Food hygiene, allergen awareness, customer service and basic fire-safety induction.');
+ fill('applicationEquipment','EPOS tills, espresso machine, panini grill and basic kitchen equipment.');
+ fill('applicationLanguages','English');
+ fill('applicationWhyDexters',"I enjoy fast-paced café work and want a role where I can work across customer service, drinks and food preparation.");
+ fill('applicationCustomerExample','A customer received the wrong drink during a busy period. I listened, apologised, replaced it quickly, checked the new order with them and told my supervisor so the mistake could be prevented.');
+ fill('applicationTeamExample','During a busy lunch service I noticed a colleague falling behind. I communicated with them, helped clear their queue, restocked cups and then returned to my station once service was under control.');
+ fill('applicationAllergenExample','I would stop and never guess. I would check the approved allergen information and ingredients, ask a manager if unsure, explain cross-contact risks and only serve the item when we could confirm it was safe under the agreed procedure.');
+
+ [...document.querySelectorAll('.shiftChoice')].forEach(x=>x.checked=true);
+ [...document.querySelectorAll('.vacancyShift')].forEach(x=>x.checked=true);
+ syncShiftSelections();
+
+ fill('ansCustomer','I would listen to the customer, apologise, check the order, correct or replace it quickly and ask a supervisor to help if the issue could not be resolved within my authority.');
+ fill('ansAllergen','I would stop and not guess. I would check the allergen matrix and ingredient information, ask the manager if I was unsure and explain any cross-contact risk before serving anything.');
+ fill('ansTeamwork','I would stay calm, communicate with my colleague, help with the priority orders, organise the workload and support the team until the rush was under control.');
+
+ fill('intHelp','A colleague was struggling with a queue so I offered help, listened to what they needed, served customers and we cleared the queue together.');
+ fill('intPressure','I stay calm, prioritise urgent tasks, communicate with the team and keep checking order accuracy until the busy period is completed.');
+ fill('intMistake','I once entered an order incorrectly. I admitted the mistake, corrected it, apologised and changed how I checked orders so it did not happen again.');
+ fill('intFoodSafety','I wash hands correctly, keep areas clean, check temperatures and labels, follow allergen and cross-contamination procedures and record checks when required.');
+ fill('intSupervisor','I would listen respectfully, ask for clarification if needed and follow the instruction unless I believed it created a safety issue, when I would escalate it appropriately.');
+ analyseWrittenAnswers();
+
+ const ss=[2,4,4,4]; [...document.querySelectorAll('.screenScore')].forEach((e,i)=>e.value=String(ss[i]));
+ calculateScores();
+
+ fill('payDob','2007-11-18');
+ fill('starterDob','2007-11-18');
+ calculatePay();
+
+ fill('refereeName','Taylor Smith');
+ fill('refereePosition','Café Manager');
+ fill('refereeOrg','Example Café Glasgow');
+ fill('refereeEmail','manager@example.test');
+ fill('refereePhone','0141 000 0000');
+ fill('refereeRelationship','Previous line manager');
+ buildReferenceRequest();
+
+ fill('rtwCheckDate','2026-09-18');
+ syncCoreRecord();
+
+ fill('starterNI','TEST ONLY — NOT A REAL NI NUMBER');
+ fill('starterPayrollId','TEST-001');
+ fill('emergencyName','Jordan Morgan');
+ fill('emergencyRelationship','Parent');
+ fill('emergencyPhone','07000 000000');
+
+ const ds=document.getElementById('demoStatus');
+ if(ds)ds.innerHTML='<b>Test candidate loaded:</b> Alex Morgan • Café All-Rounder / Barista • 20-hour part-time pattern. Open each section from the left menu to inspect the automatic carry-through.';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function clearDemoCandidate(){
+ location.reload();
+}
+
 document.addEventListener('input',e=>{
  if(e.target.matches('#candidateName,#applicationCandidateName,#starterCandidateName,#candidatePreferredName,#applicationPreferredName,#starterPreferredName')) syncCandidateDetails(e.target.id);
  if(e.target.matches('#applicationEmail,#applicationMobile')) syncContactDetails();
+ if(e.target.matches('#applicationAddress,#recruitmentReference')) syncCoreRecord();
 });
 document.addEventListener('change',e=>{
  if(e.target.matches('.screenScore,.assessmentScore,.interviewScore')) calculateScores();
@@ -1082,7 +1219,7 @@ document.addEventListener('change',e=>{
  if(e.target.matches('#candidateName,#applicationCandidateName,#starterCandidateName,#candidatePreferredName,#applicationPreferredName,#starterPreferredName')) syncCandidateDetails(e.target.id);
  if(e.target.matches('#applicationStartDate,#offerStartDate')) syncStartDate(e.target.id);
  if(e.target.matches('#applicationEmail,#applicationMobile')) syncContactDetails();
- if(e.target.matches('#starterEmail,#starterPhone')) e.target.dataset.userEdited='1';
+ if(e.target.matches('#starterEmail,#starterPhone,#starterAddress')) e.target.dataset.userEdited='1';
  if(e.target.matches('#payDob,#starterDob,#offerStartDate,#isApprentice')) {
    if(e.target.id==='starterDob'){ const p=document.getElementById('payDob'); if(p && !p.value)p.value=e.target.value; }
    if(e.target.id==='payDob'){ const s=document.getElementById('starterDob'); if(s && !s.value)s.value=e.target.value; }
@@ -1097,6 +1234,7 @@ document.addEventListener('change',e=>{
    populateRoleProfile(v);
    calculatePay();
    syncReferenceForm();
+   syncCoreRecord();
  }
 });
 calculateScores();
