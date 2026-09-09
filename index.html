@@ -194,7 +194,11 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <div class="scoretile"><b>Interview</b><strong id="decisionInterview">0 / 25</strong></div>
 <div class="scoretile"><b>Combined</b><strong id="combinedPct">0%</strong></div>
 </div>
-<div class="autofill"><b>Automatic score summary</b><p id="scoreSummary">Enter scores in Screening, Assessment and Interview. Dexter's will calculate the totals here automatically.</p></div>
+<div class="autofill">
+<b>Automatic recruitment recommendation</b>
+<p id="scoreRecommendation" style="font-size:20px;font-weight:800;margin:8px 0">Not enough scores yet</p>
+<p id="scoreSummary">Enter scores in Screening, Assessment and Interview. Dexter's will calculate the totals here automatically.</p>
+</div>
 <label>Strengths demonstrated</label><textarea></textarea>
 <label>Areas of concern / gaps</label><textarea></textarea>
 <label>Comparison with essential criteria</label><textarea></textarea>
@@ -431,9 +435,18 @@ function calculateScores(){
  set('combinedPct',pct+'%');
  const overall=document.getElementById('interviewOverall'); if(overall)overall.value=interview;
  const summary=document.getElementById('scoreSummary');
+ const recommendation=document.getElementById('scoreRecommendation');
+ const allScored=[...document.querySelectorAll('.screenScore,.assessmentScore,.interviewScore')].every(e=>e.value!=='');
+ let rec='Not enough scores yet';
+ let detail='Complete all scored sections before using the recommendation.';
+ if(allScored){
+   if(pct>=75){rec='RECOMMEND HIRE'; detail='Strong combined score against the Dexter\'s recruitment criteria.';}
+   else if(pct>=60){rec='CONSIDER / MANAGER REVIEW'; detail='Candidate meets a reasonable proportion of the criteria but should be reviewed against the role requirements and interview evidence.';}
+   else{rec='DO NOT RECOMMEND'; detail='Combined score is below the Dexter\'s recommended hiring threshold.';}
+ }
+ if(recommendation) recommendation.textContent=rec;
  if(summary){
-   let band = pct>=80?'Strong overall score':pct>=65?'Good overall score':pct>=50?'Moderate overall score':'Low overall score';
-   summary.textContent='Combined score: '+total+' / '+totalMax+' ('+pct+'%). '+band+'. This score supports the recruiter but does not make the hiring decision automatically.';
+   summary.textContent='Combined score: '+total+' / '+totalMax+' ('+pct+'%). '+detail+' Final appointment remains a manager decision and must also consider essential role requirements, lawful checks and documented evidence.';
  }
 }
 document.addEventListener('change',e=>{
