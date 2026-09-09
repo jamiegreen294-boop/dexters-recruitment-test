@@ -125,7 +125,8 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <label>Tell us about a time you worked effectively as part of a team</label><textarea></textarea>
 <label>Describe how you would respond if a customer raised an allergen concern</label><textarea></textarea>
 <h3>Recruitment adjustments</h3>
-<label>Do you need any reasonable adjustment to take part in the recruitment process?</label><textarea placeholder="Optional. Only provide information needed for the adjustment."></textarea>
+<label>Do you require a reasonable adjustment to take part in any stage of the recruitment process?</label><textarea placeholder="Optional. Please tell us only what adjustment would help you take part in the recruitment process. You do not need to provide a diagnosis or medical history."></textarea>
+<div class="box good"><b>Manager note:</b> Do not ask general questions about health or disability before offer. Only ask what is necessary for a lawful recruitment adjustment or another permitted exception.</div>
 <div class="box good"><b>Right to Work:</b> Dexter's will verify the right to work of the successful candidate using the appropriate lawful process. Do not upload immigration documents into this public test.</div>
 <div class="check"><input type="checkbox"><span>I confirm the information I have provided is accurate to the best of my knowledge.</span></div>
 </section>
@@ -204,7 +205,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 
 <section id="rtw" class="section">
 <h2>Right to Work Check Record</h2>
-<div class="box danger"><b>Important:</b> Apply right-to-work procedures consistently. Do not decide who to check based on name, accent, appearance, race or nationality.</div>
+<div class="box danger"><b>Important:</b> Apply right-to-work procedures consistently to applicants at the same stage. Do not decide who to check based on name, accent, appearance, race or nationality. Use the Home Office process in force on the employment start date and record any required follow-up check.</div>
 <div class="cols"><div><label>Candidate</label><input></div><div><label>Date check completed</label><input type="date"></div></div>
 <label>Check route</label><select><option>Home Office online check / share code</option><option>Eligible manual document check</option><option>Employer Checking Service / Positive Verification Notice</option><option>Digital verification route where legally permitted</option></select>
 <label>Check reference / evidence location</label><input>
@@ -256,10 +257,11 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 </div>
 <div class="box good"><b>Final Back Office:</b> the private production system can send this from Dexter's business email and attach the generated reference form automatically. The public GitHub test cannot silently attach files to a normal browser email draft.</div>
 
+<div class="box danger"><b>Reference rule:</b> Ask only for information needed for the role. Do not request protected-characteristic information, reasonable-adjustment details or disability / family-leave related absence information.</div>
 <h3>Completed reference response</h3>
 <label>Dates of employment / association confirmed</label><input id="confirmedDates">
 <label>Job title / duties confirmed</label><textarea id="confirmedDuties"></textarea>
-<label>Reliability / attendance comments if lawfully provided</label><textarea id="reliabilityComments"></textarea>
+<label>Role-relevant reliability information, if the referee chooses to provide it</label><textarea id="reliabilityComments" placeholder="Do not request disability-related absence, maternity/paternity/adoption leave or other irrelevant protected information."></textarea>
 <label>Would they re-employ / re-engage?</label><textarea id="reemployComments"></textarea>
 <label>Other role-relevant factual information</label><textarea id="otherRefInfo"></textarea>
 <label>Checked by / date</label><input id="referenceCheckedBy">
@@ -271,7 +273,7 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <div class="check"><input type="checkbox"><span>Right to Work completed.</span></div>
 <div class="check"><input type="checkbox"><span>References completed where part of role policy.</span></div>
 <div class="check"><input type="checkbox"><span>Food hygiene / qualification evidence checked where genuinely required.</span></div>
-<div class="check"><input type="checkbox"><span>PVG role checker considered only if the role involves regulated work with children or protected adults.</span></div>
+<div class="check"><input type="checkbox"><span>Scottish regulated-role assessment completed where relevant. PVG membership is requested only where the role is legally a regulated role involving children, protected adults or both.</span></div>
 <div class="check"><input type="checkbox"><span>No unnecessary criminal-record or health information collected.</span></div>
 <label>Outstanding conditions</label><textarea></textarea>
 </section>
@@ -288,19 +290,36 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 </section>
 
 <section id="privacy" class="section">
-<h2>Recruitment Privacy Record</h2>
-<h3>Information processed</h3>
-<div class="check"><input type="checkbox"><span>Contact details and application information.</span></div>
-<div class="check"><input type="checkbox"><span>Employment history, education and role-related skills.</span></div>
-<div class="check"><input type="checkbox"><span>Interview and assessment records.</span></div>
-<div class="check"><input type="checkbox"><span>Right-to-work evidence and lawful verification data.</span></div>
-<div class="check"><input type="checkbox"><span>References and lawful pre-employment checks where required.</span></div>
-<h3>Privacy controls</h3>
-<label>Recruitment privacy notice version issued</label><input>
-<label>Date provided to candidate</label><input type="date">
-<label>Retention category</label><select><option>Successful applicant — transfer required records to staff file</option><option>Unsuccessful applicant — retain only for approved recruitment period then delete</option><option>Withdrawn application — apply approved retention rule</option></select>
-<label>Deletion / review date</label><input type="date">
-<div class="check"><input type="checkbox"><span>Access restricted to people who need recruitment information.</span></div>
+<h2>Recruitment Privacy & UK GDPR Record</h2>
+<p class="subtle">This section records that the applicant has been told how Dexter's will use recruitment data and that staff have followed the approved data-handling process.</p>
+
+<h3>Recruitment privacy notice</h3>
+<div class="cols"><div><label>Privacy notice version</label><input placeholder="DEX-RPN-2026-01"></div><div><label>Date made available</label><input type="date"></div></div>
+<label>How notice was provided</label><select><option>Application portal</option><option>Email</option><option>Printed copy</option><option>Other approved method</option></select>
+<div class="check"><input type="checkbox"><span>Applicant was told the purposes for which recruitment data is used.</span></div>
+<div class="check"><input type="checkbox"><span>Applicant was told the categories of information processed, who may receive it and how long it may be retained.</span></div>
+<div class="check"><input type="checkbox"><span>Applicant was told how to exercise data-protection rights and how to contact Dexter's about their information.</span></div>
+
+<h3>Categories of recruitment information</h3>
+<div class="check"><input type="checkbox"><span>Identity and contact information.</span></div>
+<div class="check"><input type="checkbox"><span>Application, employment history, education, skills and role-related responses.</span></div>
+<div class="check"><input type="checkbox"><span>Screening, assessment, interview scores and recruiter notes.</span></div>
+<div class="check"><input type="checkbox"><span>References and lawful pre-employment verification.</span></div>
+<div class="check"><input type="checkbox"><span>Right-to-work evidence and follow-up records where required by law.</span></div>
+
+<h3>Special category / higher-risk information</h3>
+<div class="box danger"><b>Do not collect this by default.</b> Health/disability, ethnicity, religion, sexual orientation and other special-category information require a specific lawful reason and additional safeguards. Equality-monitoring information should be separated from the selection record and not shown to decision-makers.</div>
+<div class="check"><input type="checkbox"><span>No unnecessary special-category data has been added to the candidate file.</span></div>
+<div class="check"><input type="checkbox"><span>Any recruitment-adjustment information is restricted to those who need it to arrange the adjustment.</span></div>
+<div class="check"><input type="checkbox"><span>Equality monitoring, if used, is held separately and is not used to make the hiring decision.</span></div>
+
+<h3>Access, sharing and retention</h3>
+<label>People / roles permitted to access this recruitment file</label><textarea placeholder="Example: recruiting manager, authorised HR / super user."></textarea>
+<label>External recipients used for this recruitment, if any</label><textarea placeholder="Example: reference provider, lawful right-to-work verification provider, payroll after appointment."></textarea>
+<label>Retention outcome</label><select><option>Successful applicant — transfer only necessary employment records to staff file</option><option>Unsuccessful applicant — retain under approved recruitment-retention schedule</option><option>Withdrawn applicant — retain under approved recruitment-retention schedule</option></select>
+<div class="cols"><div><label>Retention review / deletion date</label><input type="date"></div><div><label>Record owner</label><input></div></div>
+<div class="check"><input type="checkbox"><span>Recruitment data will not be retained indefinitely.</span></div>
+<div class="check"><input type="checkbox"><span>Access to recruitment information is limited to people with a genuine business need.</span></div>
 </section>
 
 <section id="offer" class="section">
@@ -326,7 +345,14 @@ label{display:block;font-weight:700;margin:12px 0 5px}input,select,textarea{widt
 <h3>Payroll / HMRC</h3>
 <div class="cols"><div><label>P45 received?</label><select><option>Yes</option><option>No — starter checklist required</option></select></div><div><label>Bank details captured securely in payroll process?</label><select><option>Yes</option><option>Pending</option></select></div></div>
 <label>Pension assessment status</label><select><option>Pending</option><option>Eligible jobholder</option><option>Non-eligible jobholder</option><option>Entitled worker</option></select>
-<div class="check"><input type="checkbox"><span>Required written statement / employment particulars prepared for day one.</span></div>
+<h3>Written employment particulars</h3>
+<div class="check"><input type="checkbox"><span>Principal written statement prepared for the first day of employment.</span></div>
+<div class="check"><input type="checkbox"><span>Employer name, employee/worker name, job title or work description and start date included.</span></div>
+<div class="check"><input type="checkbox"><span>Pay amount and pay frequency included.</span></div>
+<div class="check"><input type="checkbox"><span>Hours, days of work and how they may vary included.</span></div>
+<div class="check"><input type="checkbox"><span>Holiday entitlement, workplace, probation, benefits and compulsory training included where applicable.</span></div>
+<div class="check"><input type="checkbox"><span>Sick pay/procedure, other paid leave and notice information provided on day one.</span></div>
+<div class="check"><input type="checkbox"><span>Pension, collective agreements, non-compulsory training rights and disciplinary/grievance information scheduled for the wider written statement within the required period.</span></div>
 </section>
 
 <section id="induction" class="section">
