@@ -9,6 +9,7 @@
 <div class="grid"><div><label>Role</label><input id="role" readonly></div><div><label>Hours</label><input id="hours" readonly></div><div><label>Start</label><input id="start" readonly></div></div>
 <p>Open each section to read the exact document snapshot that was issued to you. Each document is signed separately and timestamped.</p>
 <div id="docs"></div>
+<div class="nav"><button class="btn secondary" onclick="printSignedPack()">Print signed document pack</button><button class="btn secondary" onclick="downloadSignedPack()">Download signed document pack</button></div>
 <div id="summary" class="good"></div>
 </div></div>
 </div>
@@ -34,6 +35,13 @@ function docBlock(k,r){
  return '<details class="doc" '+(k==='offer'?'open':'')+'><summary>'+d.title+(d.signed?' — Signed':' — Awaiting signature')+'</summary><div class="docbody">'+d.html+'<div class="signature"><label>Type your full legal name to sign this document</label><input id="sig_'+k+'" '+(d.signed?'disabled value="'+d.signature+'"':'')+'><button class="btn primary" '+(d.signed||locked?'disabled':'')+' onclick="signDoc(\''+k+'\')">Sign this document</button>'+stamp+'</div></div></details>'
 }
 function title(k){return({offer:'Conditional Offer Letter',job:'Job Description & Person Specification',rota:'4-Week Rota Pattern',privacy:'Recruitment Privacy Notice',starter:'New Starter Declaration',contract:'Employment Contract / Written Particulars'})[k]}
+function signedPackHtml(){
+ const r=DexRecruit.load();
+ const items=required.filter(k=>r.documents[k]).map(k=>{const d=r.documents[k];return '<section style="page-break-after:always"><h1>'+d.title+'</h1>'+d.html+'<hr><p><b>Document version:</b> '+d.version+'<br><b>Status:</b> '+(d.signed?'Signed':'Unsigned')+(d.signed?'<br><b>Signed by:</b> '+d.signature+'<br><b>Signed at:</b> '+fmt(d.signedAt):'')+'</p></section>'}).join('');
+ return '<!doctype html><html><head><meta charset="utf-8"><title>Dexter\'s Signed Recruitment Pack</title></head><body><h1>Dexter\'s Recruitment / Employment Document Pack</h1><p>'+r.candidate.name+' • '+r.candidate.ref+'</p>'+items+'</body></html>';
+}
+function printSignedPack(){const w=window.open('','_blank');if(!w)return;w.document.write(signedPackHtml());w.document.close();w.onload=()=>w.print()}
+function downloadSignedPack(){const blob=new Blob([signedPackHtml()],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Dexters-Signed-Pack-'+DexRecruit.load().candidate.name.replace(/[^a-z0-9]+/gi,'-')+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 function signDoc(k){
  const r=DexRecruit.load(),input=document.getElementById('sig_'+k),sig=(input?.value||'').trim();
  if(sig.toLowerCase()!==r.candidate.name.toLowerCase()){summary.innerHTML='<b>Signature not accepted.</b> Type your full legal name exactly as shown on your recruitment profile.';return}
